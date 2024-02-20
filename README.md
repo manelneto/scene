@@ -1,10 +1,10 @@
 # CG 2023/2024
 
-## Group T0xG0y
+## Group T02G02
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Matilde Simões   | 202108782 | up202108782@up.pt  |
+| Manuel Neto      | 202108744 | up202108744@up.pt  |
 
 ----
 
