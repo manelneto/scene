@@ -4,9 +4,8 @@
 
 ## TP 1 Notes
 
-(add your main observations/remarks about your experiments here, in a bulleted list, and remove this line. Some examples below)
+- No exercício 1 observamos a importância da ordem dos índices e da regra da mão direita para definir figuras double-sided.
+- No exercício 2 assimilamos os conceitos anteriormente adquiridos.
 
-- In exercise 1 we observed X
-- In exercise 2 we had difficulties in Y
-
-![Screenshot 1](screenshots/cg-t0xgxx-tp1-n.png)
+![Screenshot 1.1](screenshots/CG-t02g02-tp1-1.1.png)
+![Screenshot 1.2](screenshots/CG-t02g02-tp1-1.2.png)
