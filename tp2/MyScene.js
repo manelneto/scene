@@ -30,10 +30,6 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.diamond = new MyDiamond(this);
-    this.triangle = new MyTriangle(this);
-    this.paralellogram = new MyParallelogram(this);
-    this.triangleSmall = new MyTriangleSmall(this);
-    this.triangleBig = new MyTriangleBig(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -73,6 +69,7 @@ export class MyScene extends CGFscene {
     // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
+    
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
@@ -100,16 +97,56 @@ export class MyScene extends CGFscene {
       1.0,
     ];
 
+
     this.multMatrix(sca);
 
     // ---- BEGIN Primitive drawing section
 
+    var translate = [
+      1, 0, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      0.9, Math.sqrt(2) + 1 , 0, 1
+    ];
+
+    var rotate = [
+      Math.cos(-Math.PI / 6), Math.sin(-Math.PI / 6), 0, 0,
+      -Math.sin(-Math.PI / 6), Math.cos(-Math.PI / 6), 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1
+    ];
+    
+    this.pushMatrix();
+
+    this.multMatrix(translate);
+    this.multMatrix(rotate);
     if (this.displayDiamond) this.diamond.display();
+
+    this.popMatrix();
+
     if (this.displayTriangle) this.triangle.display();
     if (this.displayParallelogram) this.paralellogram.display();
     if (this.displayTriangleSmall) this.triangleSmall.display();
     if (this.displayTriangleBig) this.triangleBig.display();
 
     // ---- END Primitive drawing section
+  }
+
+  createTranslateMatrix(x, y, z) {
+    return [
+      1, 0, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      x, y, z, 1
+    ];
+  }
+
+  createRotateMatrix(angle, x, y, z) {
+    return [
+      Math.cos(angle), Math.sin(angle), 0, 0,
+      -Math.sin(angle), Math.cos(angle), 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1
+    ];
   }
 }
