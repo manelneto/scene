@@ -97,8 +97,13 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
 
-    // if (this.displayTangram) this.tangram.display();
+    if (this.displayTangram) this.tangram.display();
+
+    this.pushMatrix();
+    this.translate(-1.5, -1, -5.1);
+    this.scale(10, 10, 10);
     if (this.displayUnitCube) this.unitCube.display();
+    this.popMatrix();
 
     // ---- END Primitive drawing section
   }
