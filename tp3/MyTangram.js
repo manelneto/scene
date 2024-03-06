@@ -93,7 +93,7 @@ export class MyTangram extends CGFobject {
         this.scene.pushMatrix();
         this.scene.multMatrix(translate);
         this.scene.multMatrix(rotate);
-        this.green.apply();
+        //this.green.apply();
         this.diamond.display();
         this.scene.popMatrix();
 
@@ -161,4 +161,3 @@ export class MyTangram extends CGFobject {
         this.triangleBig2.disableNormalViz();
     }
 }
-
