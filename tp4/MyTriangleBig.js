@@ -37,6 +37,16 @@ export class MyTriangleBig extends CGFobject {
 			0, 0, -1,
 			0, 0, -1
 		];
+
+		this.texCoords = [
+			0, 0.5,
+			0, 1,
+			0.5, 1,
+			0, 0.5,
+			0, 1,
+			0.5, 1,
+		];
+
 		
 		//The defined indices (and corresponding vertices)
 		//will be read in groups of three to draw triangles

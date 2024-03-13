@@ -138,7 +138,8 @@ export class MyTangram extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(-Math.sqrt(2), -2 * Math.sqrt(2), 0);
         this.scene.rotate(3 * Math.PI/4, 0, 0, 1);
-        this.pink.apply();
+        //this.pink.apply();
+        this.tangramMaterial.apply();
         this.triangle.display();
         this.scene.popMatrix();
     
