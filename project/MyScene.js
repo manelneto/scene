@@ -64,7 +64,7 @@ export class MyScene extends CGFscene {
 
   initCameras() {
     this.camera = new CGFcamera(
-      1.0,
+      1.5,
       0.1,
       1000,
       vec3.fromValues(50, 10, 15),
@@ -111,8 +111,9 @@ export class MyScene extends CGFscene {
 
     //this.appearanceEarth.apply();
     //this.sphere.display();
-    
-    this.appearancePanorama.apply();  
+    this.pushMatrix();
+    this.appearancePanorama.apply();
+    //this.translate()  
     this.myPanorama.display();
 
     // ---- END Primitive drawing section
