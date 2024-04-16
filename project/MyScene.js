@@ -93,12 +93,6 @@ export class MyScene extends CGFscene {
     // Draw axis
     if (this.displayAxis) this.axis.display();
 
-    // Atualize esta parte do método display
-    /*if (this.displayNormals)
-      this.sphere.enableNormalViz();
-    else
-      this.sphere.disableNormalViz();*/
-
     // ---- BEGIN Primitive drawing section
 
     this.pushMatrix();
@@ -111,9 +105,8 @@ export class MyScene extends CGFscene {
 
     //this.appearanceEarth.apply();
     //this.sphere.display();
-    this.pushMatrix();
+
     this.appearancePanorama.apply();
-    //this.translate()  
     this.myPanorama.display();
 
     // ---- END Primitive drawing section
