@@ -1,7 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MySphere } from "./MySphere.js";
-import { MyPetal } from "./MyPetal.js";
+import { MyReceptacle } from "./MyReceptacle.js";
 
 /**
  * MyScene
@@ -35,7 +35,7 @@ export class MyScene extends CGFscene {
     this.myPanorama = new MyPanorama(this, this.appearancePanorama);
 
     this.sphere = new MySphere(this, 64, 32, true, 4);
-    this.petal = new MyPetal(this);
+    this.receptacle = new MyReceptacle(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -110,8 +110,8 @@ export class MyScene extends CGFscene {
     this.appearancePanorama.apply();
     this.myPanorama.display();
 
-    
-    this.petal.display();
+
+    this.receptacle.display();
     
 
     // ---- END Primitive drawing section
