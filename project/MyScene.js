@@ -31,9 +31,10 @@ export class MyScene extends CGFscene {
     const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
     this.panorama = new MyPanorama(this, panoramaTexture);
 
-    this.rockSet = new MyRockSet(this, 10);
+    this.pyramid = new MyRockSet(this, true, 4);
+    this.rockSet = new MyRockSet(this, false, 6);
 
-    this.objects = [this.panorama, this.rockSet];
+    this.objects = [this.panorama, this.pyramid, this.rockSet];
 
     // Objects connected to MyInterface
     this.displayAxis = false;
@@ -84,13 +85,24 @@ export class MyScene extends CGFscene {
 
     // Draw normals
     if (this.displayNormals)
-	    this.objects.forEach((object) => object.enableNormalViz());
+		this.objects.forEach((object) => object.enableNormalViz());
     else
 		this.objects.forEach((object) => object.disableNormalViz());
 
     // ---- BEGIN Primitive drawing section
     
-	this.objects.forEach((object) => object.display());
+	this.panorama.display();
+
+	this.pushMatrix();
+	this.translate(-50, 0, 50); // TODO
+	this.pyramid.display();
+	this.popMatrix();
+	
+	this.pushMatrix();
+	this.translate(-10, -20, 50); // TODO
+	this.scale(2, 2, 2);
+	this.rockSet.display();
+	this.popMatrix();
 
     // ---- END Primitive drawing section
   }
