@@ -32,7 +32,7 @@ export class MyRock extends CGFobject {
         let theta;      // angle with the XX axis, from 0 to 2PI
         let x, y, z;    // vertices coordinates
         let u, v;       // texture coordinates
-        let r;          // random probability, from 0 to 1
+        let r;          // random factor, from -0.1 to 0.1
         for (let stack = -this.stacks; stack <= this.stacks; stack++) {
             phi = (Math.PI / 2) * (stack / this.stacks);
             for (let slice = 0; slice <= this.slices; slice++) {

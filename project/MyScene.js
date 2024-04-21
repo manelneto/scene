@@ -1,6 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
 import { MyPanorama } from './MyPanorama.js';
-import { MyRock } from './MyRock.js';
+import { MyRockSet } from './MyRockSet.js';
 
 /**
  * MyScene
@@ -30,10 +30,10 @@ export class MyScene extends CGFscene {
 
     const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
     this.panorama = new MyPanorama(this, panoramaTexture);
-    
-    this.rock = new MyRock(this);
 
-    this.objects = [this.panorama, this.rock];
+    this.rockSet = new MyRockSet(this, 5);
+
+    this.objects = [this.panorama, this.rockSet];
 
     // Objects connected to MyInterface
     this.displayAxis = false;
