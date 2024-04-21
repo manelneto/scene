@@ -14,8 +14,8 @@ export class MyRock extends CGFobject {
 
         let texture = new CGFtexture(this.scene, 'images/rock.jpg')
         this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.2, 0.2, 0.2, 1.0);
-        this.material.setDiffuse(0.7, 0.7, 0.7, 1.0);
+        this.material.setAmbient(0.3, 0.3, 0.3, 1.0);
+        this.material.setDiffuse(0.6, 0.6, 0.6, 1.0);
         this.material.setEmission(0, 0, 0, 0);
         this.material.setShininess(10.0);
         this.material.setSpecular(0.1, 0.1, 0.1, 1.0);
