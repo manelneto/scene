@@ -31,7 +31,7 @@ export class MyScene extends CGFscene {
     const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
     this.panorama = new MyPanorama(this, panoramaTexture);
 
-    this.rockSet = new MyRockSet(this, 5);
+    this.rockSet = new MyRockSet(this, 10);
 
     this.objects = [this.panorama, this.rockSet];
 

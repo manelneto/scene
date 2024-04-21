@@ -36,7 +36,8 @@ export class MyRock extends CGFobject {
         for (let stack = -this.stacks; stack <= this.stacks; stack++) {
             phi = (Math.PI / 2) * (stack / this.stacks);
             for (let slice = 0; slice <= this.slices; slice++) {
-                r = (Math.random() * 2 - 1) / 10;
+                r = (slice > 0 && slice < this.slices) ? (Math.random() * 2 - 1) / 10 : 0;
+
                 theta = (2 * Math.PI) * (slice / this.slices);
 
                 x = Math.cos(phi) * Math.cos(theta);
