@@ -5,18 +5,19 @@ import {CGFobject} from '../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyTriangle extends CGFobject {
-	constructor(scene) {
+	constructor(scene, height) {
 		super(scene);
+		this.height = height;
 		this.initBuffers();
 	}
 	
 	initBuffers() {
 		this.vertices = [
-			0.5, 2, 0,	//0
+			0.5, this.height, 0,	//0
 			0, 0, 0,	//1
 			1, 0, 0, 	//2
 
-			0.5, 2, 0,	//3
+			0.5, this.height, 0,	//3
 			0, 0, 0,	//4
 			1, 0, 0 	//5
 		];
