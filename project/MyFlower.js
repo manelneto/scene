@@ -36,7 +36,7 @@ export class MyFlower extends CGFobject {
         // Display the stems
         this.myStem[0].display();
         for (let i = 1; i < this.myStem.length; i++) {
-            this.scene.translate(0, 10, 0); 
+            this.scene.translate(0, 1, 0); 
             this.myStem[i].display();
         }
 
@@ -44,7 +44,7 @@ export class MyFlower extends CGFobject {
 
         // Display the receptacle
         this.scene.pushMatrix();
-        this.scene.translate(0, 10 * this.myStem.lenght, 0);
+        this.scene.translate(0, this.numberStems, 0);
         this.myReceptacle.display();
         this.scene.popMatrix();
 
@@ -54,7 +54,10 @@ export class MyFlower extends CGFobject {
 
         for (let i = 0; i < numPetals; i++) {
             this.scene.pushMatrix();
-            this.scene.rotate(angleIncrement * i, 0, 1, 0);
+            this.scene.translate(0, this.numberStems, 0);
+            this.scene.rotate(angleIncrement * i, 0, 0, 1);
+            this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2), 0, 0);
+            this.scene.rotate(Math.PI / 2, 0, 0, 1);
             this.myPetal[i].display();
             this.scene.popMatrix();
         }

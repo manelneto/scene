@@ -12,12 +12,12 @@ export class MyReceptacle extends CGFobject {
 
         this.radius = radius;
 		
-        this.MySphere = new MySphere(this.scene, 64, 32, false, radius);
+        this.mySphere = new MySphere(this.scene, 64, 32, false, radius);
 	}
 
     display() {
         this.scene.pushMatrix();
-        this.MySphere.display();
+        this.mySphere.display();
         this.scene.popMatrix();
     }
 }

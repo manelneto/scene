@@ -35,7 +35,7 @@ export class MyScene extends CGFscene {
     this.myPanorama = new MyPanorama(this, this.appearancePanorama);
 
     this.sphere = new MySphere(this, 64, 32, true, 4);
-    this.myFlower = new MyFlower(this, 6, 6, 0.2, 0.1, 5);
+    this.myFlower = new MyFlower(this, 6, 6, 1, 0.1, 5);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
