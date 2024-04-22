@@ -56,7 +56,7 @@ export class MyFlower extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(0, this.numberStems, 0);
             this.scene.rotate(angleIncrement * i, 0, 0, 1);
-            this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2), 0, 0);
+            this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2) - 4.5, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 0, 1);
             this.myPetal[i].display();
             this.scene.popMatrix();
