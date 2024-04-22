@@ -9,7 +9,7 @@ import { MyReceptacle } from './MyReceptacle.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, radiusFlower, numberPetals, radiusReceptacle, radiusStem, numberStems/*, stemColor, leafColor*/) {
+    constructor(scene, radiusFlower, numberPetals, radiusReceptacle, radiusStem, numberStems/*, stemColor, leafColor*/, heightStem, petalAngel) {
         super(scene);
 
         this.radiusFlower = radiusFlower;
@@ -18,15 +18,17 @@ export class MyFlower extends CGFobject {
         this.radiusStem = radiusStem;
         this.numberStems = numberStems;
         this.radiusFlower = radiusFlower;
+        this.heightStem = heightStem;
+        this.petalAngel = petalAngel;
 
         this.myStem = [];
         for (let i = 0; i < numberStems; i++) {
-            this.myStem.push(new MyStem(this.scene, radiusStem));
+            this.myStem.push(new MyStem(this.scene, radiusStem, heightStem));
         }
         this.myReceptacle = new MyReceptacle(this.scene, radiusReceptacle);
         this.myPetal = [];
         for (let i = 0; i < numberPetals; i++) {
-            this.myPetal.push(new MyPetal(this.scene, (radiusFlower - radiusReceptacle)));
+            this.myPetal.push(new MyPetal(this.scene, (radiusFlower - radiusReceptacle), this.petalAngel));
         }
     }
 
@@ -56,7 +58,7 @@ export class MyFlower extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(0, this.numberStems, 0);
             this.scene.rotate(angleIncrement * i, 0, 0, 1);
-            this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2) - 4.5, 0, 0);
+            this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2), 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 0, 1);
             this.myPetal[i].display();
             this.scene.popMatrix();

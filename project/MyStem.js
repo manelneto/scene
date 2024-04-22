@@ -7,12 +7,13 @@ import { MyCylinder } from './MyCylinder.js';
  * @param scene - Reference to MyScene object
  */
 export class MyStem extends CGFobject {
-	constructor(scene, radius) {
+	constructor(scene, radius, height) {
 		super(scene);
 
         this.radius = radius;
+        this.height = height;
 		
-        this.myCylinder = new MyCylinder(this.scene, 64, 32, radius, 10);
+        this.myCylinder = new MyCylinder(this.scene, 64, 32, radius, height);
 	}
 
     display() {
