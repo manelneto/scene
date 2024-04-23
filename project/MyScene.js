@@ -43,7 +43,6 @@ export class MyScene extends CGFscene {
 
 		const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
 		this.panorama = new MyPanorama(this, panoramaTexture);
-
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
@@ -138,7 +137,6 @@ export class MyScene extends CGFscene {
 
 		if (this.displayGarden) {
 			this.pushMatrix();
-			this.translate(-30, 0, -100);
 			this.garden.display();
 			this.popMatrix();
 		}

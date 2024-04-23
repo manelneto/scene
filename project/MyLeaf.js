@@ -10,9 +10,7 @@ import { MyCylinder } from './MyCylinder.js';
 export class MyLeaf extends CGFobject {
 	constructor(scene) {
 		super(scene);
-
         this.cylinder = new MyCylinder(this.scene, 0.08, 1.5);
-		
         this.triangle1 = new MyTriangle(this.scene, 1);
         this.triangle2 = new MyTriangle(this.scene, 1);
 	}

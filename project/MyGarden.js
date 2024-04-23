@@ -8,10 +8,17 @@ export class MyGarden extends CGFobject {
         this.columns = columns;
         this.flowers = [];
 
-        let flower;
+        let flower, flowerRadius, petalsNumber, receptacleRadius, stemRadius, stemNumber, minUnionAngle, maxUnionAngle;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
-                flower = new MyFlower(scene, (Math.random() * (7 - 3) + 3) / 2, 8, [0.9, 0.9, 0.9], 1, [1, 0.9, 0.2], 0.5, 3, [0.45, 0.75, 0.2], [0.45, 0.75, 0.2], 0, 0);
+                flowerRadius = this.generateRandom(3, 7) / 2;
+                petalsNumber = Math.floor(this.generateRandom(6, 13));
+                receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 3);
+                stemRadius = this.generateRandom(0.1, receptacleRadius / 4);
+                stemNumber = Math.floor(this.generateRandom(1, 5));
+                minUnionAngle = Math.PI/16;
+                maxUnionAngle = Math.PI/10;
+                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.45, 0.75, 0.2], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
             }
         }
@@ -37,5 +44,9 @@ export class MyGarden extends CGFobject {
 
     disableNormalViz() {
         this.flowers.forEach((flower) => flower.disableNormalViz());
+    }
+
+    generateRandom(min, max) {
+        return Math.random() * (max - min) + min;
     }
 }
