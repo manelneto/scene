@@ -26,21 +26,29 @@ export class MyScene extends CGFscene {
 		this.gl.enable(this.gl.CULL_FACE);
 		this.gl.depthFunc(this.gl.LEQUAL);
 
+		// Objects connected to MyInterface
+		this.displayAxis = false;
+		this.displayNormals = false;
+		this.displayPanorama = true;
+		this.displayPyramid = true;
+		this.displayRocks = true;
+		this.displayGarden = true;
+		this.pyramidLevels = 4;
+		this.nRocks = 6;
+		this.gardenRows = 5;
+		this.gardenCols = 5;
+
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
 
 		const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
 		this.panorama = new MyPanorama(this, panoramaTexture);
 
-		this.pyramid = new MyRockSet(this, true, 4);
-		this.rockSet = new MyRockSet(this, false, 6);
-		this.garden = new MyGarden(this, 5, 10);
+		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
+		this.rockSet = new MyRockSet(this, false, this.nRocks);
+		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
-
-		// Objects connected to MyInterface
-		this.displayAxis = false;
-		this.displayNormals = false;
 
 		this.enableTextures(true);
 	}
@@ -70,6 +78,22 @@ export class MyScene extends CGFscene {
 		this.setShininess(10.0);
 	}
 
+	updatePyramidLevels() {
+		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
+	}
+
+	updateNRocks() {
+		this.rockSet = new MyRockSet(this, false, this.nRocks);
+	}
+
+	updateGardenRows() {
+		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
+	}
+
+	updateGardenCols() {
+		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
+	}
+
 	display() {
 		// ---- BEGIN Background, camera and axis setup
 		// Clear image and depth buffer everytime we update the scene
@@ -93,20 +117,31 @@ export class MyScene extends CGFscene {
 
 		// ---- BEGIN Primitive drawing section
 
-		this.panorama.display();
+		if (this.displayPanorama) {
+			this.panorama.display();
+		}
 
-		this.pushMatrix();
-		this.translate(-50, 0, 50); // TODO
-		this.pyramid.display();
-		this.popMatrix();
+		if (this.displayPyramid) {
+			this.pushMatrix();
+			this.translate(-50, 0, 50);
+			this.pyramid.display();
+			this.popMatrix();
+		}
 
-		this.pushMatrix();
-		this.translate(-10, -20, 50); // TODO
-		this.scale(2, 2, 2);
-		this.rockSet.display();
-		this.popMatrix();
+		if (this.displayRocks) {
+			this.pushMatrix();
+			this.translate(-10, -20, 50);
+			this.scale(2, 2, 2);
+			this.rockSet.display();
+			this.popMatrix();
+		}
 
-		this.garden.display();
+		if (this.displayGarden) {
+			this.pushMatrix();
+			this.translate(-30, 0, -100);
+			this.garden.display();
+			this.popMatrix();
+		}
 
 		// ---- END Primitive drawing section
 	}
