@@ -1,5 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
-import { MyFlower } from './MyFlower.js';
+import { MyGarden } from './MyGarden.js';
 import { MyPanorama } from './MyPanorama.js';
 import { MyRockSet } from './MyRockSet.js';
 
@@ -34,12 +34,9 @@ export class MyScene extends CGFscene {
 
 		this.pyramid = new MyRockSet(this, true, 4);
 		this.rockSet = new MyRockSet(this, false, 6);
+		this.garden = new MyGarden(this, 5, 10);
 
-    	let flowerRadius = (Math.random() * (7 - 3) + 3) / 2;
-
-		this.flower = new MyFlower(this, flowerRadius, 8, null, 1, null, 0.5, 3, null, 0, 0);
-
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.flower];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
 
 		// Objects connected to MyInterface
 		this.displayAxis = false;
@@ -109,7 +106,7 @@ export class MyScene extends CGFscene {
 		this.rockSet.display();
 		this.popMatrix();
 
-		this.flower.display();
+		this.garden.display();
 
 		// ---- END Primitive drawing section
 	}
