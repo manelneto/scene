@@ -2,7 +2,6 @@ import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
 import { MyFlower } from './MyFlower.js';
 import { MyPanorama } from './MyPanorama.js';
 import { MyRockSet } from './MyRockSet.js';
-import { MyLeaf } from './MyLeaf.js';
 
 /**
  * MyScene
@@ -41,8 +40,6 @@ export class MyScene extends CGFscene {
     }
 
     this.flower = new MyFlower(this, randomAngle(3,7), 8, 1, 0.1, 3, 10, Math.PI/10, Math.PI/10, Math.PI/3);
-
-    this.myLeaf = new MyLeaf(this);
 
     this.objects = [this.panorama, this.pyramid, this.rockSet, this.flower];
 
@@ -115,9 +112,7 @@ export class MyScene extends CGFscene {
 	this.popMatrix();
 
 
-  //this.flower.display();
-  this.myLeaf.display();
-    
+  this.flower.display();
 
     // ---- END Primitive drawing section
   }

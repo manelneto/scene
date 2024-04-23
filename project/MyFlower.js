@@ -2,6 +2,7 @@ import { CGFobject } from '../lib/CGF.js';
 import { MyStem } from './MyStem.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
+import { MyLeaf } from './MyLeaf.js';
 
 /**
  * MyFlower
@@ -38,6 +39,8 @@ export class MyFlower extends CGFobject {
         }
 
         this.angle = randomAngleForPetals(this.minAngle, this.maxAngle);
+
+        this.myLeaf = new MyLeaf(this.scene);
     }
 
     display() {
@@ -45,11 +48,13 @@ export class MyFlower extends CGFobject {
 
         // Display the stems
         this.myStem[0].display();
-        for (let i = 1; i < this.myStem.length; i++) {
+        for (let i = 1; i < this.myStem.length - 1 ; i++) {
             this.scene.translate(0, 1, 0); 
             this.myStem[i].display();
+            this.myLeaf.display();
         }
 
+        this.myStem[this.myStem.length - 1].display();
         this.scene.popMatrix();
 
         // Display the receptacle
