@@ -20,5 +20,13 @@ export class MyReceptacle extends CGFobject {
         this.mySphere.display();
         this.scene.popMatrix();
     }
+
+    enableNormalViz() {
+        this.mySphere.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        this.mySphere.disableNormalViz();
+    }
 }
 

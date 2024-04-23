@@ -30,5 +30,15 @@ export class MyPetal extends CGFobject {
         this.scene.popMatrix();
 
     }
+
+    enableNormalViz() {
+        this.myTriangle1.enableNormalViz();
+        this.myTriangle2.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        this.myTriangle1.disableNormalViz();
+        this.myTriangle2.disableNormalViz();
+    }
 }
 

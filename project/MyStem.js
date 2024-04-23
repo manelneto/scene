@@ -22,5 +22,12 @@ export class MyStem extends CGFobject {
         this.myCylinder.display();
         this.scene.popMatrix();
     }
-}
 
+    enableNormalViz() {
+        //this.myCylinder.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        //this.myCylinder.disableNormalViz();
+    }
+}

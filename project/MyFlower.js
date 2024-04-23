@@ -73,4 +73,16 @@ export class MyFlower extends CGFobject {
             this.scene.popMatrix();
         }
     }
+
+    enableNormalViz() {
+        this.myPetal.forEach((petal) => petal.enableNormalViz());
+        this.myReceptacle.enableNormalViz();
+        this.myStem.forEach((stem) => stem.enableNormalViz());
+    }
+
+    disableNormalViz() {
+        this.myPetal.forEach((petal) => petal.disableNormalViz());
+        this.myReceptacle.disableNormalViz();
+        this.myStem.forEach((stem) => stem.disableNormalViz());
+    }
 }

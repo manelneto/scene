@@ -1,4 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
+import { MyFlower } from './MyFlower.js';
 import { MyPanorama } from './MyPanorama.js';
 import { MyRockSet } from './MyRockSet.js';
 
@@ -34,7 +35,13 @@ export class MyScene extends CGFscene {
     this.pyramid = new MyRockSet(this, true, 4);
     this.rockSet = new MyRockSet(this, false, 6);
 
-    this.objects = [this.panorama, this.pyramid, this.rockSet];
+    function randomAngle(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    this.flower = new MyFlower(this, randomAngle(3,7), 8, 1, 0.1, 3, 10, Math.PI/10, Math.PI/10, Math.PI/3);
+
+    this.objects = [this.panorama, this.pyramid, this.rockSet, this.flower];
 
     // Objects connected to MyInterface
     this.displayAxis = false;
@@ -105,7 +112,7 @@ export class MyScene extends CGFscene {
 	this.popMatrix();
 
 
-    this.myFlower.display();
+    this.flower.display();
     
 
     // ---- END Primitive drawing section
