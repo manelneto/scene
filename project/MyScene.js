@@ -2,123 +2,113 @@ import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
 import { MyFlower } from './MyFlower.js';
 import { MyPanorama } from './MyPanorama.js';
 import { MyRockSet } from './MyRockSet.js';
-import { MyLeaf } from './MyLeaf.js';
 
 /**
  * MyScene
  * @constructor
  */
 export class MyScene extends CGFscene {
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 
-  init(application) {
-    super.init(application);
-    
-    this.initCameras();
-    this.initLights();
+	init(application) {
+		super.init(application);
 
-    // Background color
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.initCameras();
+		this.initLights();
 
-    this.gl.clearDepth(100.0);
-    this.gl.enable(this.gl.DEPTH_TEST);
-    this.gl.enable(this.gl.CULL_FACE);
-    this.gl.depthFunc(this.gl.LEQUAL);
+		// Background color
+		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-    // Initialize scene objects
-    this.axis = new CGFaxis(this);
+		this.gl.clearDepth(100.0);
+		this.gl.enable(this.gl.DEPTH_TEST);
+		this.gl.enable(this.gl.CULL_FACE);
+		this.gl.depthFunc(this.gl.LEQUAL);
 
-    const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
-    this.panorama = new MyPanorama(this, panoramaTexture);
+		// Initialize scene objects
+		this.axis = new CGFaxis(this);
 
-    this.pyramid = new MyRockSet(this, true, 4);
-    this.rockSet = new MyRockSet(this, false, 6);
+		const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
+		this.panorama = new MyPanorama(this, panoramaTexture);
 
-    function randomAngle(min, max) {
-      return Math.random() * (max - min) + min;
-    }
+		this.pyramid = new MyRockSet(this, true, 4);
+		this.rockSet = new MyRockSet(this, false, 6);
+		this.flower = new MyFlower(this, 8, 8, null, 2, null, 1, 4, null, 0, 0);
 
-    this.flower = new MyFlower(this, randomAngle(3,7), 8, 1, 0.1, 3, 10, Math.PI/10, Math.PI/10, Math.PI/3);
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.flower];
 
-    this.myLeaf = new MyLeaf(this);
+		// Objects connected to MyInterface
+		this.displayAxis = false;
+		this.displayNormals = false;
 
-    this.objects = [this.panorama, this.pyramid, this.rockSet, this.flower];
+		this.enableTextures(true);
+	}
 
-    // Objects connected to MyInterface
-    this.displayAxis = false;
-    this.displayNormals = false;
+	initLights() {
+		this.lights[0].setPosition(15, 0, 5, 1);
+		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.lights[0].setAmbient(1.0, 1.0, 1.0, 1.0);
+		this.lights[0].enable();
+		this.lights[0].update();
+	}
 
-    this.enableTextures(true);
-  }
+	initCameras() {
+		this.camera = new CGFcamera(
+			1.5,
+			0.1,
+			1000,
+			vec3.fromValues(50, 10, 15),
+			vec3.fromValues(0, 0, 0)
+		);
+	}
 
-  initLights() {
-    this.lights[0].setPosition(15, 0, 5, 1);
-    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].setAmbient(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].enable();
-    this.lights[0].update();
-  }
+	setDefaultAppearance() {
+		this.setAmbient(0.2, 0.4, 0.8, 1.0);
+		this.setDiffuse(0.2, 0.4, 0.8, 1.0);
+		this.setSpecular(0.2, 0.4, 0.8, 1.0);
+		this.setShininess(10.0);
+	}
 
-  initCameras() {
-    this.camera = new CGFcamera(
-      1.5,
-      0.1,
-      1000,
-      vec3.fromValues(50, 10, 15),
-      vec3.fromValues(0, 0, 0)
-    );
-  }
+	display() {
+		// ---- BEGIN Background, camera and axis setup
+		// Clear image and depth buffer everytime we update the scene
+		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+		// Initialize Model-View matrix as identity (no transformation
+		this.updateProjectionMatrix();
+		this.loadIdentity();
+		// Apply transformations corresponding to the camera position relative to the origin
+		this.applyViewMatrix();
 
-  setDefaultAppearance() {
-    this.setAmbient(0.2, 0.4, 0.8, 1.0);
-    this.setDiffuse(0.2, 0.4, 0.8, 1.0);
-    this.setSpecular(0.2, 0.4, 0.8, 1.0);
-    this.setShininess(10.0);
-  }
+		// Draw axis
+		if (this.displayAxis)
+			this.axis.display();
 
-  display() {
-    // ---- BEGIN Background, camera and axis setup
-    // Clear image and depth buffer everytime we update the scene
-    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-    // Initialize Model-View matrix as identity (no transformation
-    this.updateProjectionMatrix();
-    this.loadIdentity();
-    // Apply transformations corresponding to the camera position relative to the origin
-    this.applyViewMatrix();
+		// Draw normals
+		if (this.displayNormals)
+			this.objects.forEach((object) => object.enableNormalViz());
+		else
+			this.objects.forEach((object) => object.disableNormalViz());
 
-    // Draw axis
-    if (this.displayAxis)
-        this.axis.display();
+		// ---- BEGIN Primitive drawing section
 
-    // Draw normals
-    if (this.displayNormals)
-		this.objects.forEach((object) => object.enableNormalViz());
-    else
-		this.objects.forEach((object) => object.disableNormalViz());
+		this.panorama.display();
 
-    // ---- BEGIN Primitive drawing section
-    
-	this.panorama.display();
+		this.pushMatrix();
+		this.translate(-50, 0, 50); // TODO
+		this.pyramid.display();
+		this.popMatrix();
 
-	this.pushMatrix();
-	this.translate(-50, 0, 50); // TODO
-	this.pyramid.display();
-	this.popMatrix();
-	
-	this.pushMatrix();
-	this.translate(-10, -20, 50); // TODO
-	this.scale(2, 2, 2);
-	this.rockSet.display();
-	this.popMatrix();
+		this.pushMatrix();
+		this.translate(-10, -20, 50); // TODO
+		this.scale(2, 2, 2);
+		this.rockSet.display();
+		this.popMatrix();
 
 
-  //this.flower.display();
-  this.myLeaf.display();
-    
+		this.flower.display();
 
-    // ---- END Primitive drawing section
-  }
+		// ---- END Primitive drawing section
+	}
 }

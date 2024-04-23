@@ -1,88 +1,110 @@
 import { CGFobject } from '../lib/CGF.js';
-import { MyStem } from './MyStem.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
+import { MyStem } from './MyStem.js';
 
 /**
  * MyFlower
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param flowerRadius - External radius of the flower
+ * @param petalsNumber - Number of petals
+ * @param petalsColour - Colour of the petals
+ * @param receptacleRadius - Radius of the flower's heart circle
+ * @param receptacleColour - Colour of flower heart circle
+ * @param stemRadius - Stem cylinder radius
+ * @param stemSize - Number of stem cylinders
+ * @param stemColour - Stem colour
+ * @param leavesColour - Colour of the leaves
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, radiusFlower, numberPetals, radiusReceptacle, radiusStem, numberStems/*, stemColor, leafColor*/, heightStem, petalAngel, minAngle, maxAngle) {
+    constructor(scene, flowerRadius, petalsNumber, petalsColour, receptacleRadius, receptacleColour, stemRadius, stemSize, leavesColour, minUnionAngle, maxUnionAngle) {
         super(scene);
 
-        this.radiusFlower = radiusFlower;
-        this.numberPetals = numberPetals;
-        this.radiusReceptacle = radiusReceptacle;
-        this.radiusStem = radiusStem;
-        this.numberStems = numberStems;
-        this.radiusFlower = radiusFlower;
-        this.heightStem = heightStem;
-        this.petalAngel = petalAngel;
-        this.minAngle = minAngle;
-        this.maxAngle = maxAngle;
+        this.flowerRadius = flowerRadius;
+        this.petalsNumber = petalsNumber;
+        this.receptacleRadius = receptacleRadius;
 
-        this.myStem = [];
-        for (let i = 0; i < numberStems; i++) {
-            this.myStem.push(new MyStem(this.scene, radiusStem, heightStem));
-        }
-        this.myReceptacle = new MyReceptacle(this.scene, radiusReceptacle);
-        this.myPetal = [];
-        for (let i = 0; i < numberPetals; i++) {
-            this.myPetal.push(new MyPetal(this.scene, (radiusFlower - radiusReceptacle), this.petalAngel));
+        // TODO: colours
+        this.petalsColour = petalsColour;
+        this.receptacleColour = receptacleColour;
+        this.leavesColour = leavesColour;
+        this.unionAngle = this.generateRandom(minUnionAngle, maxUnionAngle);
+
+        let stemHeight;
+        this.stems = [];
+        this.stemHeights = [];
+        for (let i = 0; i < stemSize; i++) {
+            stemHeight = Math.floor(this.generateRandom(1, 10));
+            this.stems.push(new MyStem(this.scene, stemRadius, stemHeight));
+            this.stemHeights.push(stemHeight);
         }
 
-        function randomAngleForPetals(min, max) {
-            return Math.random() * (max - min) + min;
+        this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
+        
+        let petalLength = flowerRadius - receptacleRadius;
+        let petalAngle = Math.PI/4;
+        this.petals = [];
+        for (let i = 0; i < petalsNumber; i++) {
+            this.petals.push(new MyPetal(this.scene, petalLength, petalAngle));
         }
-
-        this.angle = randomAngleForPetals(this.minAngle, this.maxAngle);
     }
 
     display() {
-        this.scene.pushMatrix();
+        let stem;
+        let totalStemHeight = 0;
+        for (let i = 0; i < this.stems.length; i++) {
+            stem = this.stems[i];
+            
+            this.scene.pushMatrix();
 
-        // Display the stems
-        this.myStem[0].display();
-        for (let i = 1; i < this.myStem.length; i++) {
-            this.scene.translate(0, 1, 0); 
-            this.myStem[i].display();
+            this.scene.translate(0, totalStemHeight, 0); 
+            stem.display();
+            
+            this.scene.popMatrix();
+
+            totalStemHeight += this.stemHeights[i];
         }
 
-        this.scene.popMatrix();
 
-        // Display the receptacle
         this.scene.pushMatrix();
-        this.scene.translate(0, this.numberStems, 0);
-        this.myReceptacle.display();
+        this.scene.translate(0, totalStemHeight, 0);
+        this.receptacle.display();
         this.scene.popMatrix();
 
-        // Display the petals
-        const numPetals = this.myPetal.length;
-        const angleIncrement = (2 * Math.PI) / numPetals;
+        const angle = (2 * Math.PI) / this.petalsNumber;
+        
+        let petal;
+        for (let i = 0; i < this.petalsNumber; i++) {
+            petal = this.petals[i];
 
-        for (let i = 0; i < numPetals; i++) {
             this.scene.pushMatrix();
-            this.scene.translate(0, this.numberStems, 0);
-            this.scene.rotate(angleIncrement * i, 0, 0, 1);
-            this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2), 0, 0);
+
+            // TODO: verificar transformações
+            this.scene.translate(0, totalStemHeight, 0);
+            this.scene.rotate(angle * i, 0, 0, 1);
+            this.scene.translate(this.receptacleRadius + (this.flowerRadius - this.receptacleRadius) / 2, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 0, 1);
-            this.scene.rotate(this.angle, 0, 1, 0);
-            this.myPetal[i].display();
+            this.scene.rotate(this.unionAngle, 0, 1, 0);
+            petal.display();
+
             this.scene.popMatrix();
         }
     }
 
     enableNormalViz() {
-        this.myPetal.forEach((petal) => petal.enableNormalViz());
-        this.myReceptacle.enableNormalViz();
-        this.myStem.forEach((stem) => stem.enableNormalViz());
+        this.petals.forEach((petal) => petal.enableNormalViz());
+        this.receptacle.enableNormalViz();
+        this.stems.forEach((stem) => stem.enableNormalViz());
     }
 
     disableNormalViz() {
-        this.myPetal.forEach((petal) => petal.disableNormalViz());
-        this.myReceptacle.disableNormalViz();
-        this.myStem.forEach((stem) => stem.disableNormalViz());
+        this.petals.forEach((petal) => petal.disableNormalViz());
+        this.receptacle.disableNormalViz();
+        this.stems.forEach((stem) => stem.disableNormalViz());
+    }
+
+    generateRandom(min, max) {
+        return Math.random() * (max - min) + min;
     }
 }
