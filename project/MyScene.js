@@ -1,7 +1,6 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyPanorama } from "./MyPanorama.js";
-import { MySphere } from "./MySphere.js";
-import { MyFlower } from "./MyFlower.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
+import { MyPanorama } from './MyPanorama.js';
+import { MyRockSet } from './MyRockSet.js';
 
 /**
  * MyScene
@@ -11,13 +10,14 @@ export class MyScene extends CGFscene {
   constructor() {
     super();
   }
+
   init(application) {
     super.init(application);
     
     this.initCameras();
     this.initLights();
 
-    //Background color
+    // Background color
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -25,39 +25,22 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
-    //Initialize scene objects
+    // Initialize scene objects
     this.axis = new CGFaxis(this);
 
-    this.texturePanorama = new CGFtexture(this, "images/panorama.jpg");
-    this.appearancePanorama = new CGFappearance(this);
-    this.appearancePanorama.setTexture(this.texturePanorama);
-    this.appearancePanorama.setTextureWrap('REPEAT', 'REPEAT');
-    this.myPanorama = new MyPanorama(this, this.appearancePanorama);
+    const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
+    this.panorama = new MyPanorama(this, panoramaTexture);
 
-    this.sphere = new MySphere(this, 64, 32, true, 4);
+    this.pyramid = new MyRockSet(this, true, 4);
+    this.rockSet = new MyRockSet(this, false, 6);
 
-    function randomAngleForPetals(min, max) {
-      return Math.random() * (max - min) + min;
-    }
+    this.objects = [this.panorama, this.pyramid, this.rockSet];
 
-    this.myFlower = new MyFlower(this, randomAngleForPetals(3, 7), 8, 1, 0.1, 3, 10, Math.PI / 10, Math.PI / 10, Math.PI / 3);
-
-    //Objects connected to MyInterface
-    this.displayAxis = true;
-    this.scaleFactor = 1;
+    // Objects connected to MyInterface
+    this.displayAxis = false;
     this.displayNormals = false;
 
     this.enableTextures(true);
-
-    this.texture = new CGFtexture(this, "images/terrain.jpg");
-    this.appearance = new CGFappearance(this);
-    this.appearance.setTexture(this.texture);
-    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-
-    this.textureEarth = new CGFtexture(this, "images/earth.jpg");
-    this.appearanceEarth = new CGFappearance(this);  
-    this.appearanceEarth.setTexture(this.textureEarth);
-    this.appearanceEarth.setTextureWrap('REPEAT', 'REPEAT');
   }
 
   initLights() {
@@ -97,23 +80,29 @@ export class MyScene extends CGFscene {
     this.applyViewMatrix();
 
     // Draw axis
-    if (this.displayAxis) this.axis.display();
+    if (this.displayAxis)
+        this.axis.display();
+
+    // Draw normals
+    if (this.displayNormals)
+		this.objects.forEach((object) => object.enableNormalViz());
+    else
+		this.objects.forEach((object) => object.disableNormalViz());
 
     // ---- BEGIN Primitive drawing section
+    
+	this.panorama.display();
 
-    this.pushMatrix();
-    //this.appearance.apply();
-    this.translate(0,-100,0);
-    this.scale(400,400,400);
-    this.rotate(-Math.PI/2.0,1,0,0);
-    //this.plane.display();
-    this.popMatrix();
-
-    //this.appearanceEarth.apply();
-    //this.sphere.display();
-
-    this.appearancePanorama.apply();
-    this.myPanorama.display();
+	this.pushMatrix();
+	this.translate(-50, 0, 50); // TODO
+	this.pyramid.display();
+	this.popMatrix();
+	
+	this.pushMatrix();
+	this.translate(-10, -20, 50); // TODO
+	this.scale(2, 2, 2);
+	this.rockSet.display();
+	this.popMatrix();
 
 
     this.myFlower.display();
