@@ -4,6 +4,7 @@ import { CGFobject } from '../lib/CGF.js';
  * MyTriangle
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param height - Triangle height
  */
 export class MyTriangle extends CGFobject {
 	constructor(scene, height) {
@@ -43,7 +44,7 @@ export class MyTriangle extends CGFobject {
 			0, 1,
 			0.5, 1,
 			0, 0.5,
-			
+
 			0, 1,
 			0.5, 1,
 			0, 0.5,

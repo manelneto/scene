@@ -4,6 +4,8 @@ import { CGFobject } from '../lib/CGF.js';
  * MyCylinder
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param radius - Cylinder radius
+ * @param height - Cylinder height
  */
 export class MyCylinder extends CGFobject {
 	constructor(scene, radius, height) {
