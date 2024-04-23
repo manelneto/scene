@@ -1,7 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
-import { MyGarden } from './MyGarden.js';
-import { MyPanorama } from './MyPanorama.js';
-import { MyRockSet } from './MyRockSet.js';
+import { MyGarden } from './objects/MyGarden.js';
+import { MyPanorama } from './objects/MyPanorama.js';
+import { MyRockSet } from './objects/MyRockSet.js';
 
 /**
  * MyScene
@@ -17,8 +17,6 @@ export class MyScene extends CGFscene {
 
 		this.initCameras();
 		this.initLights();
-
-		// Background color
 		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
 		this.gl.clearDepth(100.0);
@@ -94,14 +92,11 @@ export class MyScene extends CGFscene {
 	}
 
 	display() {
-		// ---- BEGIN Background, camera and axis setup
-		// Clear image and depth buffer everytime we update the scene
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-		// Initialize Model-View matrix as identity (no transformation
+
 		this.updateProjectionMatrix();
 		this.loadIdentity();
-		// Apply transformations corresponding to the camera position relative to the origin
 		this.applyViewMatrix();
 
 		// Draw axis
@@ -114,8 +109,7 @@ export class MyScene extends CGFscene {
 		else
 			this.objects.forEach((object) => object.disableNormalViz());
 
-		// ---- BEGIN Primitive drawing section
-
+		// Draw objects
 		if (this.displayPanorama) {
 			this.panorama.display();
 		}
@@ -140,7 +134,5 @@ export class MyScene extends CGFscene {
 			this.garden.display();
 			this.popMatrix();
 		}
-
-		// ---- END Primitive drawing section
 	}
 }

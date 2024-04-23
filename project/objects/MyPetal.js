@@ -1,5 +1,5 @@
-import { CGFobject } from '../lib/CGF.js';
-import { MyTriangle } from './MyTriangle.js';
+import { CGFobject } from '../../lib/CGF.js';
+import { MyTriangle } from '../geometrics/MyTriangle.js';
 
 /**
  * MyPetal
