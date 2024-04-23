@@ -11,7 +11,7 @@ export class MyGarden extends CGFobject {
         let flower;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
-                flower = new MyFlower(scene, (Math.random() * (7 - 3) + 3) / 2, 8, null, 1, null, 0.5, 3, null, 0, 0);
+                flower = new MyFlower(scene, (Math.random() * (7 - 3) + 3) / 2, 8, [0.9, 0.9, 0.9], 1, [1, 0.9, 0.2], 0.5, 3, [0.45, 0.75, 0.2], [0.45, 0.75, 0.2], 0, 0);
                 this.flowers.push(flower);
             }
         }

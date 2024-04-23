@@ -36,7 +36,7 @@ export class MyCylinder extends CGFobject {
 
 				this.normals.push(x/this.radius, 0, z/this.radius);
 
-				this.texCoords.push(slice / this.slices, i / this.height);
+				this.texCoords.push(slice / this.slices, 1 - i / this.height);
 			}
 		}
 

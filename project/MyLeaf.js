@@ -1,4 +1,4 @@
-import {CGFobject} from '../lib/CGF.js';
+import { CGFobject } from '../lib/CGF.js';
 import { MyTriangle } from './MyTriangle.js';
 import { MyCylinder } from './MyCylinder.js';
 
@@ -11,45 +11,42 @@ export class MyLeaf extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.myCylinder = new MyCylinder(this.scene, 0.08, 1.5);
+        this.cylinder = new MyCylinder(this.scene, 0.08, 1.5);
 		
-        this.myTriangle1 = new MyTriangle(this.scene, 1);
-        this.myTriangle2 = new MyTriangle(this.scene, 1);
+        this.triangle1 = new MyTriangle(this.scene, 1);
+        this.triangle2 = new MyTriangle(this.scene, 1);
 	}
 
     display() {
-
         this.scene.pushMatrix();
         this.scene.rotate(-Math.PI / 4, 0, 0, 1);
-        this.myCylinder.display();
+        this.cylinder.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.translate(1, 1.7, 0);
         this.scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scene.rotate(Math.PI / 5, 1, 0, 0);
-        this.myTriangle1.display();
+        this.triangle1.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.translate(1, 1.7, 0);
         this.scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scene.rotate(Math.PI, 1, 0, 0);
-        this.myTriangle2.display();
+        this.triangle2.display();
         this.scene.popMatrix();
-        
     }
 
     enableNormalViz() {
-        this.myTriangle1.enableNormalViz();
-        this.myTriangle2.enableNormalViz();
-        this.myCylinder.enableNormalViz();
+        this.triangle1.enableNormalViz();
+        this.triangle2.enableNormalViz();
+        this.cylinder.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.myTriangle1.disableNormalViz();
-        this.myTriangle2.disableNormalViz();
-        this.myCylinder.disableNormalViz();
+        this.triangle1.disableNormalViz();
+        this.triangle2.disableNormalViz();
+        this.cylinder.disableNormalViz();
     }
 }
-
