@@ -34,7 +34,10 @@ export class MyScene extends CGFscene {
 
 		this.pyramid = new MyRockSet(this, true, 4);
 		this.rockSet = new MyRockSet(this, false, 6);
-		this.flower = new MyFlower(this, 8, 8, null, 2, null, 1, 4, null, 0, 0);
+
+    let flowerRadius = (Math.random() * (7 - 3) + 3) / 2;
+
+		this.flower = new MyFlower(this, flowerRadius, 8, null, 1, null, 0.5, 3, null, 0, 0);
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.flower];
 

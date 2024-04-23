@@ -14,12 +14,12 @@ import { MyStem } from './MyStem.js';
  * @param receptacleRadius - Radius of the flower's heart circle
  * @param receptacleColour - Colour of flower heart circle
  * @param stemRadius - Stem cylinder radius
- * @param stemSize - Number of stem cylinders
+ * @param stemNumber - Number of stem cylinders
  * @param stemColour - Stem colour
  * @param leavesColour - Colour of the leaves
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, flowerRadius, petalsNumber, petalsColour, receptacleRadius, receptacleColour, stemRadius, stemSize, leavesColour, minUnionAngle, maxUnionAngle) {
+    constructor(scene, flowerRadius, petalsNumber, petalsColour, receptacleRadius, receptacleColour, stemRadius, stemNumber, leavesColour, minUnionAngle, maxUnionAngle) {
         super(scene);
 
         this.flowerRadius = flowerRadius;
@@ -35,7 +35,7 @@ export class MyFlower extends CGFobject {
         let stemHeight;
         this.stems = [];
         this.stemHeights = [];
-        for (let i = 0; i < stemSize; i++) {
+        for (let i = 0; i < stemNumber; i++) {
             stemHeight = Math.floor(this.generateRandom(1, 10));
             this.stems.push(new MyStem(this.scene, stemRadius, stemHeight));
             this.stemHeights.push(stemHeight);
@@ -61,11 +61,9 @@ export class MyFlower extends CGFobject {
             stem = this.stems[i];
             
             this.scene.pushMatrix();
-
             this.scene.translate(0, totalStemHeight, 0); 
             stem.display();
             this.leaf.display();
-            
             this.scene.popMatrix();
 
             totalStemHeight += this.stemHeights[i];
