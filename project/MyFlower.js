@@ -9,7 +9,7 @@ import { MyReceptacle } from './MyReceptacle.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, radiusFlower, numberPetals, radiusReceptacle, radiusStem, numberStems/*, stemColor, leafColor*/, heightStem, petalAngel) {
+    constructor(scene, radiusFlower, numberPetals, radiusReceptacle, radiusStem, numberStems/*, stemColor, leafColor*/, heightStem, petalAngel, minAngle, maxAngle) {
         super(scene);
 
         this.radiusFlower = radiusFlower;
@@ -20,6 +20,8 @@ export class MyFlower extends CGFobject {
         this.radiusFlower = radiusFlower;
         this.heightStem = heightStem;
         this.petalAngel = petalAngel;
+        this.minAngle = minAngle;
+        this.maxAngle = maxAngle;
 
         this.myStem = [];
         for (let i = 0; i < numberStems; i++) {
@@ -30,6 +32,12 @@ export class MyFlower extends CGFobject {
         for (let i = 0; i < numberPetals; i++) {
             this.myPetal.push(new MyPetal(this.scene, (radiusFlower - radiusReceptacle), this.petalAngel));
         }
+
+        function randomAngleForPetals(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        this.angle = randomAngleForPetals(this.minAngle, this.maxAngle);
     }
 
     display() {
@@ -60,6 +68,7 @@ export class MyFlower extends CGFobject {
             this.scene.rotate(angleIncrement * i, 0, 0, 1);
             this.scene.translate(((this.radiusFlower - this.radiusReceptacle) / 2), 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 0, 1);
+            this.scene.rotate(this.angle, 0, 1, 0);
             this.myPetal[i].display();
             this.scene.popMatrix();
         }

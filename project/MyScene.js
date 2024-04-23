@@ -35,7 +35,12 @@ export class MyScene extends CGFscene {
     this.myPanorama = new MyPanorama(this, this.appearancePanorama);
 
     this.sphere = new MySphere(this, 64, 32, true, 4);
-    this.myFlower = new MyFlower(this, 5, 8, 1, 0.1, 3, 10, Math.PI / 10);
+
+    function randomAngleForPetals(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    this.myFlower = new MyFlower(this, randomAngleForPetals(3, 7), 8, 1, 0.1, 3, 10, Math.PI / 10, Math.PI / 10, Math.PI / 3);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
