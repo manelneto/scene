@@ -11,7 +11,7 @@ export class MyLeaf extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.myCylinder = new MyCylinder(this.scene, 64, 32, 0.1, 0.1);
+        this.myCylinder = new MyCylinder(this.scene, 0.08, 1.5);
 		
         this.myTriangle1 = new MyTriangle(this.scene, 1);
         this.myTriangle2 = new MyTriangle(this.scene, 1);
@@ -20,15 +20,19 @@ export class MyLeaf extends CGFobject {
     display() {
 
         this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.myCylinder.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+        this.scene.translate(1, 1.7, 0);
         this.scene.rotate(-Math.PI / 4, 0, 0, 1);
+        this.scene.rotate(Math.PI / 5, 1, 0, 0);
         this.myTriangle1.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+        this.scene.translate(1, 1.7, 0);
         this.scene.rotate(-Math.PI / 4, 0, 0, 1);
         this.scene.rotate(Math.PI, 1, 0, 0);
         this.myTriangle2.display();

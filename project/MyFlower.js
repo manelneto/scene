@@ -1,4 +1,5 @@
 import { CGFobject } from '../lib/CGF.js';
+import { MyLeaf } from './MyLeaf.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
 import { MyStem } from './MyStem.js';
@@ -48,24 +49,27 @@ export class MyFlower extends CGFobject {
         for (let i = 0; i < petalsNumber; i++) {
             this.petals.push(new MyPetal(this.scene, petalLength, petalAngle));
         }
+
+        this.leaf = new MyLeaf(this.scene);
     }
 
     display() {
         let stem;
-        let totalStemHeight = 0;
-        for (let i = 0; i < this.stems.length; i++) {
+        this.stems[0].display();
+        let totalStemHeight = this.stemHeights[0];
+        for (let i = 1; i < this.stems.length; i++) {
             stem = this.stems[i];
             
             this.scene.pushMatrix();
 
             this.scene.translate(0, totalStemHeight, 0); 
             stem.display();
+            this.leaf.display();
             
             this.scene.popMatrix();
 
             totalStemHeight += this.stemHeights[i];
         }
-
 
         this.scene.pushMatrix();
         this.scene.translate(0, totalStemHeight, 0);
