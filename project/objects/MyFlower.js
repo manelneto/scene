@@ -58,7 +58,7 @@ export class MyFlower extends CGFobject {
         }
 
         this.stemMaterial = this.createMaterial(stemColour, 'images/stem.jpg');
-        this.leafMaterial = this.createMaterial(leafColour, 'images/stem.jpg');
+        this.leafMaterial = this.createMaterial(leafColour, 'images/leaf.jpg');
         this.receptacleMaterial = this.createMaterial(receptacleColour, 'images/receptacle.jpg');
     }
 
@@ -73,8 +73,10 @@ export class MyFlower extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(0, totalStemHeight, 0); 
             //this.scene.rotate(this.stemAngles[i], 0, 0, 1); // TODO
+            this.stemMaterial.apply();
             stem.display();
             this.scene.scale(0.8, 0.8, 0.8);
+            this.leafMaterial.apply();
             this.leaf.display();
             this.scene.popMatrix();
 

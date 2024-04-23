@@ -33,8 +33,8 @@ export class MyScene extends CGFscene {
 		this.displayGarden = true;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
-		this.gardenRows = 5;
-		this.gardenCols = 5;
+		this.gardenRows = 1;
+		this.gardenCols = 1;
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);

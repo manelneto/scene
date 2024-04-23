@@ -18,7 +18,7 @@ export class MyGarden extends CGFobject {
                 stemNumber = Math.floor(this.generateRandom(1, 5));
                 minUnionAngle = Math.PI/16;
                 maxUnionAngle = Math.PI/10;
-                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.45, 0.75, 0.2], minUnionAngle, maxUnionAngle);
+                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.35, 0.65, 0.1], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
             }
         }
