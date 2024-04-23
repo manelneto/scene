@@ -1,32 +1,28 @@
-import {CGFobject} from '../lib/CGF.js';
+import { CGFobject } from '../lib/CGF.js';
 import { MySphere } from './MySphere.js';
 
 /**
  * MyReceptacle
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param radius - Receptacle radius
  */
 export class MyReceptacle extends CGFobject {
 	constructor(scene, radius) {
 		super(scene);
-
-        this.radius = radius;
 		
-        this.mySphere = new MySphere(this.scene, 64, 32, false, radius);
+        this.sphere = new MySphere(this.scene, 64, 32, false, radius);
 	}
 
     display() {
-        this.scene.pushMatrix();
-        this.mySphere.display();
-        this.scene.popMatrix();
+        this.sphere.display();
     }
 
     enableNormalViz() {
-        this.mySphere.enableNormalViz();
+        this.sphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.mySphere.disableNormalViz();
+        this.sphere.disableNormalViz();
     }
 }
-
