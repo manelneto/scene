@@ -30,7 +30,7 @@ export class MyFlower extends CGFobject {
         this.petalsColour = petalsColour;
         this.receptacleColour = receptacleColour;
         this.leavesColour = leavesColour;
-        this.unionAngle = this.generateRandom(minUnionAngle, maxUnionAngle);
+        this.unionAngle = Math.PI/4;//this.generateRandom(minUnionAngle, maxUnionAngle);
 
         let stemHeight;
         this.stems = [];
@@ -43,11 +43,11 @@ export class MyFlower extends CGFobject {
 
         this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
         
-        let petalLength = flowerRadius - receptacleRadius;
+        this.petalLength = flowerRadius - receptacleRadius;
         let petalAngle = Math.PI/4;
         this.petals = [];
         for (let i = 0; i < petalsNumber; i++) {
-            this.petals.push(new MyPetal(this.scene, petalLength, petalAngle));
+            this.petals.push(new MyPetal(this.scene, this.petalLength, petalAngle));
         }
 
         this.leaf = new MyLeaf(this.scene);
@@ -61,16 +61,19 @@ export class MyFlower extends CGFobject {
             stem = this.stems[i];
             
             this.scene.pushMatrix();
+
             this.scene.translate(0, totalStemHeight, 0); 
             stem.display();
             this.leaf.display();
+
             this.scene.popMatrix();
 
             totalStemHeight += this.stemHeights[i];
         }
 
         this.scene.pushMatrix();
-        this.scene.translate(0, totalStemHeight, 0);
+        this.scene.translate(0, totalStemHeight + this.receptacleRadius, 0);
+        this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
         this.scene.popMatrix();
 
@@ -81,13 +84,12 @@ export class MyFlower extends CGFobject {
             petal = this.petals[i];
 
             this.scene.pushMatrix();
-
-            // TODO: verificar transformações
-            this.scene.translate(0, totalStemHeight, 0);
+            this.scene.translate(0, totalStemHeight + this.receptacleRadius, 0);
             this.scene.rotate(angle * i, 0, 0, 1);
-            this.scene.translate(this.receptacleRadius + (this.flowerRadius - this.receptacleRadius) / 2, 0, 0);
-            this.scene.rotate(Math.PI / 2, 0, 0, 1);
-            this.scene.rotate(this.unionAngle, 0, 1, 0);
+            this.scene.translate(this.receptacleRadius, 0, 0);
+            this.scene.rotate(-this.unionAngle, 0, 1, 0);
+            this.scene.rotate(Math.PI/2, 0, 0, 1);
+            this.scene.translate(-0.5, -this.petalLength/2, 0);
             petal.display();
 
             this.scene.popMatrix();
