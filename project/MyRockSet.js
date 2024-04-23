@@ -28,7 +28,7 @@ export class MyRockSet extends CGFobject {
             this.rocks.push([rock, random]);
         }
 
-        let texture = new CGFtexture(this.scene, 'images/rock.jpg')
+        let texture = new CGFtexture(this.scene, 'images/rock.jpg');
         this.material = new CGFappearance(this.scene);
         this.material.setAmbient(0.3, 0.3, 0.3, 1.0);
         this.material.setDiffuse(0.6, 0.6, 0.6, 1.0);
