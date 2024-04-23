@@ -1,4 +1,4 @@
-import { CGFobject } from '../../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
 import { MyRock } from './MyRock.js';
 
 /**
@@ -27,9 +27,20 @@ export class MyRockSet extends CGFobject {
 
             this.rocks.push([rock, random]);
         }
+
+        let texture = new CGFtexture(this.scene, 'images/rock.jpg')
+        this.material = new CGFappearance(this.scene);
+        this.material.setAmbient(0.3, 0.3, 0.3, 1.0);
+        this.material.setDiffuse(0.6, 0.6, 0.6, 1.0);
+        this.material.setEmission(0, 0, 0, 0);
+        this.material.setShininess(10.0);
+        this.material.setSpecular(0.1, 0.1, 0.1, 1.0);
+        this.material.setTexture(texture);
     }
 
     display() {
+        this.material.apply()
+
         let rock, random;
         for (let i = 1; i <= this.n; i++) {
             rock = this.rocks[i - 1][0];

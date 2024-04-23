@@ -1,4 +1,4 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../lib/CGF.js';
+import { CGFobject } from '../lib/CGF.js';
 
 /**
  * MyRock
@@ -11,15 +11,6 @@ export class MyRock extends CGFobject {
         this.stacks = 8;
         this.slices = 8;
         this.initBuffers();
-
-        let texture = new CGFtexture(this.scene, 'images/rock.jpg')
-        this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.3, 0.3, 0.3, 1.0);
-        this.material.setDiffuse(0.6, 0.6, 0.6, 1.0);
-        this.material.setEmission(0, 0, 0, 0);
-        this.material.setShininess(10.0);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1.0);
-        this.material.setTexture(texture);
     }
     
     initBuffers() {
@@ -60,8 +51,8 @@ export class MyRock extends CGFobject {
                 lower = stack * (this.slices + 1) + slice;
                 upper = lower + this.slices + 1;
 
-                this.indices.push(lower + 1, upper, lower, );
-                this.indices.push(lower + 1, upper + 1, upper);
+                this.indices.push(lower, upper, lower + 1);
+                this.indices.push(upper, upper + 1, lower + 1);
             }
         }
 
@@ -70,7 +61,6 @@ export class MyRock extends CGFobject {
     }
 
     display() {
-        this.material.apply();
         super.display();
     }
 }

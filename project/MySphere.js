@@ -19,6 +19,8 @@ export class MySphere extends CGFobject {
         this.initBuffers();
     }
     
+    // TODO: triângulos nos polos
+        
     initBuffers() {
         this.vertices = [];
         this.indices = [];
@@ -61,11 +63,11 @@ export class MySphere extends CGFobject {
                 upper = lower + this.slices + 1;
 
 				if (this.isInverted) {
-					this.indices.push(lower, upper, lower + 1);
-					this.indices.push(upper, upper + 1, lower + 1);
-				} else {
-					this.indices.push(lower + 1, upper, lower, );
+                    this.indices.push(lower + 1, upper, lower);
 					this.indices.push(lower + 1, upper + 1, upper);
+				} else {
+                    this.indices.push(lower, upper, lower + 1);
+					this.indices.push(upper, upper + 1, lower + 1);
 				}
             }
         }
