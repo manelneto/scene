@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
 import { MyLeaf } from './MyLeaf.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
@@ -51,10 +51,41 @@ export class MyFlower extends CGFobject {
         }
 
         this.leaf = new MyLeaf(this.scene);
+
+        let petalTexture = new CGFtexture(this.scene, 'images/petal.png')
+        this.petalMaterial = new CGFappearance(this.scene);
+        this.petalMaterial.setAmbient(0.9, 0.9, 0.9, 1.0);
+        this.petalMaterial.setDiffuse(0.9, 0.9, 0.9, 1.0);
+        this.petalMaterial.setEmission(0, 0, 0, 0);
+        this.petalMaterial.setShininess(10.0);
+        this.petalMaterial.setSpecular(0.9, 0.9, 0.9, 1.0);
+        this.petalMaterial.setTexture(petalTexture);
+        this.petalMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        let stemTexture = new CGFtexture(this.scene, 'images/stem.jpg')
+        this.stemMaterial = new CGFappearance(this.scene);
+        this.stemMaterial.setAmbient(0.45, 0.75, 0.2, 1.0);
+        this.stemMaterial.setDiffuse(0.45, 0.75, 0.2, 1.0);
+        this.stemMaterial.setEmission(0, 0, 0, 0);
+        this.stemMaterial.setShininess(10.0);
+        this.stemMaterial.setSpecular(0.45, 0.75, 0.2, 1.0);
+        this.stemMaterial.setTexture(stemTexture);
+        this.stemMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        let receptacleTexture = new CGFtexture(this.scene, 'images/receptacle.webp')
+        this.receptacleMaterial = new CGFappearance(this.scene);
+        this.receptacleMaterial.setAmbient(1, 0.9, 0.2, 1.0);
+        this.receptacleMaterial.setDiffuse(1, 0.9, 0.2, 1.0);
+        this.receptacleMaterial.setEmission(0, 0, 0, 0);
+        this.receptacleMaterial.setShininess(10.0);
+        this.receptacleMaterial.setSpecular(1, 0.9, 0.2, 1.0);
+        this.receptacleMaterial.setTexture(receptacleTexture);
+        this.receptacleMaterial.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     display() {
         let stem;
+        this.stemMaterial.apply();
         this.stems[0].display();
         let totalStemHeight = this.stemHeights[0];
         for (let i = 1; i < this.stems.length; i++) {
@@ -72,13 +103,17 @@ export class MyFlower extends CGFobject {
         }
 
         this.scene.pushMatrix();
+
+        this.receptacleMaterial.apply();
         this.scene.translate(0, totalStemHeight + this.receptacleRadius, 0);
         this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
+
         this.scene.popMatrix();
 
         const angle = (2 * Math.PI) / this.petalsNumber;
         
+        this.petalMaterial.apply();
         let petal;
         for (let i = 0; i < this.petalsNumber; i++) {
             petal = this.petals[i];

@@ -20,6 +20,7 @@ export class MyCylinder extends CGFobject {
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		let phi;		// angle with the XX axis, from 0 to 2PI
 		let x, y, z;    // vertices coordinates
@@ -34,6 +35,8 @@ export class MyCylinder extends CGFobject {
 				this.vertices.push(x, y, z);
 
 				this.normals.push(x/this.radius, 0, z/this.radius);
+
+				this.texCoords.push(slice / this.slices, i / this.height);
 			}
 		}
 
