@@ -60,15 +60,17 @@ export class MyFlower extends CGFobject {
         this.petalMaterial.setShininess(10.0);
         this.petalMaterial.setSpecular(0.9, 0.9, 0.9, 1.0);
         this.petalMaterial.setTexture(petalTexture);
+        this.petalMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
         let stemTexture = new CGFtexture(this.scene, 'images/stem.jpg')
         this.stemMaterial = new CGFappearance(this.scene);
-        this.stemMaterial.setAmbient(0.35, 0.55, 0.2, 1.0);
-        this.stemMaterial.setDiffuse(0.35, 0.55, 0.2, 1.0);
+        this.stemMaterial.setAmbient(0.45, 0.75, 0.2, 1.0);
+        this.stemMaterial.setDiffuse(0.45, 0.75, 0.2, 1.0);
         this.stemMaterial.setEmission(0, 0, 0, 0);
         this.stemMaterial.setShininess(10.0);
-        this.stemMaterial.setSpecular(0.35, 0.55, 0.2, 1.0);
+        this.stemMaterial.setSpecular(0.45, 0.75, 0.2, 1.0);
         this.stemMaterial.setTexture(stemTexture);
+        this.stemMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
         let receptacleTexture = new CGFtexture(this.scene, 'images/receptacle.webp')
         this.receptacleMaterial = new CGFappearance(this.scene);
@@ -78,6 +80,7 @@ export class MyFlower extends CGFobject {
         this.receptacleMaterial.setShininess(10.0);
         this.receptacleMaterial.setSpecular(1, 0.9, 0.2, 1.0);
         this.receptacleMaterial.setTexture(receptacleTexture);
+        this.receptacleMaterial.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     display() {
