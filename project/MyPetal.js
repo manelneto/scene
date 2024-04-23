@@ -28,7 +28,6 @@ export class MyPetal extends CGFobject {
         this.scene.scale(0.5, 0.5, 0.5);
         this.myTriangle2.display();
         this.scene.popMatrix();
-
     }
 
     enableNormalViz() {
