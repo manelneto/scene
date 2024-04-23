@@ -50,17 +50,29 @@ export class MyFlower extends CGFobject {
             this.petals.push(new MyPetal(this.scene, this.petalLength, petalAngle));
         }
 
+        this.petalTexture = this.generateRandom(1, 2);
+
         this.leaf = new MyLeaf(this.scene);
 
-        let petalTexture = new CGFtexture(this.scene, 'images/petal.png')
-        this.petalMaterial = new CGFappearance(this.scene);
-        this.petalMaterial.setAmbient(0.9, 0.9, 0.9, 1.0);
-        this.petalMaterial.setDiffuse(0.9, 0.9, 0.9, 1.0);
-        this.petalMaterial.setEmission(0, 0, 0, 0);
-        this.petalMaterial.setShininess(10.0);
-        this.petalMaterial.setSpecular(0.9, 0.9, 0.9, 1.0);
-        this.petalMaterial.setTexture(petalTexture);
-        this.petalMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        let petal1Texture = new CGFtexture(this.scene, 'images/petal.png')
+        this.petal1Material = new CGFappearance(this.scene);
+        this.petal1Material.setAmbient(0.9, 0.9, 0.9, 1.0);
+        this.petal1Material.setDiffuse(0.9, 0.9, 0.9, 1.0);
+        this.petal1Material.setEmission(0, 0, 0, 0);
+        this.petal1Material.setShininess(10.0);
+        this.petal1Material.setSpecular(0.9, 0.9, 0.9, 1.0);
+        this.petal1Material.setTexture(petal1Texture);
+        this.petal1Material.setTextureWrap('REPEAT', 'REPEAT');
+
+        let petal2Texture = new CGFtexture(this.scene, 'images/petal2.gif')
+        this.petal2Material = new CGFappearance(this.scene);
+        this.petal2Material.setAmbient(1.0, 0.8, 0.6, 1.0);
+        this.petal2Material.setDiffuse(1.0, 0.8, 0.6, 1.0);
+        this.petal2Material.setEmission(0, 0, 0, 0);
+        this.petal2Material.setShininess(10.0);
+        this.petal2Material.setSpecular(1.0, 0.8, 0.6, 1.0);
+        this.petal2Material.setTexture(petal2Texture);
+        this.petal2Material.setTextureWrap('REPEAT', 'REPEAT');
 
         let stemTexture = new CGFtexture(this.scene, 'images/stem.jpg')
         this.stemMaterial = new CGFappearance(this.scene);
@@ -72,7 +84,7 @@ export class MyFlower extends CGFobject {
         this.stemMaterial.setTexture(stemTexture);
         this.stemMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-        let receptacleTexture = new CGFtexture(this.scene, 'images/receptacle.webp')
+        let receptacleTexture = new CGFtexture(this.scene, 'images/receptacle.jpg')
         this.receptacleMaterial = new CGFappearance(this.scene);
         this.receptacleMaterial.setAmbient(1, 0.9, 0.2, 1.0);
         this.receptacleMaterial.setDiffuse(1, 0.9, 0.2, 1.0);
@@ -113,7 +125,7 @@ export class MyFlower extends CGFobject {
 
         const angle = (2 * Math.PI) / this.petalsNumber;
         
-        this.petalMaterial.apply();
+        this.petalTexture > 1.5 ? this.petal1Material.apply() : this.petal2Material.apply();
         let petal;
         for (let i = 0; i < this.petalsNumber; i++) {
             petal = this.petals[i];
