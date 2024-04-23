@@ -104,6 +104,10 @@ export class MyScene extends CGFscene {
 	this.rockSet.display();
 	this.popMatrix();
 
+
+    this.myFlower.display();
+    
+
     // ---- END Primitive drawing section
   }
 }
