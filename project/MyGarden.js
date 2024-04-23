@@ -1,7 +1,7 @@
-import { CGFObject } from '../lib/CGF.js';
+import { CGFobject } from '../lib/CGF.js';
 import { MyFlower } from './MyFlower.js';
 
-export class MyGarden extends CGFObject {
+export class MyGarden extends CGFobject {
     constructor(scene, rows, columns) {
         super(scene);
         this.rows = rows;
@@ -11,7 +11,7 @@ export class MyGarden extends CGFObject {
         let flower;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
-                flower = new MyFlower(scene, 1,1,1,1,1,1,1,1,1,1);
+                flower = new MyFlower(scene, (Math.random() * (7 - 3) + 3) / 2, 8, null, 1, null, 0.5, 3, null, 0, 0);
                 this.flowers.push(flower);
             }
         }
