@@ -14,8 +14,8 @@ export class MyPetal extends CGFobject {
 
         this.angle = angle;
 		
-        this.triangle1 = new MyTriangle(this.scene, length/2);
-        this.triangle2 = new MyTriangle(this.scene, length/2);
+        this.triangle1 = new MyTriangle(this.scene, 1, length/2);
+        this.triangle2 = new MyTriangle(this.scene, 1, length/2);
 	}
 
     display() {
