@@ -33,8 +33,8 @@ export class MyFlower extends CGFobject {
         this.stemAngles = [];
         this.stemHeights = [];
         for (let i = 0; i < stemNumber; i++) {
-            stemAngle = this.generateRandom(-Math.PI/12, Math.PI/12); // TODO
-            stemHeight = Math.floor(this.generateRandom(1, 4)); // TODO
+            stemAngle = this.generateRandom(-Math.PI/16, Math.PI/16);
+            stemHeight = Math.floor(this.generateRandom(1, 4));
             this.stems.push(new MyStem(this.scene, stemRadius, stemHeight));
             this.stemAngles.push(stemAngle);
             this.stemHeights.push(stemHeight);
@@ -43,7 +43,7 @@ export class MyFlower extends CGFobject {
         this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
         
         this.petalLength = flowerRadius - receptacleRadius;
-        let petalAngle = this.generateRandom(Math.PI/12, Math.PI/6); // TODO
+        let petalAngle = this.generateRandom(Math.PI/12, Math.PI/8);
         this.petals = [];
         for (let i = 0; i < petalsNumber; i++) {
             this.petals.push(new MyPetal(this.scene, this.petalLength, petalAngle));
@@ -74,13 +74,13 @@ export class MyFlower extends CGFobject {
             stemHeight = this.stemHeights[i];
             
             this.scene.pushMatrix();
-            this.scene.translate(xOffset, yOffset, 0); 
+            this.scene.translate(xOffset, yOffset - 0.05, 0); 
             this.scene.rotate(stemAngle, 0, 0, 1);
             this.stemMaterial.apply();
             stem.display();
 
             this.scene.pushMatrix();
-            this.scene.scale(0.8, 0.8, 0.8);
+            this.scene.scale(0.5, 0.5, 0.5);
             this.leafMaterial.apply();
             this.leaf.display();
             this.scene.popMatrix();
@@ -93,7 +93,7 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
         this.receptacleMaterial.apply();
-        this.scene.translate(xOffset, yOffset + this.receptacleRadius, 0);
+        this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0);
         this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
         this.scene.popMatrix();
@@ -105,6 +105,7 @@ export class MyFlower extends CGFobject {
             petal = this.petals[i];
 
             this.scene.pushMatrix();
+            this.scene.translate(0, -0.2, -0.15);
             this.scene.translate(xOffset, yOffset + this.receptacleRadius, 0);
             this.scene.rotate(angle * i, 0, 0, 1);
             this.scene.translate(this.receptacleRadius - 0.4, 0, 0);

@@ -12,12 +12,12 @@ export class MyGarden extends CGFobject {
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
                 flowerRadius = this.generateRandom(3, 7) / 2;
-                petalsNumber = Math.floor(this.generateRandom(6, 13));
-                receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 3);
+                petalsNumber = Math.floor(this.generateRandom(6, 9));
+                receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 4);
                 stemRadius = this.generateRandom(0.1, receptacleRadius / 4);
-                stemNumber = Math.floor(this.generateRandom(1, 5));
+                stemNumber = Math.floor(this.generateRandom(1, 4));
                 minUnionAngle = Math.PI/16;
-                maxUnionAngle = Math.PI/10;
+                maxUnionAngle = Math.PI/12;
                 flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.35, 0.65, 0.1], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
             }
