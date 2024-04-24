@@ -124,7 +124,6 @@ export class MyFlower extends CGFobject {
         let r = colour[0];
         let g = colour[1];
         let b = colour[2];
-        console.log(r, g, b);
         let texture = new CGFtexture(this.scene, texturePath);
         let material = new CGFappearance(this.scene);
         material.setAmbient(r, g, b, 1.0);
@@ -132,7 +131,6 @@ export class MyFlower extends CGFobject {
         material.setSpecular(r, g, b, 1.0);
         material.setTexture(texture);
         material.setTextureWrap('REPEAT', 'REPEAT');
-        console.log(material)
         return material;
     }
 
