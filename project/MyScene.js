@@ -1,7 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
-import { MyGarden } from './objects/MyGarden.js';
-import { MyPanorama } from './objects/MyPanorama.js';
-import { MyRockSet } from './objects/MyRockSet.js';
+import { MyPanorama } from './objects/simple/MyPanorama.js';
+import { MyRockSet } from './objects/collection/MyRockSet.js';
+import { MyGarden } from './objects/collection/MyGarden.js';
 
 /**
  * MyScene

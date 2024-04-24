@@ -1,5 +1,5 @@
-import { CGFobject } from '../../lib/CGF.js';
-import { MyFlower } from './MyFlower.js';
+import { CGFobject } from '../../../lib/CGF.js';
+import { MyFlower } from '../compound/MyFlower.js';
 
 export class MyGarden extends CGFobject {
     constructor(scene, rows, columns) {

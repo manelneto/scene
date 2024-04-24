@@ -1,8 +1,8 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
-import { MyLeaf } from './MyLeaf.js';
-import { MyPetal } from './MyPetal.js';
-import { MyReceptacle } from './MyReceptacle.js';
-import { MyStem } from './MyStem.js';
+import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { MyStem } from '../simple/MyStem.js';
+import { MyLeaf } from '../simple/MyLeaf.js';
+import { MyReceptacle } from '../simple/MyReceptacle.js';
+import { MyPetal } from '../simple/MyPetal.js';
 
 /**
  * MyFlower

@@ -1,5 +1,5 @@
-import { CGFobject } from '../../lib/CGF.js';
-import { MySphere } from '../geometrics/MySphere.js';
+import { CGFobject } from '../../../lib/CGF.js';
+import { MySphere } from '../../geometrics/MySphere.js';
 
 /**
  * MyReceptacle
