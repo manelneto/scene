@@ -1,5 +1,5 @@
 import { CGFappearance, CGFobject, CGFtexture } from '../../lib/CGF.js';
-import { MyRock } from '../geometrics/MyRock.js';
+import { MyRock } from './MyRock.js';
 
 /**
  * MyRockSet
