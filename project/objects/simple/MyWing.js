@@ -2,30 +2,32 @@ import { CGFobject } from '../../../lib/CGF.js';
 import { MySphere } from '../../geometrics/MySphere.js';
 
 /**
- * MyThorax
+ * MyWing
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param size - size of the wing
  */
-export class MyThorax extends CGFobject {
-	constructor(scene) {
+export class MyWing extends CGFobject {
+	constructor(scene, size) {
 		super(scene);
 
-        this.thorax = new MySphere(this.scene, 64, 32, false, 0.5);
+        this.size = size;
+
+        this.wing = new MySphere(this.scene, 64, 32, false, size);
 	}
 
     display() {
         this.scene.pushMatrix();
-        this.scene.rotate(Math.PI / 2, 1, 0, 0);
-        this.scene.scale(1, 1.3, 1);
-        this.thorax.display();
+        this.scene.scale(0.4, 0.1, 1);
+        this.wing.display();
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.thorax.enableNormalViz();
+        this.wing.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.thorax.disableNormalViz();
+        this.head.disableNormalViz();
     }
 }
