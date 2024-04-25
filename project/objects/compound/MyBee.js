@@ -1,6 +1,7 @@
 import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
 import { MyHead } from '../simple/MyHead.js';
 import { MyEye } from '../simple/MyEye.js';
+import { MyAntennae } from '../simple/MyAntennae.js';
 
 /**
  * MyBee
@@ -14,9 +15,12 @@ export class MyBee extends CGFobject {
         this.head = new MyHead(this.scene);
         this.leftEye = new MyEye(this.scene);
         this.rightEye = new MyEye(this.scene);
+        this.leftAntennae = new MyAntennae(this.scene);
+        this.rightAntennae = new MyAntennae(this.scene);
 
         this.headMaterial = this.createMaterial([1, 1, 1], 'images/head1.png');
         this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8], 'images/eye.png');
+        this.antennaeMaterial = this.createMaterial([0.1, 0.1, 0.1], 'images/antennae.png');
 	}
 
     display() {
@@ -41,6 +45,25 @@ export class MyBee extends CGFobject {
         this.scene.rotate(-Math.PI / 8, 0, 1, 0);
         this.eyeMaterial.apply();
         this.rightEye.display();
+        this.scene.popMatrix();
+
+        // Left antennae
+        this.scene.pushMatrix();
+
+        this.antennaeMaterial.apply();
+        this.scene.rotate(Math.PI / 6, 0, 1, 0);
+        this.scene.translate(0.1, 0.6, 0);
+        this.scene.scale(0.2, 0.2, 0.2);
+        this.leftAntennae.display();
+        this.scene.popMatrix();
+
+        // Right antennae
+        this.scene.pushMatrix();
+        this.antennaeMaterial.apply();
+        this.scene.rotate(-Math.PI / 6, 0, 1, 0);
+        this.scene.translate(-0.1, 0.6, 0);
+        this.scene.scale(0.2, 0.2, 0.2);
+        this.rightAntennae.display();
         this.scene.popMatrix();
     }
 
