@@ -2,6 +2,7 @@ import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
 import { MyPanorama } from './objects/simple/MyPanorama.js';
 import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
+import { MyBee } from './objects/compound/MyBee.js';
 
 /**
  * MyScene
@@ -44,6 +45,7 @@ export class MyScene extends CGFscene {
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
+		this.bee = new MyBee(this);
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
 
@@ -131,8 +133,10 @@ export class MyScene extends CGFscene {
 
 		if (this.displayGarden) {
 			this.pushMatrix();
-			this.garden.display();
+			//this.garden.display();
 			this.popMatrix();
 		}
+
+		this.bee.display();
 	}
 }
