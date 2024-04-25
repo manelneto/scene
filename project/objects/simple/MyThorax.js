@@ -15,7 +15,8 @@ export class MyThorax extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.scene.scale(1, 0.8, 1);
+        this.scene.rotate(Math.PI / 2, 1, 0, 0);
+        this.scene.scale(1, 2, 1);
         this.thorax.display();
         this.scene.popMatrix();
     }

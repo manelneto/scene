@@ -2,6 +2,7 @@ import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
 import { MyHead } from '../simple/MyHead.js';
 import { MyEye } from '../simple/MyEye.js';
 import { MyAntennae } from '../simple/MyAntennae.js';
+import { MyThorax } from '../simple/MyThorax.js';
 
 /**
  * MyBee
@@ -17,10 +18,12 @@ export class MyBee extends CGFobject {
         this.rightEye = new MyEye(this.scene);
         this.leftAntennae = new MyAntennae(this.scene);
         this.rightAntennae = new MyAntennae(this.scene);
+        this.thorax = new MyThorax(this.scene);
 
         this.headMaterial = this.createMaterial([1, 1, 1], 'images/head1.png');
         this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8], 'images/eye.png');
         this.antennaeMaterial = this.createMaterial([0.1, 0.1, 0.1], 'images/antennae.png');
+        this.thoraxMaterial = this.createMaterial([1, 1, 1], 'images/head1.png');
 	}
 
     display() {
@@ -64,6 +67,13 @@ export class MyBee extends CGFobject {
         this.scene.translate(-0.1, 0.6, 0);
         this.scene.scale(0.2, 0.2, 0.2);
         this.rightAntennae.display();
+        this.scene.popMatrix();
+
+        // Thorax
+        this.scene.pushMatrix();
+        this.thoraxMaterial.apply();
+        this.scene.translate(0, 0.4, -1.3);
+        this.thorax.display();
         this.scene.popMatrix();
     }
 
