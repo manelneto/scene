@@ -97,7 +97,7 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < 6; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(direction * -0.4, -0.5, -1.65 + 0.3 * Math.floor(i / 2));
+            this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
             this.legs[i].display();
             this.scene.popMatrix();
         }
@@ -115,9 +115,9 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.35, 0.6, -0.7);
             this.scene.rotate(direction * this.alpha, 0, 0, 1);
+            this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
             this.scene.translate(direction * 0.8, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
-            this.scene.rotate(direction * Math.PI / 7, 1, 0, 0);
             this.bigWings[i].display();
             this.scene.popMatrix();
         }
@@ -126,9 +126,9 @@ export class MyBee extends CGFobject {
             direction = (-1) ** i;
             this.scene.translate(direction * 0.4, 0.5, -1.2);
             this.scene.rotate(direction * this.alpha, 0, 0, 1);
+            this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
             this.scene.translate(direction * 0.6, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
-            this.scene.rotate(direction * Math.PI / 7, 1, 0, 0);
             this.smallWings[i].display();
             this.scene.popMatrix();
         }
