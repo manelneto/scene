@@ -15,7 +15,7 @@ export class MyHead extends CGFobject {
 
     display() {
         this.scene.pushMatrix();
-        this.scene.scale(1, 1.5, 1);
+        this.scene.scale(0.8, 1.25, 0.8);
         this.head.display();
         this.scene.popMatrix();
     }

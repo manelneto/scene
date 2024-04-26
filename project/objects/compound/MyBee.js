@@ -34,7 +34,7 @@ export class MyBee extends CGFobject {
         }
 
         this.headMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head1.png');
-        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
+        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye1.png');
         this.antennaMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antennae.png');
         this.thoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head1.png');
         this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
@@ -46,22 +46,22 @@ export class MyBee extends CGFobject {
         // Head
         this.scene.pushMatrix();
         this.headMaterial.apply();
-        this.scene.rotate(-Math.PI / 8, 1, 0, 0);
+        this.scene.rotate(-Math.PI / 10, 1, 0, 0);
         this.head.display();
         this.scene.popMatrix();
 
         // Left eye
         this.scene.pushMatrix();
-        this.scene.translate(0.4, 0.2, 0.25);
-        this.scene.rotate(Math.PI / 8, 0, 1, 0);
+        this.scene.translate(0.3, 0.1, 0.1);
+        this.scene.rotate(Math.PI / 10, 0, 1, 0);
         this.eyeMaterial.apply();
         this.leftEye.display();
         this.scene.popMatrix();
 
         // Right eye
         this.scene.pushMatrix();
-        this.scene.translate(-0.4, 0.2, 0.25);
-        this.scene.rotate(-Math.PI / 8, 0, 1, 0);
+        this.scene.translate(-0.3, 0.1, 0.1);
+        this.scene.rotate(-Math.PI / 10, 0, 1, 0);
         this.eyeMaterial.apply();
         this.rightEye.display();
         this.scene.popMatrix();
@@ -70,7 +70,7 @@ export class MyBee extends CGFobject {
         this.scene.pushMatrix();
         this.antennaMaterial.apply();
         this.scene.rotate(Math.PI / 6, 0, 1, 0);
-        this.scene.translate(0.1, 0.6, 0);
+        this.scene.translate(0.2, 0.6, 0);
         this.scene.scale(0.2, 0.2, 0.2);
         this.leftAntenna.display();
         this.scene.popMatrix();
@@ -79,11 +79,12 @@ export class MyBee extends CGFobject {
         this.scene.pushMatrix();
         this.antennaMaterial.apply();
         this.scene.rotate(-Math.PI / 6, 0, 1, 0);
-        this.scene.translate(-0.1, 0.6, 0);
+        this.scene.translate(-0.2, 0.6, 0);
         this.scene.scale(0.2, 0.2, 0.2);
         this.rightAntenna.display();
         this.scene.popMatrix();
 
+        /*
         // Thorax
         this.scene.pushMatrix();
         this.thoraxMaterial.apply();
@@ -91,7 +92,6 @@ export class MyBee extends CGFobject {
         this.thorax.display();
         this.scene.popMatrix()
 
-        /*
         // Legs
         this.scene.pushMatrix();
         this.legMaterial.apply();
@@ -125,6 +125,7 @@ export class MyBee extends CGFobject {
         this.scene.gl.enable(this.scene.gl.BLEND);
 
         // Left big wing
+        
         this.scene.pushMatrix();
         this.wingMaterial.apply();
         this.scene.translate(-1.15, 0.6, -0.7);
