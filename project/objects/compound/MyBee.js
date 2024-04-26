@@ -56,6 +56,7 @@ export class MyBee extends CGFobject {
     }
 
     display() {
+        let direction;
         this.scene.pushMatrix();
         this.scene.translate(0, 3 + this.y, 0);
 
@@ -66,27 +67,23 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.eyeMaterial.apply();
-        let eye;
         for (let i = 0; i < 2; i++) {
-            eye = this.eyes[i];
-
+            direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(0.4 * (-1) ** i, 0.2, 0.25)
-            this.scene.rotate(Math.PI / 8 * (-1) ** i, 0, 1, 0);
-            eye.display();
+            this.scene.translate(0.4 * direction, 0.2, 0.25)
+            this.scene.rotate(Math.PI / 8 * direction, 0, 1, 0);
+            this.eyes[i].display();
             this.scene.popMatrix();
         }
 
         this.antennaMaterial.apply();
-        let antenna;
         for (let i = 0; i < 2; i++) {
-            antenna = this.antennas[i];
-
+            direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.rotate(Math.PI / 6 * (-1) ** i, 0, 1, 0);
-            this.scene.translate(0.1 * (-1) ** i, 0.6, 0);
+            this.scene.rotate(Math.PI / 6 * direction, 0, 1, 0);
+            this.scene.translate(0.1 * direction, 0.6, 0);
             this.scene.scale(0.2, 0.2, 0.2);
-            antenna.display();
+            this.antennas[i].display();
             this.scene.popMatrix();
         }
 
@@ -97,40 +94,33 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.wingMaterial.apply();
-        let bigWing;
         for (let i = 0; i < 2; i++) {
-            bigWing = this.bigWings[i];
-
+            direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(0.4 * (-1) ** i, 0.4, -0.7);
-            this.scene.rotate(this.alpha * (-1) ** i, 0, 0, 1);
-            this.scene.translate(0.8 * (-1) ** i, 0, 0);
+            this.scene.translate(0.4 * direction, 0.4, -0.7);
+            this.scene.rotate(this.alpha * direction, 0, 0, 1);
+            this.scene.translate(0.8 * direction, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
-            bigWing.display();
+            this.bigWings[i].display();
             this.scene.popMatrix();
         }
-
-        let smallWing;
         for (let i = 0; i < 2; i++) {
-            smallWing = this.bigWings[i];
-
             this.scene.pushMatrix();
-            this.scene.translate(0.5 * (-1) ** i, 0.35, -1.2);
-            this.scene.rotate(this.alpha * (-1) ** i, 0, 0, 1);
-            this.scene.translate(0.6 * (-1) ** i, 0, 0);
+            direction = (-1) ** i;
+            this.scene.translate(0.5 * direction, 0.35, -1.2);
+            this.scene.rotate(this.alpha * direction, 0, 0, 1);
+            this.scene.translate(0.6 * direction, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
-            smallWing.display();
+            this.bigWings[i].display();
             this.scene.popMatrix();
         }
 
         this.legMaterial.apply();
-        let leg;
         for (let i = 0; i < 6; i++) {
-            leg = this.legs[i];
-
+            direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(-0.4 * (-1) ** i, -0.5, -1.2 + 0.3 * Math.floor(i / 2));
-            leg.display();
+            this.scene.translate(-0.4 * direction, -0.5, -1.2 + 0.3 * Math.floor(i / 2));
+            this.legs[i].display();
             this.scene.popMatrix();
         }
 
