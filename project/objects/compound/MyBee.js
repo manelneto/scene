@@ -43,6 +43,9 @@ export class MyBee extends CGFobject {
 	}
 
     display() {
+        this.scene.pushMatrix();
+        this.scene.translate(0, 3, 0);
+
         // Head
         this.scene.pushMatrix();
         this.headMaterial.apply();
@@ -150,6 +153,8 @@ export class MyBee extends CGFobject {
         this.scene.rotate(-Math.PI / 10, 1, 0, 0);
         this.scene.translate(0, 0.7, -2.5);
         this.abdomen.display();
+        this.scene.popMatrix();
+
         this.scene.popMatrix();
     }
 
