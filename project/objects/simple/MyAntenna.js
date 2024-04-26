@@ -2,11 +2,11 @@ import { CGFobject } from '../../../lib/CGF.js';
 import { MySphere } from '../../geometrics/MySphere.js';
 
 /**
- * MyAntennae
+ * MyAntenna
  * @constructor
  * @param scene - Reference to MyScene object
  */
-export class MyAntennae extends CGFobject {
+export class MyAntenna extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
