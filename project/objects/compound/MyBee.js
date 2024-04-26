@@ -41,16 +41,22 @@ export class MyBee extends CGFobject {
         this.wingMaterial = this.createMaterial([1, 1, 1], 'images/wing.png');
         this.legMaterial = this.createMaterial([0.1, 0.1, 0.1], 'images/antennae.png');
 
+        this.alpha = 0;
         this.y = 0;
         this.time = Date.now();
 	}
 
     update(time) {
-        // y(t) = a * sin(w * t) 
-        const a = 3;            // amplitude
-        const w = 2 * Math.PI;  // angular frequency
+        // f(t) = a * sin(w * t) 
         const t = (time - this.time) / 1000;
-        this.y = a * Math.sin(w * t);
+
+        const a1 = 1;           // amplitude
+        const w1 = 2 * Math.PI; // angular frequency
+        this.y = a1 * Math.sin(w1 * t);
+
+        const a2 = Math.PI / 4; // amplitude
+        const w2 = 4 * Math.PI; // angular frequency;
+        this.alpha = a2 * Math.sin(w2 * t);
     }
 
     display() {
@@ -108,7 +114,9 @@ export class MyBee extends CGFobject {
         // Left big wing
         this.scene.pushMatrix();
         this.wingMaterial.apply();
-        this.scene.translate(-1.2, 0.4, -0.7);
+        this.scene.translate(-0.4, 0.4, -0.7);
+        this.scene.rotate(-this.alpha, 0, 0, 1);
+        this.scene.translate(-0.8, 0, 0);
         this.scene.rotate(-Math.PI - Math.PI / 2, 0, 1, 0);
         this.leftBigWing.display();
         this.scene.popMatrix();
@@ -116,7 +124,9 @@ export class MyBee extends CGFobject {
         // Right big wing
         this.scene.pushMatrix();
         this.wingMaterial.apply();
-        this.scene.translate(1.2, 0.4, -0.7);
+        this.scene.translate(0.4, 0.4, -0.7);
+        this.scene.rotate(this.alpha, 0, 0, 1);
+        this.scene.translate(0.8, 0, 0);
         this.scene.rotate(Math.PI / 2, 0, 1, 0);
         this.rightBigWing.display();
         this.scene.popMatrix();
@@ -124,7 +134,9 @@ export class MyBee extends CGFobject {
         // Left small wing
         this.scene.pushMatrix();
         this.wingMaterial.apply();
-        this.scene.translate(-1.1, 0.35, -1.2);
+        this.scene.translate(-0.5, 0.35, -1.2);
+        this.scene.rotate(-this.alpha, 0, 0, 1);
+        this.scene.translate(-0.6, 0, 0);
         this.scene.rotate(-Math.PI - Math.PI / 2, 0, 1, 0);
         this.leftSmallWing.display();
         this.scene.popMatrix();
@@ -132,7 +144,9 @@ export class MyBee extends CGFobject {
         // Right small wing
         this.scene.pushMatrix();
         this.wingMaterial.apply();
-        this.scene.translate(1.1, 0.35, -1.2);
+        this.scene.translate(0.5, 0.35, -1.2);
+        this.scene.rotate(this.alpha, 0, 0, 1);
+        this.scene.translate(0.6, 0, 0);
         this.scene.rotate(Math.PI / 2, 0, 1, 0);
         this.rightSmallWing.display();
         this.scene.popMatrix();
