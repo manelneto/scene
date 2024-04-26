@@ -33,13 +33,13 @@ export class MyBee extends CGFobject {
             this.legs.push(new MyLeg(this.scene));
         }
 
-        this.headMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head1.png');
-        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye1.png');
-        this.antennaMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antennae.png');
-        this.thoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head1.png');
+        this.headMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head.png');
+        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
+        this.antennaMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
+        this.thoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head.png');
         this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
         this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
-        this.legMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antennae.png');
+        this.legMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
 	}
 
     display() {
@@ -84,7 +84,6 @@ export class MyBee extends CGFobject {
         this.rightAntenna.display();
         this.scene.popMatrix();
 
-        /*
         // Thorax
         this.scene.pushMatrix();
         this.thoraxMaterial.apply();
@@ -159,7 +158,7 @@ export class MyBee extends CGFobject {
         this.scene.rotate(Math.PI / 2, 0, 1, 0);
         this.scene.rotate(-Math.PI / 7, 1, 0, 0);
         this.rightSmallWing.display();
-        this.scene.popMatrix();*/
+        this.scene.popMatrix();
     }
 
     createMaterial(colour, texturePath) {
