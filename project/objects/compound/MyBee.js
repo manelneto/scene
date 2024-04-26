@@ -17,19 +17,15 @@ export class MyBee extends CGFobject {
 		super(scene);
         
         this.head = new MyHead(this.scene);
-        this.leftEye = new MyEye(this.scene);
-        this.rightEye = new MyEye(this.scene);
-        this.leftAntenna = new MyAntenna(this.scene);
-        this.rightAntenna = new MyAntenna(this.scene);
+        this.eyes = [new MyEye(this.scene), new MyEye(this.scene)];
+        this.antennas = [new MyAntenna(this.scene), new MyAntenna(this.scene)];
         this.thorax = new MyThorax(this.scene);
         this.abdomen = new MyAbdomen(this.scene);
-        this.leftBigWing = new MyWing(this.scene, 0.8);
-        this.rightBigWing = new MyWing(this.scene, 0.8);
-        this.leftSmallWing = new MyWing(this.scene, 0.6);
-        this.rightSmallWing = new MyWing(this.scene, 0.6);
+        this.bigWings = [new MyWing(this.scene, 0.8), new MyWing(this.scene, 0.8)];
+        this.smallWings =  [new MyWing(this.scene, 0.6), new MyWing(this.scene, 0.6)];
         this.legs = [];
 
-        for (let i=0; i<6; i++) {
+        for (let i = 0; i < 6; i++) {
             this.legs.push(new MyLeg(this.scene));
         }
 
@@ -55,7 +51,7 @@ export class MyBee extends CGFobject {
         this.y = a1 * Math.sin(w1 * t);
 
         const a2 = Math.PI / 4; // amplitude
-        const w2 = 4 * Math.PI; // angular frequency;
+        const w2 = 4 * Math.PI; // angular frequency
         this.alpha = a2 * Math.sin(w2 * t);
     }
 
@@ -63,116 +59,81 @@ export class MyBee extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(0, 3 + this.y, 0);
 
-        // Head
         this.scene.pushMatrix();
         this.headMaterial.apply();
         this.scene.rotate(-Math.PI / 8, 1, 0, 0);
         this.head.display();
         this.scene.popMatrix();
 
-        // Left eye
-        this.scene.pushMatrix();
-        this.scene.translate(0.4, 0.2, 0.25);
-        this.scene.rotate(Math.PI / 8, 0, 1, 0);
         this.eyeMaterial.apply();
-        this.leftEye.display();
-        this.scene.popMatrix();
+        let eye;
+        for (let i = 0; i < 2; i++) {
+            eye = this.eyes[i];
 
-        // Right eye
-        this.scene.pushMatrix();
-        this.scene.translate(-0.4, 0.2, 0.25);
-        this.scene.rotate(-Math.PI / 8, 0, 1, 0);
-        this.eyeMaterial.apply();
-        this.rightEye.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.scene.translate(0.4 * (-1) ** i, 0.2, 0.25)
+            this.scene.rotate(Math.PI / 8 * (-1) ** i, 0, 1, 0);
+            eye.display();
+            this.scene.popMatrix();
+        }
 
-        // Left antennae
-        this.scene.pushMatrix();
         this.antennaMaterial.apply();
-        this.scene.rotate(Math.PI / 6, 0, 1, 0);
-        this.scene.translate(0.1, 0.6, 0);
-        this.scene.scale(0.2, 0.2, 0.2);
-        this.leftAntenna.display();
-        this.scene.popMatrix();
+        let antenna;
+        for (let i = 0; i < 2; i++) {
+            antenna = this.antennas[i];
 
-        // Right antennae
-        this.scene.pushMatrix();
-        this.antennaMaterial.apply();
-        this.scene.rotate(-Math.PI / 6, 0, 1, 0);
-        this.scene.translate(-0.1, 0.6, 0);
-        this.scene.scale(0.2, 0.2, 0.2);
-        this.rightAntenna.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.scene.rotate(Math.PI / 6 * (-1) ** i, 0, 1, 0);
+            this.scene.translate(0.1 * (-1) ** i, 0.6, 0);
+            this.scene.scale(0.2, 0.2, 0.2);
+            antenna.display();
+            this.scene.popMatrix();
+        }
 
-        // Thorax
         this.scene.pushMatrix();
         this.thoraxMaterial.apply();
         this.scene.translate(0, 0.2, -1);
         this.thorax.display();
         this.scene.popMatrix();
 
-        // Left big wing
-        this.scene.pushMatrix();
         this.wingMaterial.apply();
-        this.scene.translate(-0.4, 0.4, -0.7);
-        this.scene.rotate(-this.alpha, 0, 0, 1);
-        this.scene.translate(-0.8, 0, 0);
-        this.scene.rotate(-Math.PI - Math.PI / 2, 0, 1, 0);
-        this.leftBigWing.display();
-        this.scene.popMatrix();
+        let bigWing;
+        for (let i = 0; i < 2; i++) {
+            bigWing = this.bigWings[i];
 
-        // Right big wing
-        this.scene.pushMatrix();
-        this.wingMaterial.apply();
-        this.scene.translate(0.4, 0.4, -0.7);
-        this.scene.rotate(this.alpha, 0, 0, 1);
-        this.scene.translate(0.8, 0, 0);
-        this.scene.rotate(Math.PI / 2, 0, 1, 0);
-        this.rightBigWing.display();
-        this.scene.popMatrix();
-
-        // Left small wing
-        this.scene.pushMatrix();
-        this.wingMaterial.apply();
-        this.scene.translate(-0.5, 0.35, -1.2);
-        this.scene.rotate(-this.alpha, 0, 0, 1);
-        this.scene.translate(-0.6, 0, 0);
-        this.scene.rotate(-Math.PI - Math.PI / 2, 0, 1, 0);
-        this.leftSmallWing.display();
-        this.scene.popMatrix();
-
-        // Right small wing
-        this.scene.pushMatrix();
-        this.wingMaterial.apply();
-        this.scene.translate(0.5, 0.35, -1.2);
-        this.scene.rotate(this.alpha, 0, 0, 1);
-        this.scene.translate(0.6, 0, 0);
-        this.scene.rotate(Math.PI / 2, 0, 1, 0);
-        this.rightSmallWing.display();
-        this.scene.popMatrix();
-
-        // Legs
-        this.scene.pushMatrix();
-        this.legMaterial.apply();
-        this.scene.rotate(Math.PI / 2, 0, 1, 0);
-        this.scene.translate(1.5, -0.5, -0.4);
-        for (let i=0; i< 3; i++) {
-            this.scene.translate(-0.3, 0, 0);
-            this.legs[i].display();
+            this.scene.pushMatrix();
+            this.scene.translate(0.4 * (-1) ** i, 0.4, -0.7);
+            this.scene.rotate(this.alpha * (-1) ** i, 0, 0, 1);
+            this.scene.translate(0.8 * (-1) ** i, 0, 0);
+            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            bigWing.display();
+            this.scene.popMatrix();
         }
-        this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.legMaterial.apply();
-        this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-        this.scene.translate(-1.5, -0.5, -0.4);
-        for (let i=3; i< 6; i++) {
-            this.scene.translate(0.3, 0, 0);
-            this.legs[i].display();
+        let smallWing;
+        for (let i = 0; i < 2; i++) {
+            smallWing = this.bigWings[i];
+
+            this.scene.pushMatrix();
+            this.scene.translate(0.5 * (-1) ** i, 0.35, -1.2);
+            this.scene.rotate(this.alpha * (-1) ** i, 0, 0, 1);
+            this.scene.translate(0.6 * (-1) ** i, 0, 0);
+            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            smallWing.display();
+            this.scene.popMatrix();
         }
-        this.scene.popMatrix();
 
-        // Abdomen
+        this.legMaterial.apply();
+        let leg;
+        for (let i = 0; i < 6; i++) {
+            leg = this.legs[i];
+
+            this.scene.pushMatrix();
+            this.scene.translate(-0.4 * (-1) ** i, -0.5, -1.2 + 0.3 * Math.floor(i / 2));
+            leg.display();
+            this.scene.popMatrix();
+        }
+
         this.scene.pushMatrix();
         this.abdomenMaterial.apply();
         this.scene.rotate(-Math.PI / 10, 1, 0, 0);
