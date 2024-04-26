@@ -42,19 +42,27 @@ export class MyScene extends CGFscene {
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
 
-		const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
-		this.panorama = new MyPanorama(this, panoramaTexture);
+		this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'));
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 		this.bee = new MyBee(this, true);
 
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee];
 
 		this.enableTextures(true);
 
 		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
         this.gl.enable(this.gl.BLEND);
+
+		this.setUpdatePeriod(10);
+		this.time = Date.now();
+	}
+
+	update() {
+		const t = (Date.now() - this.time) / 1000
+		this.bee.update(t);
+		this.checkKeys();
 	}
 
 	initLights() {
@@ -146,10 +154,6 @@ export class MyScene extends CGFscene {
 		if (this.displayBee) {
 			this.bee.display();
 		}
-	}
-
-	update() {
-		this.checkKeys();
 	}
 
 	checkKeys() {

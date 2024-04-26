@@ -35,22 +35,14 @@ export class MyBee extends CGFobject {
         this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
         this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
 
-        this.alpha = 0;
+        this.angle = 0;
         this.y = 0;
         this.time = Date.now();
 	}
 
-    update(time) {
-        // f(t) = a * sin(w * t) 
-        const t = (time - this.time) / 1000;
-
-        const a1 = 1;           // amplitude
-        const w1 = 2 * Math.PI; // angular frequency
-        this.y = a1 * Math.sin(w1 * t);
-
-        const a2 = Math.PI / 4; // amplitude
-        const w2 = 4 * Math.PI; // angular frequency
-        this.alpha = a2 * Math.sin(w2 * t);
+    update(t) {
+        this.y = Math.sin(2 * Math.PI * t);
+        this.angle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
     }
 
     display() {
@@ -112,7 +104,7 @@ export class MyBee extends CGFobject {
             direction = (-1) ** i;
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.35, 0.6, -0.7);
-            this.scene.rotate(direction * this.alpha, 0, 0, 1);
+            this.scene.rotate(direction * this.angle, 0, 0, 1);
             this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
             this.scene.translate(direction * 0.8, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
@@ -123,7 +115,7 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             direction = (-1) ** i;
             this.scene.translate(direction * 0.4, 0.5, -1.2);
-            this.scene.rotate(direction * this.alpha, 0, 0, 1);
+            this.scene.rotate(direction * this.angle, 0, 0, 1);
             this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
             this.scene.translate(direction * 0.6, 0, 0);
             this.scene.rotate(Math.PI / 2, 0, 1, 0);
@@ -132,8 +124,6 @@ export class MyBee extends CGFobject {
         }
 
         this.scene.popMatrix();
-
-        this.update(Date.now());
     }
 
     createMaterial(colour, texturePath) {
