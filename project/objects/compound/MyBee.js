@@ -29,13 +29,11 @@ export class MyBee extends CGFobject {
             this.legs.push(new MyLeg(this.scene));
         }
 
-        this.headMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head.png');
-        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
-        this.antennaMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
-        this.thoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head.png');
         this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
+        this.headThoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head-thorax.png');
+        this.antennaLegMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
+        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
         this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
-        this.legMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
 
         this.alpha = 0;
         this.y = 0;
@@ -60,11 +58,44 @@ export class MyBee extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(0, 3 + this.y, 0);
 
+        this.abdomenMaterial.apply();
         this.scene.pushMatrix();
-        this.headMaterial.apply();
+        this.scene.rotate(-Math.PI / 10, 1, 0, 0);
+        this.scene.translate(0, 0.7, -2.5);
+        this.abdomen.display();
+        this.scene.popMatrix();
+
+        this.headThoraxMaterial.apply();
+
+        this.scene.pushMatrix();
         this.scene.rotate(-Math.PI / 10, 1, 0, 0);
         this.head.display();
         this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.2, -1);
+        this.thorax.display();
+        this.scene.popMatrix();
+
+        this.antennaLegMaterial.apply();
+
+        for (let i = 0; i < 2; i++) {
+            direction = (-1) ** i;
+            this.scene.pushMatrix();
+            this.scene.rotate(direction * Math.PI / 6, 0, 1, 0);
+            this.scene.translate(direction * 0.2, 0.6, 0);
+            this.scene.scale(0.2, 0.2, 0.2);
+            this.antennas[i].display();
+            this.scene.popMatrix();
+        }
+        
+        for (let i = 0; i < 6; i++) {
+            direction = (-1) ** i;
+            this.scene.pushMatrix();
+            this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
+            this.legs[i].display();
+            this.scene.popMatrix();
+        }
 
         this.eyeMaterial.apply();
         for (let i = 0; i < 2; i++) {
@@ -75,39 +106,6 @@ export class MyBee extends CGFobject {
             this.eyes[i].display();
             this.scene.popMatrix();
         }
-
-        this.antennaMaterial.apply();
-        for (let i = 0; i < 2; i++) {
-            direction = (-1) ** i;
-            this.scene.pushMatrix();
-            this.scene.rotate(direction * Math.PI / 6, 0, 1, 0);
-            this.scene.translate(direction * 0.2, 0.6, 0);
-            this.scene.scale(0.2, 0.2, 0.2);
-            this.antennas[i].display();
-            this.scene.popMatrix();
-        }
-
-        this.scene.pushMatrix();
-        this.thoraxMaterial.apply();
-        this.scene.translate(0, 0.2, -1);
-        this.thorax.display();
-        this.scene.popMatrix();
-
-        this.legMaterial.apply();
-        for (let i = 0; i < 6; i++) {
-            direction = (-1) ** i;
-            this.scene.pushMatrix();
-            this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
-            this.legs[i].display();
-            this.scene.popMatrix();
-        }
-
-        this.scene.pushMatrix();
-        this.abdomenMaterial.apply();
-        this.scene.rotate(-Math.PI / 10, 1, 0, 0);
-        this.scene.translate(0, 0.7, -2.5);
-        this.abdomen.display();
-        this.scene.popMatrix();
 
         this.wingMaterial.apply();
         for (let i = 0; i < 2; i++) {
