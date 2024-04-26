@@ -35,6 +35,40 @@ export class MyInterface extends CGFinterface {
         const f4 = this.gui.addFolder('Bee');
         f4.add(this.scene, 'displayBee').name('Display Bee');
 
+        this.initKeys();
+
         return true;
+    }
+
+    initKeys() {
+        // create reference from the scene to the GUI
+        this.scene.gui = this;
+
+        // disable the processKeyboard function
+        this.processKeyboard = function() {};
+
+        // create a named array to store which keys are being pressed
+        this.activeKeys = {};
+    }
+
+    /**
+     * Called when a key is pressed down, mark it as active in the array
+     */
+    processKeyDown(event) {
+        this.activeKeys[event.code] = true;
+    }
+
+    /**
+     * Called when a key is released, mark it as inactive in the array
+     */
+    processKeyUp(event) {
+        this.activeKeys[event.code] = false;
+    }
+
+    /**
+     * Returns true if a key is marked as pressed, false otherwise
+     */
+    isKeyPressed(keyCode) {
+        return this.activeKeys[keyCode] || false;
     }
 }

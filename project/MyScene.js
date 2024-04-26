@@ -144,4 +144,26 @@ export class MyScene extends CGFscene {
 			this.bee.display();
 		}
 	}
+
+	update() {
+		this.checkKeys();
+	}
+
+	checkKeys() {
+		var text = "Keys pressed: ";
+		var keysPressed = false;
+
+		if (this.gui.isKeyPressed("KeyW")) {
+			text += " W ";
+			keysPressed = true;
+		}
+
+		if (this.gui.isKeyPressed("keyS")) {
+			text += " S ";
+			keysPressed = true;
+		}
+
+		if (keysPressed)
+			console.log(text);
+	}
 }
