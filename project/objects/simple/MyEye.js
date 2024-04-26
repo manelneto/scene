@@ -16,7 +16,7 @@ export class MyEye extends CGFobject {
     display() {
         this.scene.pushMatrix();
         this.scene.rotate(-Math.PI / 6, 1, 0, 0);
-        this.scene.scale(0.4, 0.8, 0.3);
+        this.scene.scale(0.4, 0.7, 0.3);
         this.eye.display();
         this.scene.popMatrix();
     }

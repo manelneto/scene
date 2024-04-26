@@ -17,12 +17,12 @@ export class MyLeg extends CGFobject {
     display() {
         this.scene.pushMatrix();
         this.scene.translate(0, 0.4, 0);
-        this.scene.scale(0.5, 2, 0.5);
+        this.scene.scale(0.3, 2, 0.3);
         this.part2.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.scale(0.5, 2, 0.5);
+        this.scene.scale(0.3, 2, 0.3);
         this.part1.display();
         this.scene.popMatrix();
     }

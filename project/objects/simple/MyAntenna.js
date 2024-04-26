@@ -18,12 +18,12 @@ export class MyAntenna extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(0, 1.45, 0.8);
         this.scene.rotate(Math.PI / 3, 1, 0, 0);
-        this.scene.scale(1, 10, 1);
+        this.scene.scale(1.1, 10, 1.1);
         this.part2.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.scale(1, 10, 1);
+        this.scene.scale(1.1, 10, 1.1);
         this.part1.display();
         this.scene.popMatrix();
     }

@@ -29,13 +29,13 @@ export class MyBee extends CGFobject {
             this.legs.push(new MyLeg(this.scene));
         }
 
-        this.headMaterial = this.createMaterial([1, 1, 1], 'images/head1.png');
-        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8], 'images/eye.png');
-        this.antennaMaterial = this.createMaterial([0.1, 0.1, 0.1], 'images/antennae.png');
-        this.thoraxMaterial = this.createMaterial([1, 1, 1], 'images/head1.png');
-        this.abdomenMaterial = this.createMaterial([1, 1, 1], 'images/abdomen.png');
-        this.wingMaterial = this.createMaterial([1, 1, 1], 'images/wing.png');
-        this.legMaterial = this.createMaterial([0.1, 0.1, 0.1], 'images/antennae.png');
+        this.headMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head.png');
+        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
+        this.antennaMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
+        this.thoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head.png');
+        this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
+        this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
+        this.legMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
 
         this.alpha = 0;
         this.y = 0;
@@ -62,7 +62,7 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix();
         this.headMaterial.apply();
-        this.scene.rotate(-Math.PI / 8, 1, 0, 0);
+        this.scene.rotate(-Math.PI / 10, 1, 0, 0);
         this.head.display();
         this.scene.popMatrix();
 
@@ -70,8 +70,8 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < 2; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(0.4 * direction, 0.2, 0.25)
-            this.scene.rotate(Math.PI / 8 * direction, 0, 1, 0);
+            this.scene.translate(direction * 0.3, 0.1, 0.1)
+            this.scene.rotate(direction * Math.PI / 10, 0, 1, 0);
             this.eyes[i].display();
             this.scene.popMatrix();
         }
@@ -80,8 +80,8 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < 2; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.rotate(Math.PI / 6 * direction, 0, 1, 0);
-            this.scene.translate(0.1 * direction, 0.6, 0);
+            this.scene.rotate(direction * Math.PI / 6, 0, 1, 0);
+            this.scene.translate(direction * 0.2, 0.6, 0);
             this.scene.scale(0.2, 0.2, 0.2);
             this.antennas[i].display();
             this.scene.popMatrix();
@@ -93,33 +93,11 @@ export class MyBee extends CGFobject {
         this.thorax.display();
         this.scene.popMatrix();
 
-        this.wingMaterial.apply();
-        for (let i = 0; i < 2; i++) {
-            direction = (-1) ** i;
-            this.scene.pushMatrix();
-            this.scene.translate(0.4 * direction, 0.4, -0.7);
-            this.scene.rotate(this.alpha * direction, 0, 0, 1);
-            this.scene.translate(0.8 * direction, 0, 0);
-            this.scene.rotate(Math.PI / 2, 0, 1, 0);
-            this.bigWings[i].display();
-            this.scene.popMatrix();
-        }
-        for (let i = 0; i < 2; i++) {
-            this.scene.pushMatrix();
-            direction = (-1) ** i;
-            this.scene.translate(0.5 * direction, 0.35, -1.2);
-            this.scene.rotate(this.alpha * direction, 0, 0, 1);
-            this.scene.translate(0.6 * direction, 0, 0);
-            this.scene.rotate(Math.PI / 2, 0, 1, 0);
-            this.bigWings[i].display();
-            this.scene.popMatrix();
-        }
-
         this.legMaterial.apply();
         for (let i = 0; i < 6; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(-0.4 * direction, -0.5, -1.2 + 0.3 * Math.floor(i / 2));
+            this.scene.translate(direction * -0.4, -0.5, -1.65 + 0.3 * Math.floor(i / 2));
             this.legs[i].display();
             this.scene.popMatrix();
         }
@@ -131,6 +109,30 @@ export class MyBee extends CGFobject {
         this.abdomen.display();
         this.scene.popMatrix();
 
+        this.wingMaterial.apply();
+        for (let i = 0; i < 2; i++) {
+            direction = (-1) ** i;
+            this.scene.pushMatrix();
+            this.scene.translate(direction * 0.35, 0.6, -0.7);
+            this.scene.rotate(direction * this.alpha, 0, 0, 1);
+            this.scene.translate(direction * 0.8, 0, 0);
+            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            this.scene.rotate(direction * Math.PI / 7, 1, 0, 0);
+            this.bigWings[i].display();
+            this.scene.popMatrix();
+        }
+        for (let i = 0; i < 2; i++) {
+            this.scene.pushMatrix();
+            direction = (-1) ** i;
+            this.scene.translate(direction * 0.4, 0.5, -1.2);
+            this.scene.rotate(direction * this.alpha, 0, 0, 1);
+            this.scene.translate(direction * 0.6, 0, 0);
+            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            this.scene.rotate(direction * Math.PI / 7, 1, 0, 0);
+            this.smallWings[i].display();
+            this.scene.popMatrix();
+        }
+
         this.scene.popMatrix();
 
         this.update(Date.now());
@@ -140,11 +142,13 @@ export class MyBee extends CGFobject {
         let r = colour[0];
         let g = colour[1];
         let b = colour[2];
+        let alpha = colour[3];
         let texture = new CGFtexture(this.scene, texturePath);
         let material = new CGFappearance(this.scene);
-        material.setAmbient(r, g, b, 1.0);
-        material.setDiffuse(r, g, b, 1.0);
-        material.setSpecular(r, g, b, 1.0);
+        material.setAmbient(r, g, b, alpha);
+        material.setDiffuse(r, g, b, alpha);
+        material.setSpecular(r, g, b, alpha);
+        material.setEmission(r, g, b, alpha);
         material.setTexture(texture);
         material.setTextureWrap('REPEAT', 'REPEAT');
         return material;

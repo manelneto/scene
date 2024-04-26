@@ -52,6 +52,9 @@ export class MyScene extends CGFscene {
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
 
 		this.enableTextures(true);
+
+		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+        this.gl.enable(this.gl.BLEND);
 	}
 
 	initLights() {
