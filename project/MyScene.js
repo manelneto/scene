@@ -31,7 +31,9 @@ export class MyScene extends CGFscene {
 		this.displayPanorama = true;
 		this.displayPyramid = true;
 		this.displayRocks = true;
-		this.displayGarden = true;
+		this.displayGarden = false;
+		this.displayBee = true;
+		this.animateBee = false;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
 		this.gardenRows = 1;
@@ -45,7 +47,7 @@ export class MyScene extends CGFscene {
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
-		this.bee = new MyBee(this);
+		this.bee = new MyBee(this, true);
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
 
@@ -133,10 +135,13 @@ export class MyScene extends CGFscene {
 
 		if (this.displayGarden) {
 			this.pushMatrix();
-			//this.garden.display();
+			// TODO: move to a proper place
+			this.garden.display();
 			this.popMatrix();
 		}
 
-		this.bee.display();
+		if (this.displayBee) {
+			this.bee.display();
+		}
 	}
 }

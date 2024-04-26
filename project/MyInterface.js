@@ -32,6 +32,9 @@ export class MyInterface extends CGFinterface {
         f3.add(this.scene, 'gardenRows', 0, 10, 1).name('Garden Rows').onChange(this.scene.updateGardenRows.bind(this.scene));
         f3.add(this.scene, 'gardenCols', 0, 10, 1).name('Garden Columns').onChange(this.scene.updateGardenCols.bind(this.scene));
 
+        const f4 = this.gui.addFolder('Bee');
+        f4.add(this.scene, 'displayBee').name('Display Bee');
+
         return true;
     }
 }
