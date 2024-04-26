@@ -40,11 +40,22 @@ export class MyBee extends CGFobject {
         this.abdomenMaterial = this.createMaterial([1, 1, 1], 'images/abdomen.png');
         this.wingMaterial = this.createMaterial([1, 1, 1], 'images/wing.png');
         this.legMaterial = this.createMaterial([0.1, 0.1, 0.1], 'images/antennae.png');
+
+        this.y = 0;
+        this.time = Date.now();
 	}
+
+    update(time) {
+        // y(t) = a * sin(w * t) 
+        const a = 3;            // amplitude
+        const w = 2 * Math.PI;  // angular frequency
+        const t = (time - this.time) / 1000;
+        this.y = a * Math.sin(w * t);
+    }
 
     display() {
         this.scene.pushMatrix();
-        this.scene.translate(0, 3, 0);
+        this.scene.translate(0, 3 + this.y, 0);
 
         // Head
         this.scene.pushMatrix();
@@ -156,6 +167,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.popMatrix();
+
+        this.update(Date.now());
     }
 
     createMaterial(colour, texturePath) {
