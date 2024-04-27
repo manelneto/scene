@@ -60,7 +60,9 @@ export class MyScene extends CGFscene {
 	}
 
 	update() {
-		const t = (Date.now() - this.time) / 1000
+		const now = Date.now();
+		const t = (now - this.time) / 1000;
+		this.time = now;
 		this.bee.update(t);
 		this.checkKeys();
 	}

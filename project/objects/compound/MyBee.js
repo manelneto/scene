@@ -52,6 +52,7 @@ export class MyBee extends CGFobject {
         this.y = 3 + Math.sin(2 * Math.PI * t);
         this.z += this.vz * t;
         this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+        console.log(this.z, this.vz, t);
     }
 
     turn(orientation) {
@@ -62,7 +63,22 @@ export class MyBee extends CGFobject {
     }
 
     accelerate(delta) {
+        if (delta > 0) {
+            this.vx += delta * Math.sin(this.orientation);
+            this.vz += delta * Math.cos(this.orientation);
+        } else {
+            if (this.vx > 0) {
+                this.vx = Math.max(0, this.vx + delta * Math.sin(this.orientation));
+            } else if (this.vx < 0) {
+                this.vx = Math.min(0, this.vx + delta * Math.sin(this.orientation));
+            }
 
+            if (this.vz > 0) {
+                this.vz = Math.max(0, this.vz + delta * Math.cos(this.orientation));
+            } else if (this.vz < 0) {
+                this.vz = Math.min(0, this.vz + delta * Math.cos(this.orientation));
+            }
+        }
     }
 
     display() {
