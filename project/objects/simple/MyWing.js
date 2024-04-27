@@ -5,29 +5,28 @@ import { MySphere } from '../../geometrics/MySphere.js';
  * MyWing
  * @constructor
  * @param scene - Reference to MyScene object
- * @param size - size of the wing
+ * @param length - Wing length
  */
 export class MyWing extends CGFobject {
-	constructor(scene, size) {
+	constructor(scene, length) {
 		super(scene);
 
-        this.size = size;
-
-        this.wing = new MySphere(this.scene, 64, 32, false, size);
+        this.sphere = new MySphere(this.scene, 64, 32, false, length);
 	}
 
     display() {
         this.scene.pushMatrix();
+        this.scene.rotate(Math.PI / 2, 0, 1, 0);
         this.scene.scale(0.4, 0.1, 1);
-        this.wing.display();
+        this.sphere.display();
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.wing.enableNormalViz();
+        this.sphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.head.disableNormalViz();
+        this.sphere.disableNormalViz();
     }
 }

@@ -10,21 +10,21 @@ export class MyHead extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.head = new MySphere(this.scene, 64, 32, false, 0.5);
+        this.sphere = new MySphere(this.scene, 64, 32, false, 1);
 	}
 
     display() {
         this.scene.pushMatrix();
-        this.scene.scale(0.8, 1.25, 0.8);
-        this.head.display();
+        this.scene.scale(0.4, 0.625, 0.4);
+        this.sphere.display();
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.head.enableNormalViz();
+        this.sphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.head.disableNormalViz();
+        this.sphere.disableNormalViz();
     }
 }

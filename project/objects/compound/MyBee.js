@@ -15,14 +15,17 @@ import { MyLeg } from '../simple/MyLeg.js';
 export class MyBee extends CGFobject {
 	constructor(scene) {
 		super(scene);
+
+        this.bigWingsLength = 0.8;
+        this.smallWingsLength = 0.6;
         
         this.head = new MyHead(this.scene);
         this.eyes = [new MyEye(this.scene), new MyEye(this.scene)];
         this.antennas = [new MyAntenna(this.scene), new MyAntenna(this.scene)];
         this.thorax = new MyThorax(this.scene);
         this.abdomen = new MyAbdomen(this.scene);
-        this.bigWings = [new MyWing(this.scene, 0.8), new MyWing(this.scene, 0.8)];
-        this.smallWings =  [new MyWing(this.scene, 0.6), new MyWing(this.scene, 0.6)];
+        this.bigWings = [new MyWing(this.scene, this.bigWingsLength), new MyWing(this.scene, this.bigWingsLength)];
+        this.smallWings =  [new MyWing(this.scene, this.smallWingsLength), new MyWing(this.scene, this.smallWingsLength)];
         this.legs = [];
 
         for (let i = 0; i < 6; i++) {
@@ -35,9 +38,8 @@ export class MyBee extends CGFobject {
         this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
         this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
 
-        this.angle = 0;
         this.y = 0;
-        this.time = Date.now();
+        this.angle = 0;
 	}
 
     update(t) {
@@ -76,7 +78,6 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.rotate(direction * Math.PI / 6, 0, 1, 0);
             this.scene.translate(direction * 0.2, 0.6, 0);
-            this.scene.scale(0.2, 0.2, 0.2);
             this.antennas[i].display();
             this.scene.popMatrix();
         }
@@ -104,26 +105,44 @@ export class MyBee extends CGFobject {
             direction = (-1) ** i;
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.35, 0.6, -0.7);
-            this.scene.rotate(direction * this.angle, 0, 0, 1);
-            this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
-            this.scene.translate(direction * 0.8, 0, 0);
-            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            this.scene.rotate(direction * (Math.PI / 7 + this.angle), 0, 0, 1);
+            this.scene.translate(direction * this.bigWingsLength, 0, 0);
             this.bigWings[i].display();
             this.scene.popMatrix();
         }
         for (let i = 0; i < 2; i++) {
-            this.scene.pushMatrix();
             direction = (-1) ** i;
+            this.scene.pushMatrix();
             this.scene.translate(direction * 0.4, 0.5, -1.2);
-            this.scene.rotate(direction * this.angle, 0, 0, 1);
-            this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
-            this.scene.translate(direction * 0.6, 0, 0);
-            this.scene.rotate(Math.PI / 2, 0, 1, 0);
+            this.scene.rotate(direction * (Math.PI / 7 + this.angle), 0, 0, 1);
+            this.scene.translate(direction * this.smallWingsLength, 0, 0);
             this.smallWings[i].display();
             this.scene.popMatrix();
         }
 
         this.scene.popMatrix();
+    }
+
+    enableNormalViz() {
+        this.head.enableNormalViz();
+        this.eyes.forEach((eye) => eye.enableNormalViz());
+        this.antennas.forEach((antenna) => antenna.enableNormalViz());
+        this.thorax.enableNormalViz();
+        this.abdomen.enableNormalViz();
+        this.bigWings.forEach((bigWing) => bigWing.enableNormalViz());
+        this.smallWings.forEach((smallWing) => smallWing.enableNormalViz());
+        this.legs.forEach((leg) => leg.enableNormalViz());
+    }
+
+    disableNormalViz() {
+        this.head.disableNormalViz();
+        this.eyes.forEach((eye) => eye.disableNormalViz());
+        this.antennas.forEach((antenna) => antenna.disableNormalViz());
+        this.thorax.disableNormalViz();
+        this.abdomen.disableNormalViz();
+        this.bigWings.forEach((bigWing) => bigWing.disableNormalViz());
+        this.smallWings.forEach((smallWing) => smallWing.disableNormalViz());
+        this.legs.forEach((leg) => leg.disableNormalViz());
     }
 
     createMaterial(colour, texturePath) {

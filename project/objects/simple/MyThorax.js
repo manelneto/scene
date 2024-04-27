@@ -10,22 +10,21 @@ export class MyThorax extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.thorax = new MySphere(this.scene, 64, 32, false, 0.5);
+        this.sphere = new MySphere(this.scene, 64, 32, false, 1);
 	}
 
     display() {
         this.scene.pushMatrix();
-        this.scene.rotate(Math.PI / 2, 1, 0, 0);
-        this.scene.scale(1, 1.3, 1);
-        this.thorax.display();
+        this.scene.scale(0.5, 0.5, 0.65);
+        this.sphere.display();
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.thorax.enableNormalViz();
+        this.sphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.thorax.disableNormalViz();
+        this.sphere.disableNormalViz();
     }
 }

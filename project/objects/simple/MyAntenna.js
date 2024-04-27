@@ -10,31 +10,36 @@ export class MyAntenna extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.part1 = new MySphere(this.scene, 64, 32, false, 0.1);
-        this.part2 = new MySphere(this.scene, 64, 32, false, 0.1);
+        this.lowerSphere = new MySphere(this.scene, 64, 32, false, 1);
+        this.upperSphere = new MySphere(this.scene, 64, 32, false, 1);
 	}
 
     display() {
         this.scene.pushMatrix();
-        this.scene.translate(0, 1.45, 0.8);
-        this.scene.rotate(Math.PI / 3, 1, 0, 0);
-        this.scene.scale(1.1, 10, 1.1);
-        this.part2.display();
+        this.scene.scale(0.2, 0.2, 0.2);
+
+        this.scene.pushMatrix();
+        this.scene.scale(0.11, 1, 0.11);
+        this.lowerSphere.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.scale(1.1, 10, 1.1);
-        this.part1.display();
+        this.scene.translate(0, 1.45, 0.8);
+        this.scene.rotate(Math.PI / 3, 1, 0, 0);
+        this.scene.scale(0.11, 1, 0.11);
+        this.upperSphere.display();
+        this.scene.popMatrix();
+
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.part1.enableNormalViz();
-        this.part2.enableNormalViz();
+        this.lowerSphere.enableNormalViz();
+        this.upperSphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.part1.disableNormalViz();
-        this.part2.disableNormalViz();
+        this.lowerSphere.disableNormalViz();
+        this.upperSphere.disableNormalViz();
     }
 }
