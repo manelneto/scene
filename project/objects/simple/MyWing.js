@@ -1,5 +1,5 @@
 import { CGFobject } from '../../../lib/CGF.js';
-import { MySphere } from '../../geometrics/MySphere.js';
+import { MyCircle } from '../../geometrics/MyCircle.js';
 
 /**
  * MyWing
@@ -11,13 +11,13 @@ export class MyWing extends CGFobject {
 	constructor(scene, length) {
 		super(scene);
 
-        this.sphere = new MySphere(this.scene, 64, 32, false, length);
+        this.sphere = new MyCircle(this.scene, 64, length);
 	}
 
     display() {
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI / 2, 0, 1, 0);
-        this.scene.scale(0.4, 0.1, 1);
+        this.scene.scale(0.4, 1, 1);
         this.sphere.display();
         this.scene.popMatrix();
     }
