@@ -104,8 +104,8 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < 6; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(direction * -0.2, -0.47, -1.35 + 0.3 * Math.floor(i / 2));
-            this.scene.rotate(direction * Math.PI / 7, 0, 0, 1);
+            this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
+            this.scene.scale(direction, 1, 1);
             this.legs[i].display();
             this.scene.popMatrix();
         }
