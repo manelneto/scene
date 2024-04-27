@@ -33,11 +33,13 @@ export class MyScene extends CGFscene {
 		this.displayRocks = true;
 		this.displayGarden = false;
 		this.displayBee = true;
-		this.animateBee = false;
+		this.moveBee = true;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
 		this.gardenRows = 4;
 		this.gardenCols = 3;
+		this.speedFactor = 1;
+		this.scaleFactor = 1;
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
@@ -60,9 +62,11 @@ export class MyScene extends CGFscene {
 	}
 
 	update() {
-		const t = (Date.now() - this.time) / 1000
-		this.bee.update(t);
-		this.checkKeys();
+		if (this.moveBee) {
+			const t = (Date.now() - this.time) / 1000;
+			this.bee.update(t);
+			this.checkKeys();
+		}
 	}
 
 	initLights() {
@@ -152,17 +156,33 @@ export class MyScene extends CGFscene {
 		}
 
 		if (this.displayBee) {
+			this.pushMatrix();
+			this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
 			this.bee.display();
+			this.popMatrix();
 		}
 	}
 
 	checkKeys() {
 		if (this.gui.isKeyPressed("KeyW")) {
-			this.bee.accelerate(1);
+			this.bee.accelerate(1 * this.speedFactor);
 		}
 
 		if (this.gui.isKeyPressed("KeyS")) {
-			this.bee.accelerate(-1);
+			this.bee.accelerate(-1 * this.speedFactor);
+		}
+
+		if (this.gui.isKeyPressed("KeyA")) {
+			this.bee.turn(Math.PI/16);
+		}
+
+		if (this.gui.isKeyPressed("KeyD")) {
+			this.bee.turn(-Math.PI/16);
+		}
+
+		if (this.gui.isKeyPressed("KeyR")) {
+			this.bee.reset();
+			this.time = Date.now();
 		}
 	}
 }

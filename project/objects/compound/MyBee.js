@@ -45,31 +45,61 @@ export class MyBee extends CGFobject {
         this.orientation = 0; // around the YY axis, from Z to X (counter-clockwise)
         this.vx = 0;
         this.vz = 0;
+
+        this.time = Date.now();
 	}
 
     update(t) {
-        this.x += this.vx * t;
+        const deltaT = t - this.time;
+        this.x += this.vx * deltaT;
         this.y = 3 + Math.sin(2 * Math.PI * t);
-        this.z += this.vz * t;
+        this.z += this.vz * deltaT;
         this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+        this.time = t;
     }
 
-    turn(orientation) {
-        this.orientation += orientation;
+    turn(deltaO) {
+        this.orientation += deltaO;
         const v = Math.sqrt(this.vx * this.vx + this.vz * this.vz);
         this.vx = v * Math.sin(this.orientation);
         this.vz = v * Math.cos(this.orientation);
     }
 
-    accelerate(delta) {
+    accelerate(deltaV) {
+        if (deltaV > 0) {
+            this.vx += deltaV * Math.sin(this.orientation);
+            this.vz += deltaV * Math.cos(this.orientation);
+        } else {
+            if (this.vx > 0) {
+                this.vx = Math.max(0, this.vx + deltaV * Math.sin(this.orientation));
+            } else if (this.vx < 0) {
+                this.vx = Math.min(0, this.vx + deltaV * Math.sin(this.orientation));
+            }
 
+            if (this.vz > 0) {
+                this.vz = Math.max(0, this.vz + deltaV * Math.cos(this.orientation));
+            } else if (this.vz < 0) {
+                this.vz = Math.min(0, this.vz + deltaV * Math.cos(this.orientation));
+            }
+        }
+    }
+
+    reset() {
+        this.x = 0;
+        this.y = 3;
+        this.z = 0;
+        this.orientation = 0;
+        this.vx = 0;
+        this.vz = 0;
+        this.time = Date.now();
     }
 
     display() {
         let direction;
         this.scene.pushMatrix();
-        this.scene.rotate(this.orientation, 0, 1, 0);
+
         this.scene.translate(this.x, this.y, 1 + this.z);
+        this.scene.rotate(this.orientation, 0, 1, 0);
 
         this.abdomenMaterial.apply();
         this.scene.pushMatrix();

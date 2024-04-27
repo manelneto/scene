@@ -34,6 +34,9 @@ export class MyInterface extends CGFinterface {
 
         const f4 = this.gui.addFolder('Bee');
         f4.add(this.scene, 'displayBee').name('Display Bee');
+        f4.add(this.scene, 'moveBee').name('Move Bee');
+        f4.add(this.scene, 'speedFactor', 0.1, 3).name('Speed Factor');
+        f4.add(this.scene, 'scaleFactor', 0.5, 3).name('Scale Factor');
 
         this.initKeys();
 
