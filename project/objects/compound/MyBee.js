@@ -154,7 +154,7 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < 2; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(direction * 0.35, 0.6, -0.7);
+            this.scene.translate(direction * 0.35, 0.5, -0.7);
             this.scene.rotate(direction * (Math.PI / 7 + this.wingAngle), 0, 0, 1);
             this.scene.translate(direction * this.bigWingsLength, 0, 0);
             this.bigWings[i].display();
@@ -163,7 +163,7 @@ export class MyBee extends CGFobject {
         for (let i = 0; i < 2; i++) {
             direction = (-1) ** i;
             this.scene.pushMatrix();
-            this.scene.translate(direction * 0.4, 0.5, -1.2);
+            this.scene.translate(direction * 0.4, 0.4, -1.2);
             this.scene.rotate(direction * (Math.PI / 7 + this.wingAngle), 0, 0, 1);
             this.scene.translate(direction * this.smallWingsLength, 0, 0);
             this.smallWings[i].display();
