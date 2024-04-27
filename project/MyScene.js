@@ -33,7 +33,7 @@ export class MyScene extends CGFscene {
 		this.displayRocks = true;
 		this.displayGarden = false;
 		this.displayBee = true;
-		this.animateBee = false;
+		this.moveBee = true;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
 		this.gardenRows = 4;
@@ -62,9 +62,11 @@ export class MyScene extends CGFscene {
 	}
 
 	update() {
-		const t = (Date.now() - this.time) / 1000;
-		this.bee.update(t);
-		this.checkKeys();
+		if (this.moveBee) {
+			const t = (Date.now() - this.time) / 1000;
+			this.bee.update(t);
+			this.checkKeys();
+		}
 	}
 
 	initLights() {
