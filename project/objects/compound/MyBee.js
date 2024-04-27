@@ -45,37 +45,41 @@ export class MyBee extends CGFobject {
         this.orientation = 0; // around the YY axis, from Z to X (counter-clockwise)
         this.vx = 0;
         this.vz = 0;
+
+        this.time = Date.now();
 	}
 
     update(t) {
-        this.x += this.vx * t;
+        const deltaT = t - this.time;
+        this.x += this.vx * deltaT;
         this.y = 3 + Math.sin(2 * Math.PI * t);
-        this.z += this.vz * t;
+        this.z += this.vz * deltaT;
         this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+        this.time = t;
     }
 
-    turn(orientation) {
-        this.orientation += orientation;
+    turn(deltaO) {
+        this.orientation += deltaO;
         const v = Math.sqrt(this.vx * this.vx + this.vz * this.vz);
         this.vx = v * Math.sin(this.orientation);
         this.vz = v * Math.cos(this.orientation);
     }
 
-    accelerate(delta) {
-        if (delta > 0) {
-            this.vx += delta * Math.sin(this.orientation);
-            this.vz += delta * Math.cos(this.orientation);
+    accelerate(deltaV) {
+        if (deltaV > 0) {
+            this.vx += deltaV * Math.sin(this.orientation);
+            this.vz += deltaV * Math.cos(this.orientation);
         } else {
             if (this.vx > 0) {
-                this.vx = Math.max(0, this.vx + delta * Math.sin(this.orientation));
+                this.vx = Math.max(0, this.vx + deltaV * Math.sin(this.orientation));
             } else if (this.vx < 0) {
-                this.vx = Math.min(0, this.vx + delta * Math.sin(this.orientation));
+                this.vx = Math.min(0, this.vx + deltaV * Math.sin(this.orientation));
             }
 
             if (this.vz > 0) {
-                this.vz = Math.max(0, this.vz + delta * Math.cos(this.orientation));
+                this.vz = Math.max(0, this.vz + deltaV * Math.cos(this.orientation));
             } else if (this.vz < 0) {
-                this.vz = Math.min(0, this.vz + delta * Math.cos(this.orientation));
+                this.vz = Math.min(0, this.vz + deltaV * Math.cos(this.orientation));
             }
         }
     }
