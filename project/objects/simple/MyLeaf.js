@@ -3,7 +3,7 @@ import { MyCylinder } from '../../geometrics/MyCylinder.js';
 import { MyTriangle } from '../../geometrics/MyTriangle.js';
 
 /**
- * MyPetal
+ * MyLeaf
  * @constructor
  * @param scene - Reference to MyScene object
  */

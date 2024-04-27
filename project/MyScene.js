@@ -2,6 +2,7 @@ import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
 import { MyPanorama } from './objects/simple/MyPanorama.js';
 import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
+import { MyBee } from './objects/compound/MyBee.js';
 
 /**
  * MyScene
@@ -30,7 +31,9 @@ export class MyScene extends CGFscene {
 		this.displayPanorama = true;
 		this.displayPyramid = true;
 		this.displayRocks = true;
-		this.displayGarden = true;
+		this.displayGarden = false;
+		this.displayBee = true;
+		this.animateBee = false;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
 		this.gardenRows = 4;
@@ -39,15 +42,27 @@ export class MyScene extends CGFscene {
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
 
-		const panoramaTexture = new CGFtexture(this, 'images/panorama.jpg');
-		this.panorama = new MyPanorama(this, panoramaTexture);
+		this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'));
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
+		this.bee = new MyBee(this, true);
 
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee];
 
 		this.enableTextures(true);
+
+		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+        this.gl.enable(this.gl.BLEND);
+
+		this.setUpdatePeriod(10);
+		this.time = Date.now();
+	}
+
+	update() {
+		const t = (Date.now() - this.time) / 1000
+		this.bee.update(t);
+		this.checkKeys();
 	}
 
 	initLights() {
@@ -134,6 +149,20 @@ export class MyScene extends CGFscene {
 			this.translate(-30, 0, 10);
 			this.garden.display();
 			this.popMatrix();
+		}
+
+		if (this.displayBee) {
+			this.bee.display();
+		}
+	}
+
+	checkKeys() {
+		if (this.gui.isKeyPressed("KeyW")) {
+			this.bee.accelerate(1);
+		}
+
+		if (this.gui.isKeyPressed("KeyS")) {
+			this.bee.accelerate(-1);
 		}
 	}
 }
