@@ -92,6 +92,12 @@ export class MyFlower extends CGFobject {
         }
 
         this.scene.pushMatrix();
+
+        this.scene.translate(xOffset, yOffset, 0);
+        this.scene.rotate(Math.PI + Math.PI/3, 1, 0, 0);
+        this.scene.translate(-xOffset, - (yOffset + this.receptacleRadius - 0.2), 0);
+
+        this.scene.pushMatrix();
         this.receptacleMaterial.apply();
         this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0);
         this.scene.scale(1, 1, 0.5);
@@ -115,6 +121,8 @@ export class MyFlower extends CGFobject {
             petal.display();
             this.scene.popMatrix();
         }
+        this.scene.rotate(-Math.PI/3, 1, 0, 0);
+        this.scene.popMatrix();
     }
 
     enableNormalViz() {
