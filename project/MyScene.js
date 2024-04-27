@@ -38,6 +38,8 @@ export class MyScene extends CGFscene {
 		this.nRocks = 6;
 		this.gardenRows = 4;
 		this.gardenCols = 3;
+		this.speedFactor = 1;
+		this.scaleFactor = 1;
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
@@ -152,25 +154,28 @@ export class MyScene extends CGFscene {
 		}
 
 		if (this.displayBee) {
+			this.pushMatrix();
+			this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
 			this.bee.display();
+			this.popMatrix();
 		}
 	}
 
 	checkKeys() {
 		if (this.gui.isKeyPressed("KeyW")) {
-			this.bee.accelerate(1);
+			this.bee.accelerate(1 * this.speedFactor);
 		}
 
 		if (this.gui.isKeyPressed("KeyS")) {
-			this.bee.accelerate(-1);
+			this.bee.accelerate(-1 * this.speedFactor);
 		}
 
 		if (this.gui.isKeyPressed("KeyA")) {
-			this.bee.turn(Math.PI / 16);
+			this.bee.turn(Math.PI/16);
 		}
 
 		if (this.gui.isKeyPressed("KeyD")) {
-			this.bee.turn(- Math.PI / 16);
+			this.bee.turn(-Math.PI/16);
 		}
 
 		if (this.gui.isKeyPressed("KeyR")) {
