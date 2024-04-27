@@ -11,22 +11,22 @@ export class MyWing extends CGFobject {
 	constructor(scene, length) {
 		super(scene);
 
-        this.sphere = new MyCircle(this.scene, 64, length);
+        this.circle = new MyCircle(this.scene, 64, length);
 	}
 
     display() {
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI / 2, 0, 1, 0);
         this.scene.scale(0.4, 1, 1);
-        this.sphere.display();
+        this.circle.display();
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.sphere.enableNormalViz();
+        this.circle.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.sphere.disableNormalViz();
+        this.circle.disableNormalViz();
     }
 }

@@ -29,8 +29,8 @@ export class MyCircle extends CGFobject {
             angle = i * angleStep;
 
             let x = this.radius * Math.cos(angle);
-            let y = this.radius * Math.sin(angle);
-            this.vertices.push(x, y, 0);
+            let z = this.radius * Math.sin(angle);
+            this.vertices.push(x, 0, z);
 
             this.normals.push(0, 0, 1);
 
