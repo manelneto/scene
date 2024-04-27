@@ -84,11 +84,22 @@ export class MyBee extends CGFobject {
         }
     }
 
+    reset() {
+        this.x = 0;
+        this.y = 3;
+        this.z = 0;
+        this.orientation = 0;
+        this.vx = 0;
+        this.vz = 0;
+        this.time = Date.now();
+    }
+
     display() {
         let direction;
         this.scene.pushMatrix();
-        this.scene.rotate(this.orientation, 0, 1, 0);
+
         this.scene.translate(this.x, this.y, 1 + this.z);
+        this.scene.rotate(this.orientation, 0, 1, 0);
 
         this.abdomenMaterial.apply();
         this.scene.pushMatrix();

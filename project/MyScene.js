@@ -164,5 +164,18 @@ export class MyScene extends CGFscene {
 		if (this.gui.isKeyPressed("KeyS")) {
 			this.bee.accelerate(-1);
 		}
+
+		if (this.gui.isKeyPressed("KeyA")) {
+			this.bee.turn(Math.PI / 16);
+		}
+
+		if (this.gui.isKeyPressed("KeyD")) {
+			this.bee.turn(- Math.PI / 16);
+		}
+
+		if (this.gui.isKeyPressed("KeyR")) {
+			this.bee.reset();
+			this.time = Date.now();
+		}
 	}
 }
