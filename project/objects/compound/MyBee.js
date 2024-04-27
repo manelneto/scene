@@ -38,19 +38,42 @@ export class MyBee extends CGFobject {
         this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
         this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
 
-        this.y = 0;
-        this.angle = 0;
+        this.wingAngle = 0;
+        this.x = 0;
+        this.y = 3;
+        this.z = 0;
+        this.orientation = 0; // around the YY axis, from Z to X (counter-clockwise)
+        this.vx = 0;
+        this.vz = 0;
+        this.ax = 0;
+        this.az = 0;
 	}
 
     update(t) {
-        this.y = Math.sin(2 * Math.PI * t);
-        this.angle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+        this.x = this.vx * t;
+        this.y = 3 + Math.sin(2 * Math.PI * t);
+        this.z = this.vz * t;
+        this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+    }
+
+    turn(orientation) {
+        this.orientation += orientation;
+        const v = Math.sqrt(this.vx * this.vx + this.vz * this.vz);
+        this.vx = v * Math.sin(this.orientation);
+        this.vz = v * Math.cos(this.orientation);
+    }
+
+    accelerate(v) {
+        this.vx = Math.max(0, this.vx + v * Math.sin(this.orientation));
+        this.vz = Math.max(0, this.vz + v * Math.cos(this.orientation));
+        console.log(this.vz);
     }
 
     display() {
         let direction;
         this.scene.pushMatrix();
-        this.scene.translate(0, 3 + this.y, 0);
+        this.scene.rotate(this.orientation, 0, 1, 0);
+        this.scene.translate(this.x, this.y, 1 + this.z);
 
         this.abdomenMaterial.apply();
         this.scene.pushMatrix();
@@ -105,7 +128,7 @@ export class MyBee extends CGFobject {
             direction = (-1) ** i;
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.35, 0.6, -0.7);
-            this.scene.rotate(direction * (Math.PI / 7 + this.angle), 0, 0, 1);
+            this.scene.rotate(direction * (Math.PI / 7 + this.wingAngle), 0, 0, 1);
             this.scene.translate(direction * this.bigWingsLength, 0, 0);
             this.bigWings[i].display();
             this.scene.popMatrix();
@@ -114,7 +137,7 @@ export class MyBee extends CGFobject {
             direction = (-1) ** i;
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.4, 0.5, -1.2);
-            this.scene.rotate(direction * (Math.PI / 7 + this.angle), 0, 0, 1);
+            this.scene.rotate(direction * (Math.PI / 7 + this.wingAngle), 0, 0, 1);
             this.scene.translate(direction * this.smallWingsLength, 0, 0);
             this.smallWings[i].display();
             this.scene.popMatrix();
