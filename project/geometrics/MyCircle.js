@@ -23,19 +23,19 @@ export class MyCircle extends CGFobject {
         this.texCoords = [];
 
         let angleStep = (2 * Math.PI) / this.slices;
-        let angle;
-
+        let angle, x, z, u, v;
         for (let i = 0; i <= this.slices; i++) {
             angle = i * angleStep;
 
-            let x = this.radius * Math.cos(angle);
-            let z = this.radius * Math.sin(angle);
+            x = this.radius * Math.cos(angle);
+            z = this.radius * Math.sin(angle);
             this.vertices.push(x, 0, z);
 
-            this.normals.push(0, 0, 1);
+            this.normals.push(0, 1, 0);
+            this.normals.push(0, -1, 0);
 
-            let u = 0.5 + 0.5 * Math.cos(angle);
-            let v = 0.5 + 0.5 * Math.sin(angle);
+            u = 0.5 + 0.5 * Math.cos(angle);
+            v = 0.5 + 0.5 * Math.sin(angle);
             this.texCoords.push(u, v);
 
             this.indices.push(0, i, i + 1);
