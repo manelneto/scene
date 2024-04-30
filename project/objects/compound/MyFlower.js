@@ -33,12 +33,14 @@ export class MyFlower extends CGFobject {
         this.stems = [];
         this.stemAngles = [];
         this.stemHeights = [];
+        this.y = 0;
         for (let i = 0; i < stemNumber; i++) {
             stemAngle = this.generateRandom(-Math.PI/16, Math.PI/16);
             stemHeight = Math.floor(this.generateRandom(1, 4));
             this.stems.push(new MyStem(this.scene, stemRadius, stemHeight));
             this.stemAngles.push(stemAngle);
             this.stemHeights.push(stemHeight);
+            this.y += stemHeight * Math.cos(stemAngle);
         }
 
         this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
@@ -107,6 +109,11 @@ export class MyFlower extends CGFobject {
         this.receptacle.display();
         this.scene.popMatrix();
         
+        this.scene.pushMatrix();
+        this.scene.translate(xOffset, yOffset + this.receptacleRadius + 0.2, 0);
+        this.pollen.display();
+        this.scene.popMatrix();
+
         let petal;
         this.petalMaterial.apply();
         const angle = (2 * Math.PI) / this.petalsNumber;
