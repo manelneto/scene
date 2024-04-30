@@ -55,6 +55,7 @@ export class MyFlower extends CGFobject {
         this.leaf = new MyLeaf(this.scene);
 
         this.pollen = new MyPollen(this.scene, 1, 2);
+        this.pollenAngle = this.generateRandom(-Math.PI/8, Math.PI/8);
 
         if (Math.random() < 0.5) {
             this.petalMaterial = this.createMaterial(petalsColour, 'images/petal.png');
@@ -111,7 +112,7 @@ export class MyFlower extends CGFobject {
         // TODO: talvez reorganizar as transformações - algumas coisas estão estranhas e não parecem fazer o esperado
         this.scene.pushMatrix();
         this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0.25);
-        this.scene.rotate(Math.PI / 2, 1, 0, 0);
+        this.scene.rotate(Math.PI / 2 + this.pollenAngle, 1, 0, 0);
         this.pollen.display();
         this.scene.popMatrix();
 
