@@ -100,7 +100,7 @@ export class MyFlower extends CGFobject {
 
         this.scene.translate(xOffset, yOffset, 0);
         this.scene.rotate(Math.PI + Math.PI/3, 1, 0, 0);
-        this.scene.translate(-xOffset, - (yOffset + this.receptacleRadius - 0.2), 0);
+        this.scene.translate(-xOffset, 0.2 - yOffset - this.receptacleRadius, 0);
 
         this.scene.pushMatrix();
         this.receptacleMaterial.apply();
@@ -108,9 +108,10 @@ export class MyFlower extends CGFobject {
         this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
         this.scene.popMatrix();
-        
+        // TODO: talvez reorganizar as transformações - algumas coisas estão estranhas e não parecem fazer o esperado
         this.scene.pushMatrix();
-        this.scene.translate(xOffset, yOffset + this.receptacleRadius + 0.2, 0);
+        this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0.25);
+        this.scene.rotate(Math.PI / 2, 1, 0, 0);
         this.pollen.display();
         this.scene.popMatrix();
 

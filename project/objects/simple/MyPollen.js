@@ -83,7 +83,7 @@ export class MyPollen extends CGFobject {
     display() {
         this.material.apply();
         this.scene.pushMatrix();
-        this.scene.scale(0.5, 0.5, 0.5);
+        this.scene.scale(0.35, 0.35, 0.35);
         super.display();
         this.scene.popMatrix();
     }
