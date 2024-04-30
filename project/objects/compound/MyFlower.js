@@ -3,6 +3,7 @@ import { MyStem } from '../simple/MyStem.js';
 import { MyLeaf } from '../simple/MyLeaf.js';
 import { MyReceptacle } from '../simple/MyReceptacle.js';
 import { MyPetal } from '../simple/MyPetal.js';
+import { MyPollen } from '../simple/MyPollen.js';
 
 /**
  * MyFlower
@@ -50,6 +51,8 @@ export class MyFlower extends CGFobject {
         }
 
         this.leaf = new MyLeaf(this.scene);
+
+        this.pollen = new MyPollen(this.scene, 1, 2);
 
         if (Math.random() < 0.5) {
             this.petalMaterial = this.createMaterial(petalsColour, 'images/petal.png');

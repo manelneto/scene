@@ -30,7 +30,7 @@ export class MyCircle extends CGFobject {
             x = this.radius * Math.cos(angle);
             z = this.radius * Math.sin(angle);
             this.vertices.push(x, 0, z);
-
+            // TODO: o número de vértices deve ser igual ao número de normais
             this.normals.push(0, 1, 0);
             this.normals.push(0, -1, 0);
 

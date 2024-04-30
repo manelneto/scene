@@ -3,6 +3,7 @@ import { MyPanorama } from './objects/simple/MyPanorama.js';
 import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
 import { MyBee } from './objects/compound/MyBee.js';
+import { MyPollen } from './objects/simple/MyPollen.js';
 
 /**
  * MyScene
@@ -49,8 +50,9 @@ export class MyScene extends CGFscene {
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 		this.bee = new MyBee(this, true);
+		this.pollen = new MyPollen(this, 1, 2);
 
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.pollen];
 
 		this.enableTextures(true);
 
@@ -161,6 +163,8 @@ export class MyScene extends CGFscene {
 			this.bee.display();
 			this.popMatrix();
 		}
+
+		this.pollen.display();
 	}
 
 	checkKeys() {
