@@ -94,6 +94,18 @@ export class MyBee extends CGFobject {
         this.time = Date.now();
     }
 
+    ascend() {
+        // TODO
+    }
+
+    descend() {
+        // TODO
+    }
+
+    deliver() {
+        // TODO
+    }
+
     display() {
         let direction;
         this.scene.pushMatrix();
