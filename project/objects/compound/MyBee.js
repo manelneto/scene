@@ -44,42 +44,94 @@ export class MyBee extends CGFobject {
         this.z = 0;
         this.orientation = 0; // around the YY axis, from Z to X (counter-clockwise)
         this.vx = 0;
+        this.vy = 5;
         this.vz = 0;
 
-        this.time = Date.now();
+        this.time = 0;
+
+        this.states = Object.freeze({
+            NORMAL: Symbol("normal"),
+            DESCEND: Symbol("descend"),
+            ASCEND: Symbol("ascend"),
+            FLOWER: Symbol("flower"),
+            HIVE: Symbol("hive")
+        });
+        this.state = this.states.NORMAL;
+        this.pollen = null;
 	}
 
     update(t) {
         const deltaT = t - this.time;
-        this.x += this.vx * deltaT;
-        this.y = 3 + Math.sin(2 * Math.PI * t);
-        this.z += this.vz * deltaT;
-        this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
         this.time = t;
+
+        switch (this.state) {
+            case this.states.NORMAL:
+                this.x += this.vx * deltaT;
+                this.y = 3 + Math.sin(2 * Math.PI * t);
+                this.z += this.vz * deltaT;
+                this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+                break;
+
+            case this.states.DESCEND:
+                this.x += this.vx * deltaT;
+                this.y -= this.vy * deltaT;
+                this.z += this.vz * deltaT;
+                this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+
+                if (this.y <= 0) {
+                    this.state = this.states.ASCEND;
+                }
+
+                break;
+
+            case this.states.ASCEND:
+                this.x += this.vx * deltaT;
+                this.y += this.vy * deltaT;
+                this.z += this.vz * deltaT;
+                this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
+
+                if (this.y >= 3) {
+                    this.state = this.states.NORMAL;
+                    this.time = 0;
+                    this.scene.resetTime();
+                }
+
+                break;
+
+            case this.states.FLOWER:
+                break;
+
+            case this.states.HIVE:
+                break;
+        }
     }
 
     turn(deltaO) {
-        this.orientation += deltaO;
-        const v = Math.sqrt(this.vx * this.vx + this.vz * this.vz);
-        this.vx = v * Math.sin(this.orientation);
-        this.vz = v * Math.cos(this.orientation);
+        if (this.state == this.states.NORMAL) {
+            this.orientation += deltaO;
+            const v = Math.sqrt(this.vx * this.vx + this.vz * this.vz);
+            this.vx = v * Math.sin(this.orientation);
+            this.vz = v * Math.cos(this.orientation);
+        }
     }
 
     accelerate(deltaV) {
-        if (deltaV > 0) {
-            this.vx += deltaV * Math.sin(this.orientation);
-            this.vz += deltaV * Math.cos(this.orientation);
-        } else {
-            if (this.vx > 0) {
-                this.vx = Math.max(0, this.vx + deltaV * Math.sin(this.orientation));
-            } else if (this.vx < 0) {
-                this.vx = Math.min(0, this.vx + deltaV * Math.sin(this.orientation));
-            }
+        if (this.state == this.states.NORMAL) {        
+            if (deltaV > 0) {
+                this.vx += deltaV * Math.sin(this.orientation);
+                this.vz += deltaV * Math.cos(this.orientation);
+            } else {
+                if (this.vx > 0) {
+                    this.vx = Math.max(0, this.vx + deltaV * Math.sin(this.orientation));
+                } else if (this.vx < 0) {
+                    this.vx = Math.min(0, this.vx + deltaV * Math.sin(this.orientation));
+                }
 
-            if (this.vz > 0) {
-                this.vz = Math.max(0, this.vz + deltaV * Math.cos(this.orientation));
-            } else if (this.vz < 0) {
-                this.vz = Math.min(0, this.vz + deltaV * Math.cos(this.orientation));
+                if (this.vz > 0) {
+                    this.vz = Math.max(0, this.vz + deltaV * Math.cos(this.orientation));
+                } else if (this.vz < 0) {
+                    this.vz = Math.min(0, this.vz + deltaV * Math.cos(this.orientation));
+                }
             }
         }
     }
@@ -91,15 +143,20 @@ export class MyBee extends CGFobject {
         this.orientation = 0;
         this.vx = 0;
         this.vz = 0;
-        this.time = Date.now();
+        this.time = 0;
+        this.scene.resetTime();
     }
 
     ascend() {
-        // TODO
+        if (this.state == this.states.FLOWER) {
+            this.state = this.states.ASCEND;
+        }
     }
 
     descend() {
-        // TODO
+        if (this.state == this.states.NORMAL) {
+            this.state = this.states.DESCEND;
+        }
     }
 
     deliver() {
