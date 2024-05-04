@@ -1,4 +1,4 @@
-import { CGFobject } from '../../../lib/CGF.js';
+import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
 
 /**
  * MyHive
@@ -13,6 +13,16 @@ export class MyHive extends CGFobject {
 		this.slices = 64;
 		this.radius = radius;
 		this.height = height;
+
+		const texture = new CGFtexture(this.scene, 'images/hive.png');
+        this.material = new CGFappearance(this.scene);
+		this.material.setAmbient(0.76, 0.6, 0.42, 1.0);
+		this.material.setDiffuse(0.54, 0.27, 0.07, 1.0);
+		this.material.setEmission(0, 0, 0, 0);
+		this.material.setShininess(10.0);
+		this.material.setSpecular(0.3, 0.15, 0.05, 1.0);
+		this.material.setTexture(texture);
+
 		this.initBuffers();
 	}
 	
@@ -54,4 +64,11 @@ export class MyHive extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers()
 	}
+
+	display() {
+        this.material.apply();
+        this.scene.pushMatrix();
+        super.display();
+        this.scene.popMatrix();
+    }
 }
