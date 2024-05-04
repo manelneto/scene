@@ -4,6 +4,7 @@ import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
 import { MyBee } from './objects/compound/MyBee.js';
 import { MyPollen } from './objects/simple/MyPollen.js';
+import { MyCircle } from './geometrics/MyCircle.js';
 
 /**
  * MyScene
@@ -32,7 +33,7 @@ export class MyScene extends CGFscene {
 		this.displayPanorama = true;
 		this.displayPyramid = true;
 		this.displayRocks = true;
-		this.displayGarden = false;
+		this.displayGarden = true;
 		this.displayBee = true;
 		this.moveBee = true;
 		this.pyramidLevels = 4;
@@ -52,7 +53,10 @@ export class MyScene extends CGFscene {
 		this.bee = new MyBee(this, true);
 		this.pollen = new MyPollen(this, 1, 2);
 
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.pollen];
+		//TODO
+		this.circle = new MyCircle(this, 32, 1);
+
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.pollen, this.circle];
 
 		this.enableTextures(true);
 
@@ -146,25 +150,26 @@ export class MyScene extends CGFscene {
 			this.pushMatrix();
 			this.translate(-10, -20, 50);
 			this.scale(2, 2, 2);
-			this.rockSet.display();
+			//this.rockSet.display();
 			this.popMatrix();
 		}
 
 		if (this.displayGarden) {
 			this.pushMatrix();
 			this.translate(-30, 0, 10);
-			this.garden.display();
+			//this.garden.display();
 			this.popMatrix();
 		}
 
 		if (this.displayBee) {
 			this.pushMatrix();
 			this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-			this.bee.display();
+			//this.bee.display();
 			this.popMatrix();
 		}
 
-		this.pollen.display();
+		//this.pollen.display();
+		this.circle.display();
 	}
 
 	checkKeys() {
