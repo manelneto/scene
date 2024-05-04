@@ -4,7 +4,6 @@ import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
 import { MyBee } from './objects/compound/MyBee.js';
 import { MyPollen } from './objects/simple/MyPollen.js';
-import { MyCircle } from './geometrics/MyCircle.js';
 
 /**
  * MyScene
@@ -53,10 +52,7 @@ export class MyScene extends CGFscene {
 		this.bee = new MyBee(this, true);
 		this.pollen = new MyPollen(this, 1, 2);
 
-		//TODO
-		this.circle = new MyCircle(this, 32, 1);
-
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.pollen, this.circle];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.pollen];
 
 		this.enableTextures(true);
 
@@ -142,7 +138,7 @@ export class MyScene extends CGFscene {
 		if (this.displayPyramid) {
 			this.pushMatrix();
 			this.translate(-50, 0, 50);
-			this.pyramid.display();
+			//this.pyramid.display();
 			this.popMatrix();
 		}
 
@@ -168,8 +164,7 @@ export class MyScene extends CGFscene {
 			this.popMatrix();
 		}
 
-		//this.pollen.display();
-		this.circle.display();
+		this.pollen.display();
 	}
 
 	checkKeys() {

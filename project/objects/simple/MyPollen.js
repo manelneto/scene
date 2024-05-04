@@ -15,13 +15,13 @@ export class MyPollen extends CGFobject {
         this.y1 = y1;
         this.y2 = y2;
 
-        const texture = new CGFtexture(this.scene, 'images/pollen.jpg');
+        const texture = new CGFtexture(this.scene, 'images/pollen.png');
         this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.98, 0.82, 0.09, 1.0);
-        this.material.setDiffuse(0.98, 0.82, 0.09, 1.0);
+        this.material.setAmbient(1.0, 0.65, 0, 1.0);
+        this.material.setDiffuse(1.0, 0.65, 0, 1.0);
         this.material.setEmission(0, 0, 0, 0);
         this.material.setShininess(10.0);
-        this.material.setSpecular(0.98, 0.82, 0.09, 1.0);
+        this.material.setSpecular(1.0, 0.65, 0, 1.0);
         this.material.setTexture(texture);
 
         this.initBuffers();
