@@ -186,7 +186,6 @@ export class MyScene extends CGFscene {
 
 		if (this.gui.isKeyPressed("KeyR")) {
 			this.bee.reset();
-			this.time = Date.now();
 		}
 
 		if (this.gui.isKeyPressed("KeyF")) {
@@ -200,5 +199,9 @@ export class MyScene extends CGFscene {
 		if (this.gui.isKeyPressed("KeyO")) {
 			this.bee.deliver();
 		}
+	}
+
+	resetTime() {
+		this.time = Date.now();
 	}
 }
