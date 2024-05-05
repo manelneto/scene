@@ -5,6 +5,7 @@ import { MyGarden } from './objects/collection/MyGarden.js';
 import { MyBee } from './objects/compound/MyBee.js';
 import { MyPollen } from './objects/simple/MyPollen.js';
 import { MyHive } from './objects/simple/MyHive.js';
+import { MyRock } from './objects/simple/MyRock.js';
 
 /**
  * MyScene
@@ -31,10 +32,10 @@ export class MyScene extends CGFscene {
 		this.displayAxis = false;
 		this.displayNormals = false;
 		this.displayPanorama = true;
-		this.displayPyramid = true;
-		this.displayRocks = true;
-		this.displayGarden = true;
-		this.displayBee = true;
+		this.displayPyramid = false;
+		this.displayRocks = false;
+		this.displayGarden = false;
+		this.displayBee = false;
 		this.moveBee = true;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
@@ -50,7 +51,7 @@ export class MyScene extends CGFscene {
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
-		this.bee = new MyBee(this, true);
+		this.bee = new MyBee(this);
 		this.pollen = new MyPollen(this, 1, 2);
 		this.hive = new MyHive(this, 1, 2, 0.5, 0.5);
 
@@ -140,7 +141,7 @@ export class MyScene extends CGFscene {
 		if (this.displayPyramid) {
 			this.pushMatrix();
 			this.translate(-50, 0, 50);
-			//this.pyramid.display();
+			this.pyramid.display();
 			this.popMatrix();
 		}
 
@@ -148,27 +149,27 @@ export class MyScene extends CGFscene {
 			this.pushMatrix();
 			this.translate(-10, -20, 50);
 			this.scale(2, 2, 2);
-			//this.rockSet.display();
+			this.rockSet.display();
 			this.popMatrix();
 		}
 
 		if (this.displayGarden) {
 			this.pushMatrix();
 			this.translate(-30, 0, 10);
-			//this.garden.display();
+			this.garden.display();
 			this.popMatrix();
 		}
 
 		if (this.displayBee) {
 			this.pushMatrix();
 			this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-			//this.bee.display();
+			this.bee.display();
 			this.popMatrix();
 		}
 
-		//this.pollen.display();
+		this.pollen.display();
 
-		this.hive.display();
+		//this.hive.display();
 	}
 
 	checkKeys() {

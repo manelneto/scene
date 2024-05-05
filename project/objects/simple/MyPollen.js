@@ -37,12 +37,9 @@ export class MyPollen extends CGFobject {
         let theta;      // angle with the XX axis, from 0 to 2PI
         let x, y, z;    // vertices coordinates
         let u, v;       // texture coordinates
-        let r;          // random factor, from -0.1 to 0.1
         for (let stack = -this.stacks; stack <= this.stacks; stack++) {
             phi = (Math.PI / 2) * (stack / this.stacks);
             for (let slice = 0; slice <= this.slices; slice++) {
-                r = (slice > 0 && slice < this.slices) ? (Math.random() * 2 - 1) / 10 : 0; // TODO: verificar (parece tudo inclinado para o mesmo lado)
-
                 theta = (2 * Math.PI) * (slice / this.slices);
 
                 x = Math.cos(phi) * Math.cos(theta);
@@ -50,14 +47,14 @@ export class MyPollen extends CGFobject {
                 z = Math.cos(phi) * Math.sin(theta);
                 
                 if (stack < 0) {
-                    this.vertices.push(x + r, this.y1 * (y + r), z + r);
+                    this.vertices.push(x, this.y1 * y, z);
                 } else if (stack > 0) {
-                    this.vertices.push(x + r, this.y2 * (y + r), z + r);
+                    this.vertices.push(x, this.y2 * y, z);
                 } else {
-                    this.vertices.push(x + r, y + r, z + r);
+                    this.vertices.push(x, y, z);
                 }
 
-				this.normals.push(x, y, z); // TODO: verificar (dúvida se a direção está correta)
+				this.normals.push(x, y, z); // TODO: a direção das normais está errada - é preciso corrigir
 
                 u = 1 - (slice / this.slices);
 				v = 1/2 - (stack / (2 * this.stacks));
