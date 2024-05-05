@@ -155,7 +155,7 @@ export class MyScene extends CGFscene {
 
 		if (this.displayGarden) {
 			this.pushMatrix();
-			this.translate(-30, 0, 10);
+			//this.translate(-30, 0, 10);
 			this.garden.display();
 			this.popMatrix();
 		}

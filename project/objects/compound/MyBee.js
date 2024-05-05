@@ -40,7 +40,8 @@ export class MyBee extends CGFobject {
 
         this.wingAngle = 0;
         this.x = 0;
-        this.y = 3;
+        this.y = 10;
+        this.y0 = this.y;
         this.z = 0;
         this.orientation = 0; // around the YY axis, from Z to X (counter-clockwise)
         this.vx = 0;
@@ -63,22 +64,23 @@ export class MyBee extends CGFobject {
     update(t) {
         const deltaT = t - this.time;
         this.time = t;
+        this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
 
         switch (this.state) {
             case this.states.NORMAL:
                 this.x += this.vx * deltaT;
-                this.y = 3 + Math.sin(2 * Math.PI * t);
+                this.y = this.y0 + Math.sin(2 * Math.PI * t);
                 this.z += this.vz * deltaT;
-                this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
                 break;
 
             case this.states.DESCEND:
                 this.x += this.vx * deltaT;
                 this.y -= this.vy * deltaT;
                 this.z += this.vz * deltaT;
-                this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
 
-                if (this.y <= 0) {
+                if (this.scene.garden.hasFlower(this.x, this.y - 0.4, this.z)) {
+                    this.state = this.states.FLOWER;
+                } else if (this.y <= 0) {
                     this.state = this.states.ASCEND;
                 }
 
@@ -88,9 +90,8 @@ export class MyBee extends CGFobject {
                 this.x += this.vx * deltaT;
                 this.y += this.vy * deltaT;
                 this.z += this.vz * deltaT;
-                this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
 
-                if (this.y >= 3) {
+                if (this.y >= this.y0) {
                     this.state = this.states.NORMAL;
                     this.time = 0;
                     this.scene.resetTime();
@@ -156,6 +157,7 @@ export class MyBee extends CGFobject {
     descend() {
         if (this.state == this.states.NORMAL) {
             this.state = this.states.DESCEND;
+            this.y0 = this.y;
         }
     }
 

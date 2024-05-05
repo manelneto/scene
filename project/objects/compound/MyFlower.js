@@ -33,6 +33,7 @@ export class MyFlower extends CGFobject {
         this.stems = [];
         this.stemAngles = [];
         this.stemHeights = [];
+        this.x = 0;
         this.y = 0;
         for (let i = 0; i < stemNumber; i++) {
             stemAngle = this.generateRandom(-Math.PI/16, Math.PI/16);
@@ -40,6 +41,7 @@ export class MyFlower extends CGFobject {
             this.stems.push(new MyStem(this.scene, stemRadius, stemHeight));
             this.stemAngles.push(stemAngle);
             this.stemHeights.push(stemHeight);
+            this.x -= stemHeight * Math.sin(stemAngle);
             this.y += stemHeight * Math.cos(stemAngle);
         }
 
