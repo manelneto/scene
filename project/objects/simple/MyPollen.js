@@ -80,11 +80,13 @@ export class MyPollen extends CGFobject {
     }
 
     display() {
-        this.material.apply();
-        this.scene.pushMatrix();
-        this.scene.scale(0.35, 0.35, 0.35);
-        this.scene.rotate(Math.PI/2 + this.angle, 1, 0, 0);
-        super.display();
-        this.scene.popMatrix();
+        if (this.scene.displayPollen) {
+            this.material.apply();
+            this.scene.pushMatrix();
+            this.scene.scale(0.35, 0.35, 0.35);
+            this.scene.rotate(Math.PI/2 + this.angle, 1, 0, 0);
+            super.display();
+            this.scene.popMatrix();
+        }
     }
 }

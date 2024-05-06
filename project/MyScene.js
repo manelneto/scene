@@ -30,11 +30,13 @@ export class MyScene extends CGFscene {
 		this.displayAxis = false;
 		this.displayNormals = false;
 		this.displayPanorama = true;
-		this.displayPyramid = false;
-		this.displayRocks = false;
-		this.displayGarden = false;
-		this.displayBee = false;
+		this.displayPyramid = true;
+		this.displayRocks = true;
+		this.displayGarden = true;
+		this.displayBee = true;
 		this.moveBee = true;
+		this.displayPollen = true;
+		this.displayHive = true;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
 		this.gardenRows = 4;
@@ -165,7 +167,12 @@ export class MyScene extends CGFscene {
 			this.popMatrix();
 		}
 
-		this.hive.display();
+		if (this.displayHive) {
+			this.pushMatrix();
+			this.translate(-50, 0, 50);
+			this.hive.display();
+			this.popMatrix();
+		}
 	}
 
 	checkKeys() {
