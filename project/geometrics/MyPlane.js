@@ -1,19 +1,20 @@
-import {CGFobject} from '../../lib/CGF.js';
+import { CGFobject, CGFtexture, CGFappearance } from '../../lib/CGF.js';
+
 /**
 * MyPlane
 * @constructor
  * @param scene - Reference to MyScene object
- * @param nDivs - number of divisions in both directions of the surface
- * @param minS - minimum texture coordinate in S
- * @param maxS - maximum texture coordinate in S
- * @param minT - minimum texture coordinate in T
- * @param maxT - maximum texture coordinate in T
+ * @param nDivs - Number of divisions in both directions of the surface
+ * @param minS - Minimum texture coordinate in S
+ * @param maxS - Maximum texture coordinate in S
+ * @param minT - Minimum texture coordinate in T
+ * @param maxT - Maximum texture coordinate in T
 */
 export class MyPlane extends CGFobject {
 	constructor(scene, nrDivs, minS, maxS, minT, maxT) {
 		super(scene);
-		// nrDivs = 1 if not provided
-		nrDivs = typeof nrDivs !== 'undefined' ? nrDivs : 1;
+
+		nrDivs = typeof nrDivs !== 'undefined' ? nrDivs : 1; // nrDivs = 1 if not provided
 		this.nrDivs = nrDivs;
 		this.patchLength = 1.0 / nrDivs;
 		this.minS = minS || 0;
@@ -22,17 +23,30 @@ export class MyPlane extends CGFobject {
 		this.maxT = maxT || 1;
 		this.q = (this.maxS - this.minS) / this.nrDivs;
 		this.w = (this.maxT - this.minT) / this.nrDivs;
+
+		const texture = new CGFtexture(this.scene, 'images/grass.jpeg')
+        this.material = new CGFappearance(this.scene);
+        this.material.setAmbient(0.5, 1, 0, 1.0);
+        this.material.setDiffuse(0.5, 1, 0, 1.0);
+        this.material.setEmission(0, 0, 0, 0);
+        this.material.setShininess(10.0);
+        this.material.setSpecular(0.5, 1, 0, 1.0);
+        this.material.setTexture(texture);
+
 		this.initBuffers();
 	}
+
 	initBuffers() {
-		// Generate vertices, normals, and texCoords
 		this.vertices = [];
+		this.indices = [];
 		this.normals = [];
 		this.texCoords = [];
-		var yCoord = 0.5;
-		for (var j = 0; j <= this.nrDivs; j++) {
-			var xCoord = -0.5;
-			for (var i = 0; i <= this.nrDivs; i++) {
+
+		let xCoord;
+		let yCoord = 0.5;
+		for (let j = 0; j <= this.nrDivs; j++) {
+			xCoord = -0.5;
+			for (let i = 0; i <= this.nrDivs; i++) {
 				this.vertices.push(xCoord, yCoord, 0);
 				this.normals.push(0, 0, 1);
 				this.texCoords.push(this.minS + i * this.q, this.minT + j * this.w);
@@ -40,12 +54,10 @@ export class MyPlane extends CGFobject {
 			}
 			yCoord -= this.patchLength;
 		}
-		// Generating indices
-		this.indices = [];
 
-		var ind = 0;
-		for (var j = 0; j < this.nrDivs; j++) {
-			for (var i = 0; i <= this.nrDivs; i++) {
+		let ind = 0;
+		for (let j = 0; j < this.nrDivs; j++) {
+			for (let i = 0; i <= this.nrDivs; i++) {
 				this.indices.push(ind);
 				this.indices.push(ind + this.nrDivs + 1);
 				ind++;
@@ -55,18 +67,21 @@ export class MyPlane extends CGFobject {
 				this.indices.push(ind);
 			}
 		}
+
 		this.primitiveType = this.scene.gl.TRIANGLE_STRIP;
 		this.initGLBuffers();
 	}
 
 	setFillMode() { 
-		this.primitiveType=this.scene.gl.TRIANGLE_STRIP;
+		this.primitiveType = this.scene.gl.TRIANGLE_STRIP;
 	}
 
-	setLineMode() 
-	{ 
-		this.primitiveType=this.scene.gl.LINES;
+	setLineMode() { 
+		this.primitiveType = this.scene.gl.LINES;
 	};
+
+	display() {
+		this.material.apply();
+		super.display();
+	}
 }
-
-

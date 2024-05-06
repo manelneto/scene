@@ -1,4 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
+import { MyPlane } from './geometrics/MyPlane.js'
 import { MyPanorama } from './objects/simple/MyPanorama.js';
 import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
@@ -29,6 +30,7 @@ export class MyScene extends CGFscene {
 		// Objects connected to MyInterface
 		this.displayAxis = false;
 		this.displayNormals = false;
+		this.displayPlane = true;
 		this.displayPanorama = true;
 		this.displayPyramid = true;
 		this.displayRocks = true;
@@ -46,6 +48,7 @@ export class MyScene extends CGFscene {
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
+		this.plane = new MyPlane(this, 30);
 
 		this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'));
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
@@ -132,6 +135,15 @@ export class MyScene extends CGFscene {
 			this.objects.forEach((object) => object.enableNormalViz());
 		else
 			this.objects.forEach((object) => object.disableNormalViz());
+
+		if (this.displayPlane) {
+			this.pushMatrix();
+			this.translate(0, -100, 0);
+			this.scale(400, 400, 400);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.plane.display();
+			this.popMatrix();
+		}
 
 		// Draw objects
 		if (this.displayPanorama) {

@@ -14,7 +14,8 @@ export class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         this.gui.add(this.scene, 'displayAxis').name('Display Axis');
-        this.gui.add(this.scene, 'displayNormals').name("Display Normals");
+        this.gui.add(this.scene, 'displayNormals').name('Display Normals');
+        this.gui.add(this.scene, 'displayPlane').name('Display Plane');
 
         const f1 = this.gui.addFolder('Sky-Sphere');
         f1.add(this.scene, 'displayPanorama').name('Display Panorama');
