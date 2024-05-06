@@ -1,74 +1,74 @@
 import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
+import { MyCylinder } from '../../geometrics/MyCylinder.js';
+import { MyCircle } from '../../geometrics/MyCircle.js';
+import { MyUnitCubeQuad } from '../../geometrics/MyUnitCubeQuad.js';
 
 /**
  * MyHive
  * @constructor
  * @param scene - Reference to MyScene object
- * @param radius - Cylinder radius
- * @param height - Cylinder height
  */
 export class MyHive extends CGFobject {
-	constructor(scene, radius, height) {
+	constructor(scene) {
 		super(scene);
-		this.slices = 64;
-		this.radius = radius;
-		this.height = height;
 
-		const texture = new CGFtexture(this.scene, 'images/hive.png');
-        this.material = new CGFappearance(this.scene);
-		this.material.setAmbient(0.76, 0.6, 0.42, 1.0);
-		this.material.setDiffuse(0.54, 0.27, 0.07, 1.0);
-		this.material.setEmission(0, 0, 0, 0);
-		this.material.setShininess(10.0);
-		this.material.setSpecular(0.3, 0.15, 0.05, 1.0);
-		this.material.setTexture(texture);
+		this.cylinder = new MyCylinder(scene, 1, 3);
+		this.cylinder2 = new MyCylinder(scene, 1.3, 1);
+		this.circle = new MyCircle(scene, 32, 1.3);
 
-		this.initBuffers();
-	}
-	
-	initBuffers() {
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-		this.texCoords = [];
+		const trunckTexture = new CGFtexture(this.scene, 'images/trunck.png');
 
-		let phi;		// angle with the XX axis, from 0 to 2PI
-		let x, y, z;    // vertices coordinates
-		for (let i = 0; i <= this.height; i++) {
-			for (let slice = 0; slice <= this.slices; slice++) {
-				phi = (2 * Math.PI) * (slice / this.slices);
+		this.cube = new MyUnitCubeQuad(scene, trunckTexture, trunckTexture, trunckTexture, trunckTexture, trunckTexture, trunckTexture);
 
-				x = this.radius * Math.cos(phi);
-				y = i;
-				z = this.radius * Math.sin(phi);
-
-				this.vertices.push(x, y, z);
-
-				this.normals.push(x/this.radius, 0, z/this.radius);
-
-				this.texCoords.push(slice / this.slices, 1 - i / this.height);
-			}
-		}
-
-		let lower, upper;
-        for (let i = 0; i < this.height; i++) {
-			for (let slice = 0; slice <= this.slices; slice++) {
-				lower = i * (this.slices + 1) + slice;
-				upper = lower + this.slices + 1;
-
-				this.indices.push(lower, upper, lower + 1);
-				this.indices.push(upper, upper + 1, lower + 1);
-			}
-		}
-
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers()
+		this.hiveMaterial = this.createMaterial([0.76, 0.6, 0.42, 1.0], 'images/hive.png');
+		this.trunckMaterial = this.createMaterial([0.64, 0.47, 0.47, 1.0], 'images/trunck.png');
 	}
 
 	display() {
-        this.material.apply();
+        this.hiveMaterial.apply();
+
         this.scene.pushMatrix();
-        super.display();
+        this.cylinder.display();
         this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.scale(1, 0.3, 1);
+		this.scene.translate(0, 10, 0);
+		this.cylinder2.display();
+		this.scene.popMatrix();
+
+		this.trunckMaterial.apply();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0, 3, 0);
+		this.circle.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0, 3.3, 0);
+		this.circle.display();
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+		this.scene.translate(0, 1.5, 0.8);
+		this.scene.scale(1, 0.2, 0.5);
+		this.cube.display();
+		this.scene.popMatrix();
+    }
+
+	createMaterial(colour, texturePath) {
+        let r = colour[0];
+        let g = colour[1];
+        let b = colour[2];
+        let alpha = colour[3];
+        let texture = new CGFtexture(this.scene, texturePath);
+        let material = new CGFappearance(this.scene);
+        material.setAmbient(r, g, b, alpha);
+        material.setDiffuse(r, g, b, alpha);
+        material.setSpecular(r, g, b, alpha);
+        material.setEmission(r, g, b, alpha);
+        material.setTexture(texture);
+        material.setTextureWrap('REPEAT', 'REPEAT');
+        return material;
     }
 }
