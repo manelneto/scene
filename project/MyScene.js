@@ -52,7 +52,7 @@ export class MyScene extends CGFscene {
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 		this.bee = new MyBee(this);
-		this.pollen = new MyPollen(this, 1, 2);
+		this.pollen = new MyPollen(this, 1, 2, 0);
 		this.hive = new MyHive(this, 1, 2, 0.5, 0.5);
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.pollen, this.hive];

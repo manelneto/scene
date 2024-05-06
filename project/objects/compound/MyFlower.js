@@ -29,7 +29,7 @@ export class MyFlower extends CGFobject {
         this.receptacleRadius = receptacleRadius;
         this.unionAngle = this.generateRandom(minUnionAngle, maxUnionAngle);
 
-        let stemHeight, stemAngle;
+        let stemAngle, stemHeight;
         this.stems = [];
         this.stemAngles = [];
         this.stemHeights = [];
@@ -48,7 +48,7 @@ export class MyFlower extends CGFobject {
         this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
         
         this.petalLength = flowerRadius - receptacleRadius;
-        let petalAngle = this.generateRandom(Math.PI/12, Math.PI/8);
+        const petalAngle = this.generateRandom(Math.PI/12, Math.PI/8);
         this.petals = [];
         for (let i = 0; i < petalsNumber; i++) {
             this.petals.push(new MyPetal(this.scene, this.petalLength, petalAngle));
@@ -56,8 +56,8 @@ export class MyFlower extends CGFobject {
 
         this.leaf = new MyLeaf(this.scene);
 
-        this.pollen = new MyPollen(this.scene, 1, 2);
-        this.pollenAngle = this.generateRandom(-Math.PI/8, Math.PI/8);
+        this.pollen = new MyPollen(this.scene, 1, 2, this.generateRandom(-Math.PI/8, Math.PI/8));
+        this.hasPollen = true;
 
         if (Math.random() < 0.5) {
             this.petalMaterial = this.createMaterial(petalsColour, 'images/petal.png');
@@ -68,6 +68,11 @@ export class MyFlower extends CGFobject {
         this.stemMaterial = this.createMaterial(stemColour, 'images/stem.jpg');
         this.leafMaterial = this.createMaterial(leafColour, 'images/leaf.jpg');
         this.receptacleMaterial = this.createMaterial(receptacleColour, 'images/receptacle.jpg');
+    }
+
+    removePollen() {
+        this.hasPollen = false;
+        return this.pollen;
     }
 
     display() {
@@ -82,17 +87,15 @@ export class MyFlower extends CGFobject {
             stemHeight = this.stemHeights[i];
             
             this.scene.pushMatrix();
+            
             this.scene.translate(xOffset, yOffset - 0.05, 0); 
             this.scene.rotate(stemAngle, 0, 0, 1);
             this.stemMaterial.apply();
             stem.display();
-
-            this.scene.pushMatrix();
-            this.scene.scale(0.5, 0.5, 0.5);
+            
             this.leafMaterial.apply();
             this.leaf.display();
-            this.scene.popMatrix();
-
+            
             this.scene.popMatrix();
 
             xOffset -= stemHeight * Math.sin(stemAngle);
@@ -111,12 +114,15 @@ export class MyFlower extends CGFobject {
         this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
         this.scene.popMatrix();
-        // TODO: talvez reorganizar as transformações - algumas coisas estão estranhas e não parecem fazer o esperado
-        this.scene.pushMatrix();
-        this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0.25);
-        this.scene.rotate(Math.PI / 2 + this.pollenAngle, 1, 0, 0);
-        this.pollen.display();
-        this.scene.popMatrix();
+
+        // TODO: o que é o 0.2 que aparece em todo o lado?
+        
+        if (this.hasPollen) {
+            this.scene.pushMatrix();
+            this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0.25);
+            this.pollen.display();
+            this.scene.popMatrix();
+        }
 
         let petal;
         this.petalMaterial.apply();
@@ -125,17 +131,16 @@ export class MyFlower extends CGFobject {
             petal = this.petals[i];
 
             this.scene.pushMatrix();
-            this.scene.translate(0, -0.2, -0.15);
-            this.scene.translate(xOffset, yOffset + this.receptacleRadius, 0);
+            this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, -0.15);
             this.scene.rotate(angle * i, 0, 0, 1);
             this.scene.translate(this.receptacleRadius - 0.4, 0, 0);
-            this.scene.rotate(- this.unionAngle, 0, 1, 0);
+            this.scene.rotate(-this.unionAngle, 0, 1, 0);
             this.scene.rotate(Math.PI/2, 0, 0, 1);
             this.scene.translate(-0.5, -this.petalLength/2, 0);
             petal.display();
             this.scene.popMatrix();
         }
-        this.scene.rotate(-Math.PI/3, 1, 0, 0);
+                
         this.scene.popMatrix();
     }
 
@@ -152,11 +157,11 @@ export class MyFlower extends CGFobject {
     }
 
     createMaterial(colour, texturePath) {
-        let r = colour[0];
-        let g = colour[1];
-        let b = colour[2];
-        let texture = new CGFtexture(this.scene, texturePath);
-        let material = new CGFappearance(this.scene);
+        const r = colour[0];
+        const g = colour[1];
+        const b = colour[2];
+        const texture = new CGFtexture(this.scene, texturePath);
+        const material = new CGFappearance(this.scene);
         material.setAmbient(r, g, b, 1.0);
         material.setDiffuse(r, g, b, 1.0);
         material.setSpecular(r, g, b, 1.0);
