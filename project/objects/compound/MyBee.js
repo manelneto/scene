@@ -59,6 +59,7 @@ export class MyBee extends CGFobject {
             HIVE: Symbol("hive")
         });
         this.state = this.states.NORMAL;
+        this.flower = null;
         this.pollen = null;
 	}
 
@@ -78,7 +79,9 @@ export class MyBee extends CGFobject {
                 this.x += this.vx * deltaT;
                 this.y -= this.vy * deltaT;
                 this.z += this.vz * deltaT;
-                if (this.scene.garden.hasFlower(this.x, this.y - this.legsLength, this.z)) {
+                
+                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legsLength, this.z);
+                if (this.flower) {
                     this.state = this.states.FLOWER;
                 } else if (this.y <= 0) {
                     this.state = this.states.ASCEND;
@@ -87,6 +90,8 @@ export class MyBee extends CGFobject {
                 break;
 
             case this.states.ASCEND:
+                this.pollen = this.flower.removePollen();
+
                 this.x += this.vx * deltaT;
                 this.y += this.vy * deltaT;
                 this.z += this.vz * deltaT;
@@ -209,6 +214,14 @@ export class MyBee extends CGFobject {
             this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
             this.scene.scale(direction, 1, 1);
             this.legs[i].display();
+            this.scene.popMatrix();
+        }
+
+        if (this.pollen) {
+            this.scene.pushMatrix();
+            this.scene.translate(0, -0.6, -1.1);
+            //this.scene.rotate(Math.PI + Math.PI/3, 1, 0, 0); TODO: comentado para falarmos
+            this.pollen.display();
             this.scene.popMatrix();
         }
 

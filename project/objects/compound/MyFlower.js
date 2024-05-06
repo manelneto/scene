@@ -108,8 +108,8 @@ export class MyFlower extends CGFobject {
         this.scene.rotate(Math.PI + Math.PI/3, 1, 0, 0);
         this.scene.translate(-xOffset, 0.2 - yOffset - this.receptacleRadius, 0);
 
-        this.scene.pushMatrix();
         this.receptacleMaterial.apply();
+        this.scene.pushMatrix();
         this.scene.translate(xOffset, yOffset + this.receptacleRadius - 0.2, 0);
         this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
