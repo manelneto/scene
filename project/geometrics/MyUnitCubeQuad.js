@@ -24,14 +24,12 @@ export class MyUnitCubeQuad extends CGFobject {
         this.scene.translate(0, 0, -0.5); //face de tras
         this.scene.rotate(Math.PI, 0, 1, 0);
         this.texturaTras.bind();
-        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         this.face.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.translate(0, 0, 0.5); //face da frente
         this.texturaFrente.bind();
-        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         this.face.display();
         this.scene.popMatrix();
 
@@ -39,7 +37,6 @@ export class MyUnitCubeQuad extends CGFobject {
         this.scene.translate(-0.5, 0, 0); //face da esquerda
         this.scene.rotate(-Math.PI/2, 0, 1, 0);
         this.texturaEsquerda.bind();
-        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         this.face.display();
         this.scene.popMatrix();
 
@@ -47,7 +44,6 @@ export class MyUnitCubeQuad extends CGFobject {
         this.scene.translate(0.5, 0, 0); //face da direita
         this.scene.rotate(Math.PI/2, 0, 1, 0);
         this.texturaDireita.bind();
-        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         this.face.display();
         this.scene.popMatrix();
 
@@ -55,7 +51,6 @@ export class MyUnitCubeQuad extends CGFobject {
         this.scene.translate(0, -0.5, 0); //face de baixo
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.texturaFundo.bind();
-        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         this.face.display();
         this.scene.popMatrix();
 
@@ -63,7 +58,6 @@ export class MyUnitCubeQuad extends CGFobject {
         this.scene.translate(0, 0.5, 0); //face de cima
         this.scene.rotate(-Math.PI/2, 1, 0, 0);
         this.texturaTopo.bind();
-        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
         this.face.display();
         this.scene.popMatrix();
     }
