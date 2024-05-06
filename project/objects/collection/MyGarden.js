@@ -28,17 +28,18 @@ export class MyGarden extends CGFobject {
         }
     }
 
-    hasFlower(x, y, z) {
-        let flowerX, flowerY, flowerZ;
-        for (const flowerCoords of this.flowersCoords) {
+    getFlower(x, y, z) {
+        let flowerX, flowerY, flowerZ, flowerCoords;
+        for (let i = 0; i < this.flowers.length; i++) {
+            flowerCoords = this.flowersCoords[i];
             flowerX = flowerCoords[0];
             flowerY = flowerCoords[1];
             flowerZ = flowerCoords[2];
             if (Math.abs(flowerX - x) <= this.receptacleRadius && y - flowerY <= 0.5 && y - flowerY >= 0 && Math.abs(flowerZ - z) <= this.receptacleRadius) {
-                return true;
+                return this.flowers[i];
             }
         }
-        return false;
+        return null;
     }
 
     display() {

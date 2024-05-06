@@ -6,14 +6,16 @@ import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
  * @param scene - Reference to MyScene object
  * @param y1 - Scale along the YY axis to apply to the "south" hemisphere
  * @param y2 - Scale along the YY axis to apply to the "north" hemisphere
+ * @param angle - Rotation angle
  */
 export class MyPollen extends CGFobject {
-    constructor(scene, y1, y2) {
+    constructor(scene, y1, y2, angle) {
         super(scene);
         this.stacks = 32;
         this.slices = 64;
         this.y1 = y1;
         this.y2 = y2;
+        this.angle = angle;
 
         const texture = new CGFtexture(this.scene, 'images/pollen.png');
         this.material = new CGFappearance(this.scene);
@@ -81,6 +83,7 @@ export class MyPollen extends CGFobject {
         this.material.apply();
         this.scene.pushMatrix();
         this.scene.scale(0.35, 0.35, 0.35);
+        this.scene.rotate(Math.PI/2 + this.angle, 1, 0, 0);
         super.display();
         this.scene.popMatrix();
     }

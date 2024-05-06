@@ -18,6 +18,7 @@ export class MyBee extends CGFobject {
 
         this.bigWingsLength = 0.8;
         this.smallWingsLength = 0.6;
+        this.legsLength = 0.4
         
         this.head = new MyHead(this.scene);
         this.eyes = [new MyEye(this.scene), new MyEye(this.scene)];
@@ -29,7 +30,7 @@ export class MyBee extends CGFobject {
         this.legs = [];
 
         for (let i = 0; i < 6; i++) {
-            this.legs.push(new MyLeg(this.scene));
+            this.legs.push(new MyLeg(this.scene, this.legsLength));
         }
 
         this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
@@ -58,6 +59,7 @@ export class MyBee extends CGFobject {
             HIVE: Symbol("hive")
         });
         this.state = this.states.NORMAL;
+        this.flower = null;
         this.pollen = null;
 	}
 
@@ -77,8 +79,9 @@ export class MyBee extends CGFobject {
                 this.x += this.vx * deltaT;
                 this.y -= this.vy * deltaT;
                 this.z += this.vz * deltaT;
-
-                if (this.scene.garden.hasFlower(this.x, this.y - 0.4, this.z)) {
+                
+                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legsLength, this.z);
+                if (this.flower) {
                     this.state = this.states.FLOWER;
                 } else if (this.y <= 0) {
                     this.state = this.states.ASCEND;
@@ -87,6 +90,8 @@ export class MyBee extends CGFobject {
                 break;
 
             case this.states.ASCEND:
+                this.pollen = this.flower.removePollen();
+
                 this.x += this.vx * deltaT;
                 this.y += this.vy * deltaT;
                 this.z += this.vz * deltaT;
@@ -169,12 +174,13 @@ export class MyBee extends CGFobject {
         let direction;
         this.scene.pushMatrix();
 
-        this.scene.translate(this.x, this.y, 1 + this.z);
+        this.scene.translate(this.x, this.y, this.z);
         this.scene.rotate(this.orientation, 0, 1, 0);
+        this.scene.translate(0, 0, 1);
 
         this.abdomenMaterial.apply();
         this.scene.pushMatrix();
-        this.scene.rotate(-Math.PI / 10, 1, 0, 0);
+        this.scene.rotate(-Math.PI/10, 1, 0, 0);
         this.scene.translate(0, 0.7, -2.5);
         this.abdomen.display();
         this.scene.popMatrix();
@@ -182,7 +188,7 @@ export class MyBee extends CGFobject {
         this.headThoraxMaterial.apply();
 
         this.scene.pushMatrix();
-        this.scene.rotate(-Math.PI / 10, 1, 0, 0);
+        this.scene.rotate(-Math.PI/10, 1, 0, 0);
         this.head.display();
         this.scene.popMatrix();
 
@@ -208,6 +214,14 @@ export class MyBee extends CGFobject {
             this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
             this.scene.scale(direction, 1, 1);
             this.legs[i].display();
+            this.scene.popMatrix();
+        }
+
+        if (this.pollen) {
+            this.scene.pushMatrix();
+            this.scene.translate(0, -0.6, -1.1);
+            //this.scene.rotate(Math.PI + Math.PI/3, 1, 0, 0); TODO: comentado para falarmos
+            this.pollen.display();
             this.scene.popMatrix();
         }
 
@@ -267,12 +281,12 @@ export class MyBee extends CGFobject {
     }
 
     createMaterial(colour, texturePath) {
-        let r = colour[0];
-        let g = colour[1];
-        let b = colour[2];
-        let alpha = colour[3];
-        let texture = new CGFtexture(this.scene, texturePath);
-        let material = new CGFappearance(this.scene);
+        const r = colour[0];
+        const g = colour[1];
+        const b = colour[2];
+        const alpha = colour[3];
+        const texture = new CGFtexture(this.scene, texturePath);
+        const material = new CGFappearance(this.scene);
         material.setAmbient(r, g, b, alpha);
         material.setDiffuse(r, g, b, alpha);
         material.setSpecular(r, g, b, alpha);
