@@ -167,9 +167,9 @@ export class MyScene extends CGFscene {
 			this.popMatrix();
 		}
 
-		this.pollen.display();
+		//this.pollen.display();
 
-		//this.hive.display();
+		this.hive.display();
 	}
 
 	checkKeys() {
