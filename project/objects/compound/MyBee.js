@@ -90,7 +90,9 @@ export class MyBee extends CGFobject {
                 break;
 
             case this.states.ASCEND:
-                this.pollen = this.flower.removePollen();
+                if (this.flower) {
+                    this.pollen = this.flower.removePollen();
+                }
 
                 this.x += this.vx * deltaT;
                 this.y += this.vy * deltaT;
