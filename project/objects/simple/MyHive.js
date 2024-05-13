@@ -12,13 +12,13 @@ export class MyHive extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-		this.cylinder = new MyCylinder(scene, 1, 3);
-		this.cylinder2 = new MyCylinder(scene, 1.3, 1);
-		this.circle = new MyCircle(scene, 32, 1.3);
+		this.hive = new MyCylinder(scene, 1, 3);
+		this.trunck = new MyCylinder(scene, 1.3, 1);
+		this.cover = new MyCircle(scene, 32, 1.3);
 
 		const trunckTexture = new CGFtexture(this.scene, 'images/trunck.png');
 
-		this.cube = new MyUnitCubeQuad(scene, trunckTexture, trunckTexture, trunckTexture, trunckTexture, trunckTexture, trunckTexture);
+		this.entrance = new MyUnitCubeQuad(scene, trunckTexture, trunckTexture, trunckTexture, trunckTexture, trunckTexture, trunckTexture);
 
 		this.hiveMaterial = this.createMaterial([0.76, 0.6, 0.42, 1.0], 'images/hive.png');
 		this.trunckMaterial = this.createMaterial([0.64, 0.47, 0.47, 1.0], 'images/trunck.png');
@@ -28,31 +28,31 @@ export class MyHive extends CGFobject {
         this.hiveMaterial.apply();
 
         this.scene.pushMatrix();
-        this.cylinder.display();
+        this.hive.display();
         this.scene.popMatrix();
 
 		this.scene.pushMatrix();
 		this.scene.scale(1, 0.3, 1);
 		this.scene.translate(0, 10, 0);
-		this.cylinder2.display();
+		this.trunck.display();
 		this.scene.popMatrix();
 
 		this.trunckMaterial.apply();
 
 		this.scene.pushMatrix();
 		this.scene.translate(0, 3, 0);
-		this.circle.display();
+		this.cover.display();
 		this.scene.popMatrix();
 
 		this.scene.pushMatrix();
 		this.scene.translate(0, 3.3, 0);
-		this.circle.display();
+		this.cover.display();
 		this.scene.popMatrix();
 
 		this.scene.pushMatrix();
 		this.scene.translate(0, 1.5, 0.8);
 		this.scene.scale(1, 0.2, 0.5);
-		this.cube.display();
+		this.entrance.display();
 		this.scene.popMatrix();
     }
 
