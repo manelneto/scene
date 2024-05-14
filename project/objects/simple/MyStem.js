@@ -12,7 +12,7 @@ export class MyStem extends CGFobject {
 	constructor(scene, radius, height) {
 		super(scene);
 		
-        this.cylinder = new MyCylinder(this.scene, radius, height);
+        this.cylinder = new MyCylinder(this.scene, radius, height, true);
 	}
 
     display() {

@@ -1,4 +1,5 @@
 import { CGFobject } from '../../lib/CGF.js';
+import { MyCircle } from './MyCircle.js';
 
 /**
  * MyCylinder
@@ -6,13 +7,21 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param scene - Reference to MyScene object
  * @param radius - Cylinder radius
  * @param height - Cylinder height
+ * @param covers - True to add covers to the cylinder, false otherwise
  */
 export class MyCylinder extends CGFobject {
-	constructor(scene, radius, height) {
+	constructor(scene, radius, height, covers) {
 		super(scene);
 		this.slices = 64;
 		this.radius = radius;
 		this.height = height;
+		this.covers = covers;
+
+		if (this.covers) {
+			this.bottom = new MyCircle(scene, this.slices, this.radius);
+			this.top = new MyCircle(scene, this.slices, this.radius);
+		}
+
 		this.initBuffers();
 	}
 	
@@ -53,5 +62,17 @@ export class MyCylinder extends CGFobject {
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers()
+	}
+
+	display() {
+		super.display();
+		
+		if (this.covers) {
+			this.bottom.display();
+			this.scene.pushMatrix();
+			this.scene.translate(0, this.height, 0);
+			this.top.display();
+			this.scene.popMatrix();
+		}
 	}
 }

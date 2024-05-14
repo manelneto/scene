@@ -16,7 +16,7 @@ export class MyLeaf extends CGFobject {
         this.width = 1;
         this.triangleHeight = 1;
 
-        this.cylinder = new MyCylinder(this.scene, this.radius, this.cylinderHeight);
+        this.cylinder = new MyCylinder(this.scene, this.radius, this.cylinderHeight, true);
         this.triangle1 = new MyTriangle(this.scene, this.width, this.triangleHeight);
         this.triangle2 = new MyTriangle(this.scene, this.width, this.triangleHeight);
 	}
