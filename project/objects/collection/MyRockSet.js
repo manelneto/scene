@@ -7,13 +7,15 @@ import { MyRock } from '../simple/MyRock.js';
  * @param scene - Reference to MyScene object
  * @param pyramid - Boolean to indicate if the rocks should be organized as a pyramid
  * @param n - If pyramid is set, number of levels; else, number of rocks
+ * @param start - If pyramid is set, the first square has (start + n) rocks on each side; else, unused
  */
 export class MyRockSet extends CGFobject {
-    constructor(scene, pyramid, n) {
+    constructor(scene, pyramid, n, start) {
         super(scene);
         this.pyramid = pyramid;
         this.n = n;
         this.rocks = [];
+        this.start = start;
 
         let rock, random;
         for (let i = 0; i < this.n; i++) {
@@ -50,9 +52,9 @@ export class MyRockSet extends CGFobject {
             
             if (this.pyramid) {
                 this.scene.translate(0, -1.5 * i, 0);
-                this.displaySquare(i, rock, random);
+                this.displaySquare(i + this.start, rock, random);
             } else {
-                this.scene.translate(random[0] * 20, 0, random[2] * 20);
+                this.scene.translate(random[0] * 10, 0, random[2] * -10);
                 this.scene.scale(Math.abs(random[0]) + 1, Math.abs(random[1]) + 1, Math.abs(random[2]) + 1);
                 rock.display();
             }

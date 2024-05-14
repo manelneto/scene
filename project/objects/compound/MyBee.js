@@ -68,11 +68,19 @@ export class MyBee extends CGFobject {
         this.flower = null;
         this.pollen = null;
         
+        this.previousX = this.x;
         this.previousY = this.y;
+        this.previousZ = this.z;
         this.targetX = null;
         this.targetY = null;
         this.targetZ = null;
+
+        this.targetRadius = null;
 	}
+
+    isNear(x, y, z, tolerance) {
+        return Math.abs(x - this.x) < tolerance && Math.abs(y - this.y) < tolerance && Math.abs(z - this.z) < tolerance
+    }
 
     update(t) {
         const deltaT = t - this.time;
@@ -122,7 +130,7 @@ export class MyBee extends CGFobject {
             case this.states.HIVE:
                 this.y += this.vy * deltaT;
 
-                if (Math.abs(this.targetX - this.x) < 0.5 && Math.abs(this.targetY - this.y) < 0.5 && Math.abs(this.targetZ - this.z) < 0.5) {
+                if (this.isNear(this.targetX, this.targetY, this.targetZ, this.targetRadius)) {
                     this.pollen = null;
                     this.vx = -this.vx;
                     this.vy = -this.vy;
@@ -130,7 +138,7 @@ export class MyBee extends CGFobject {
                     this.orientation += Math.PI;
                 }
 
-                if (this.y <= this.previousY) {
+                if (this.pollen == null && this.isNear(this.previousX, this.previousY, this.previousZ, 0.5)) {
                     this.state = this.states.NORMAL;
                     this.vx = this.v0x;
                     this.vy = this.v0y;
@@ -197,14 +205,18 @@ export class MyBee extends CGFobject {
         }
     }
 
-    deliver(targetX, targetY, targetZ) {
+    deliver(targetX, targetY, targetZ, targetRadius) {
         if (this.state == this.states.NORMAL && this.pollen) {
             this.state = this.states.HIVE;
+            
+            this.previousX = this.x;
             this.previousY = this.y;
+            this.previousZ = this.z;
 
             this.targetX = targetX;
             this.targetY = targetY;
             this.targetZ = targetZ;
+            this.targetRadius = targetRadius;
 
             const opposite = this.targetX - this.x;
             const adjacent = this.targetZ - this.z;
@@ -212,7 +224,7 @@ export class MyBee extends CGFobject {
             this.vx = opposite / 5;
             this.vy = (targetY - this.y) / 5;
             this.vz = adjacent / 5;
-            this.orientation = Math.atan(opposite / adjacent);
+            this.orientation = Math.PI + Math.atan(opposite / adjacent);
         }
     }
 
@@ -221,6 +233,7 @@ export class MyBee extends CGFobject {
         this.scene.pushMatrix();
 
         this.scene.translate(this.x, this.y, this.z);
+        this.scene.scale(this.scene.scaleFactor, this.scene.scaleFactor, this.scene.scaleFactor);
         this.scene.rotate(this.orientation, 0, 1, 0);
         this.scene.translate(0, 0, 1);
 

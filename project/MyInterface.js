@@ -22,18 +22,18 @@ export class MyInterface extends CGFinterface {
 
         const f2 = this.gui.addFolder('Flowers');
         f2.add(this.scene, 'displayGarden').name('Display Garden');
-        f2.add(this.scene, 'gardenRows', 0, 10, 1).name('Garden Rows').onChange(this.scene.updateGardenRows.bind(this.scene));
-        f2.add(this.scene, 'gardenCols', 0, 10, 1).name('Garden Columns').onChange(this.scene.updateGardenCols.bind(this.scene));
+        f2.add(this.scene, 'gardenRows', 0, 10, 1).name('Garden Rows').onChange(this.scene.updateGarden.bind(this.scene));
+        f2.add(this.scene, 'gardenCols', 0, 10, 1).name('Garden Columns').onChange(this.scene.updateGarden.bind(this.scene));
 
         const f3 = this.gui.addFolder('Rocks and Boulders');
 
         const sf0 = f3.addFolder('Rock Pyramid');
-        sf0.add(this.scene, 'displayPyramid').name('Display Pyramid')
-        sf0.add(this.scene, 'pyramidLevels', 0, 10, 1).name('Rock Pyramid Levels').onChange(this.scene.updatePyramidLevels.bind(this.scene));
+        sf0.add(this.scene, 'displayPyramid').name('Display Pyramid');
+        sf0.add(this.scene, 'pyramidLevels', 0, 10, 1).name('Rock Pyramid Levels').onChange(this.scene.updatePyramid.bind(this.scene));
 
         const sf1 = f3.addFolder('Random Rocks');
         sf1.add(this.scene, 'displayRocks').name('Display Rocks');
-        sf1.add(this.scene, 'nRocks', 0, 10, 1).name('Rocks Number').onChange(this.scene.updateNRocks.bind(this.scene));
+        sf1.add(this.scene, 'nRocks', 0, 10, 1).name('Rocks Number').onChange(this.scene.updateRocks.bind(this.scene));
 
         const f4 = this.gui.addFolder('Bee');
         f4.add(this.scene, 'displayBee').name('Display Bee');

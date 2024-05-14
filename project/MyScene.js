@@ -45,21 +45,24 @@ export class MyScene extends CGFscene {
 		this.gardenCols = 3;
 		this.speedFactor = 1;
 		this.scaleFactor = 1;
+		this.hiveRadius = 3;
+		this.hiveHeight = 9;
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
 		this.plane = new MyPlane(this, 30);
 
 		this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'));
-		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
+		this.pyramid = new MyRockSet(this, true, this.pyramidLevels, 0);
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 		this.bee = new MyBee(this);
-		this.hive = new MyHive(this);
+		this.hive = new MyHive(this, this.hiveRadius, this.hiveHeight);
+		this.hivePyramid = new MyRockSet(this, true, this.pyramidLevels, 3);
 
-		this.hiveX = 20;
-		this.hiveY = 20;
-		this.hiveZ = 20;
+		this.hiveX = -20;
+		this.hiveY = this.pyramidLevels * 2;
+		this.hiveZ = -20;
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.hive];
 
@@ -105,19 +108,15 @@ export class MyScene extends CGFscene {
 		this.setShininess(10.0);
 	}
 
-	updatePyramidLevels() {
-		this.pyramid = new MyRockSet(this, true, this.pyramidLevels);
+	updatePyramid() {
+		this.pyramid = new MyRockSet(this, true, this.pyramidLevels, 0);
 	}
 
-	updateNRocks() {
+	updateRocks() {
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 	}
 
-	updateGardenRows() {
-		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
-	}
-
-	updateGardenCols() {
+	updateGarden() {
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 	}
 
@@ -141,8 +140,7 @@ export class MyScene extends CGFscene {
 
 		if (this.displayPlane) {
 			this.pushMatrix();
-			this.translate(0, -100, 0);
-			this.scale(400, 400, 400);
+			this.scale(100, 100, 100);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.plane.display();
 			this.popMatrix();
@@ -155,14 +153,14 @@ export class MyScene extends CGFscene {
 
 		if (this.displayPyramid) {
 			this.pushMatrix();
-			this.translate(-50, 0, 50);
+			this.translate(-35, 2 * this.pyramidLevels, 35);
 			this.pyramid.display();
 			this.popMatrix();
 		}
 
 		if (this.displayRocks) {
 			this.pushMatrix();
-			this.translate(-10, -20, 50);
+			this.translate(20, 2, -20);
 			this.scale(2, 2, 2);
 			this.rockSet.display();
 			this.popMatrix();
@@ -170,14 +168,13 @@ export class MyScene extends CGFscene {
 
 		if (this.displayGarden) {
 			this.pushMatrix();
-			//this.translate(-30, 0, 10);
+			//this.translate(-30, 0, 10); TODO: falar sobre isto
 			this.garden.display();
 			this.popMatrix();
 		}
 
 		if (this.displayBee) {
 			this.pushMatrix();
-			this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
 			this.bee.display();
 			this.popMatrix();
 		}
@@ -185,7 +182,11 @@ export class MyScene extends CGFscene {
 		if (this.displayHive) {
 			this.pushMatrix();
 			this.translate(this.hiveX, this.hiveY, this.hiveZ);
+			this.pushMatrix();
+			this.rotate(Math.PI/4, 0, 1, 0);
 			this.hive.display();
+			this.popMatrix();
+			this.hivePyramid.display();
 			this.popMatrix();
 		}
 	}
@@ -220,7 +221,7 @@ export class MyScene extends CGFscene {
 		}
 
 		if (this.gui.isKeyPressed("KeyO")) {
-			this.bee.deliver(this.hiveX, this.hiveY, this.hiveZ);
+			this.bee.deliver(this.hiveX, this.hiveY + this.hiveHeight/2, this.hiveZ, this.hiveRadius);
 		}
 	}
 

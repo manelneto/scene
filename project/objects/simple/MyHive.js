@@ -7,13 +7,18 @@ import { MyCube } from '../../geometrics/MyCube.js';
  * MyHive
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param radius - Hive radius
+ * @param height - Hive height
  */
 export class MyHive extends CGFobject {
-	constructor(scene) {
+	constructor(scene, radius, height) {
 		super(scene);
 
-		this.trunk = new MyCylinder(scene, 1, 3, this.woodMaterial, false);
-		this.cover = new MyCircle(scene, 64, 1);
+		this.radius = radius;
+		this.height = height;
+
+		this.trunk = new MyCylinder(scene, this.radius, this.height, this.woodMaterial, false);
+		this.cover = new MyCircle(scene, 64, this.radius);
 		this.entrance = new MyCube(scene);
 
 		this.trunkMaterial = this.createMaterial([0.76, 0.6, 0.42, 1.0], 'images/trunk.png');
@@ -26,7 +31,7 @@ export class MyHive extends CGFobject {
 		this.trunk.display();
 
 		this.scene.pushMatrix();
-		this.scene.translate(0, 3, 0);
+		this.scene.translate(0, this.height, 0);
 		this.scene.scale(1.3, 0.1, 1.3);
 		this.trunk.display();
 		this.scene.popMatrix();
@@ -39,7 +44,7 @@ export class MyHive extends CGFobject {
 		this.scene.translate(0, 0.3, 0);
 
 		this.scene.pushMatrix();
-		this.scene.translate(0, 3, 0);
+		this.scene.translate(0, this.height, 0);
 		this.scene.scale(1.3, 1, 1.3);
 		this.cover.display();
 		this.cover.display();
@@ -48,8 +53,8 @@ export class MyHive extends CGFobject {
 		this.scene.popMatrix();
 
 		this.scene.pushMatrix();
-		this.scene.translate(0, 1.5, 0.8);
-		this.scene.scale(1, 0.2, 0.5);
+		this.scene.translate(0, this.height/2, 0.8 * this.radius);
+		this.scene.scale(3, 0.6, 1.5);
 		this.entrance.display();
 		this.scene.popMatrix();
     }
