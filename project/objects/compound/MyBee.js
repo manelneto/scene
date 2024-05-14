@@ -98,17 +98,17 @@ export class MyBee extends CGFobject {
             case this.states.DESCEND:
                 this.y -= this.vy * deltaT;
                 
-                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legLength, this.z);
+                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legLength * this.scene.scaleFactor, this.z);
                 if (this.flower) {
                     this.state = this.states.FLOWER;
-                } else if (this.y <= 0) {
+                } else if (this.y - this.legLength * this.scene.scaleFactor <= 0) {
                     this.state = this.states.ASCEND;
                 }
 
                 break;
 
             case this.states.ASCEND:
-                if (this.flower) {
+                if (this.flower && !this.pollen) {
                     this.pollen = this.flower.removePollen();
                     this.flower = null;
                 }
@@ -134,7 +134,7 @@ export class MyBee extends CGFobject {
                     this.orientation += Math.PI;
                 }
 
-                if (this.pollen == null && this.isNear(this.previousX, this.previousY, this.previousZ, 0.5)) {
+                if (this.pollen == null && this.isNear(this.previousX, this.previousY, this.previousZ, 0.5 * this.scene.scaleFactor)) {
                     this.state = this.states.NORMAL;
                     this.vx = this.v0x;
                     this.vy = this.v0y;
