@@ -108,7 +108,7 @@ export class MyBee extends CGFobject {
                 break;
 
             case this.states.ASCEND:
-                if (this.flower && !this.pollen) {
+                if (this.flower && !this.pollen) { // TODO: esperar por resposta da prof
                     this.pollen = this.flower.removePollen();
                     this.flower = null;
                 }
@@ -335,6 +335,7 @@ export class MyBee extends CGFobject {
     }
 
     createMaterial(colour, texturePath) {
+        // TODO: esta função não deve estar copiada em todo o lado, talvez acrescentar um utils ou encontrar uma maneira melhor?
         const r = colour[0];
         const g = colour[1];
         const b = colour[2];
