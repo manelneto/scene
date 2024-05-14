@@ -42,9 +42,8 @@ export class MyBee extends CGFobject {
         this.wingAngle = 0;
         this.x = 0;
         this.y = 10;
-        this.y0 = this.y;
         this.z = 0;
-        this.orientation = 0; // around the YY axis, from Z to X (counter-clockwise)
+        this.orientation = 0; // angle around the YY axis, from Z to X (counter-clockwise)
         this.vx = 0;
         this.vy = 5;
         this.vz = 0;
@@ -61,6 +60,13 @@ export class MyBee extends CGFobject {
         this.state = this.states.NORMAL;
         this.flower = null;
         this.pollen = null;
+        
+        this.previousX = this.x;
+        this.previousY = this.y;
+        this.previousZ = this.z;
+        this.targetX = null;
+        this.targetY = null;
+        this.targetZ = null;
 	}
 
     update(t) {
@@ -71,7 +77,7 @@ export class MyBee extends CGFobject {
         switch (this.state) {
             case this.states.NORMAL:
                 this.x += this.vx * deltaT;
-                this.y = this.y0 + Math.sin(2 * Math.PI * t);
+                this.y = this.previousY + Math.sin(2 * Math.PI * t);
                 this.z += this.vz * deltaT;
                 break;
 
@@ -98,10 +104,10 @@ export class MyBee extends CGFobject {
                 this.y += this.vy * deltaT;
                 this.z += this.vz * deltaT;
 
-                if (this.y >= this.y0) {
+                if (this.y >= this.previousY) {
                     this.state = this.states.NORMAL;
                     this.time = 0;
-                    this.scene.resetTime();
+                    this.scene.resetTime(); // TODO: check if needed
                 }
 
                 break;
@@ -110,6 +116,25 @@ export class MyBee extends CGFobject {
                 break;
 
             case this.states.HIVE:
+                this.x += this.vx * deltaT;
+                this.y += this.vy * deltaT;
+                this.z += this.vz * deltaT;
+
+                if (Math.abs(this.targetX - this.x) < 0.5 && Math.abs(this.targetY - this.y) < 0.5 && Math.abs(this.targetZ - this.z) < 0.5) {
+                    this.pollen = null;
+                    this.vx = -this.vx;
+                    this.vy = -this.vy;
+                    this.vz = -this.vz;
+                    this.orientation += Math.PI;
+                }
+
+                if (this.x <= this.previousX && this.y <= this.previousY && this.z <= this.previousZ) {
+                    this.state = this.states.NORMAL;
+                    this.vx = 0;
+                    this.vy = 0;
+                    this.vz = 0;
+                }
+
                 break;
         }
     }
@@ -164,12 +189,26 @@ export class MyBee extends CGFobject {
     descend() {
         if (this.state == this.states.NORMAL) {
             this.state = this.states.DESCEND;
-            this.y0 = this.y;
+            this.previousY = this.y;
         }
     }
 
-    deliver() {
-        // TODO
+    deliver(targetX, targetY, targetZ) {
+        if (this.state == this.states.NORMAL && this.pollen) {
+            this.state = this.states.HIVE;
+
+            this.targetX = targetX;
+            this.targetY = targetY;
+            this.targetZ = targetZ;
+
+            const opposite = this.targetX - this.x;
+            const adjacent = this.targetZ - this.z;
+
+            this.vx = opposite / 5;
+            this.vy = (targetY - this.y) / 5;
+            this.vz = adjacent / 5;
+            this.orientation = Math.atan(opposite / adjacent);
+        }
     }
 
     display() {

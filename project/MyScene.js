@@ -55,7 +55,11 @@ export class MyScene extends CGFscene {
 		this.rockSet = new MyRockSet(this, false, this.nRocks);
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 		this.bee = new MyBee(this);
-		this.hive = new MyHive(this, 1, 2, 0.5, 0.5);
+		this.hive = new MyHive(this);
+
+		this.hiveX = 20;
+		this.hiveY = 20;
+		this.hiveZ = 20;
 
 		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.hive];
 
@@ -181,7 +185,7 @@ export class MyScene extends CGFscene {
 
 		if (this.displayHive) {
 			this.pushMatrix();
-			this.translate(-50, 0, 50);
+			this.translate(this.hiveX, this.hiveY, this.hiveZ);
 			this.hive.display();
 			this.popMatrix();
 		}
@@ -217,7 +221,7 @@ export class MyScene extends CGFscene {
 		}
 
 		if (this.gui.isKeyPressed("KeyO")) {
-			this.bee.deliver();
+			this.bee.deliver(this.hiveX, this.hiveY, this.hiveZ);
 		}
 	}
 
