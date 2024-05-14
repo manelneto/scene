@@ -6,7 +6,7 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyQuad extends CGFobject {
-	constructor(scene, coords) {
+	constructor(scene) {
 		super(scene);
 		this.initBuffers();
 	}

@@ -16,22 +16,18 @@ export class MyBee extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.bigWingsLength = 0.8;
-        this.smallWingsLength = 0.6;
-        this.legsLength = 0.4
+        this.bigWingLength = 0.8;
+        this.smallWingLength = 0.6;
+        this.legLength = 0.4;
         
         this.head = new MyHead(this.scene);
-        this.eyes = [new MyEye(this.scene), new MyEye(this.scene)];
-        this.antennas = [new MyAntenna(this.scene), new MyAntenna(this.scene)];
+        this.eye = new MyEye(this.scene);
+        this.antenna = new MyAntenna(this.scene);
         this.thorax = new MyThorax(this.scene);
         this.abdomen = new MyAbdomen(this.scene);
-        this.bigWings = [new MyWing(this.scene, this.bigWingsLength), new MyWing(this.scene, this.bigWingsLength)];
-        this.smallWings =  [new MyWing(this.scene, this.smallWingsLength), new MyWing(this.scene, this.smallWingsLength)];
-        this.legs = [];
-
-        for (let i = 0; i < 6; i++) {
-            this.legs.push(new MyLeg(this.scene, this.legsLength));
-        }
+        this.bigWing = new MyWing(this.scene, this.bigWingLength);
+        this.smallWing = new MyWing(this.scene, this.smallWingLength);
+        this.leg = new MyLeg(this.scene, this.legLength);
 
         this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
         this.headThoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head-thorax.png');
@@ -102,7 +98,7 @@ export class MyBee extends CGFobject {
             case this.states.DESCEND:
                 this.y -= this.vy * deltaT;
                 
-                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legsLength, this.z);
+                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legLength, this.z);
                 if (this.flower) {
                     this.state = this.states.FLOWER;
                 } else if (this.y <= 0) {
@@ -263,7 +259,7 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.rotate(direction * Math.PI / 6, 0, 1, 0);
             this.scene.translate(direction * 0.2, 0.6, 0);
-            this.antennas[i].display();
+            this.antenna.display();
             this.scene.popMatrix();
         }
         
@@ -272,7 +268,7 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(direction * -0.4, -0.5, -1.35 + 0.3 * Math.floor(i / 2));
             this.scene.scale(direction, 1, 1);
-            this.legs[i].display();
+            this.leg.display();
             this.scene.popMatrix();
         }
 
@@ -289,7 +285,7 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.3, 0.1, 0.1);
             this.scene.rotate(direction * Math.PI / 10, 0, 1, 0);
-            this.eyes[i].display();
+            this.eye.display();
             this.scene.popMatrix();
         }
 
@@ -299,8 +295,8 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.35, 0.5, -0.7);
             this.scene.rotate(direction * (Math.PI / 7 + this.wingAngle), 0, 0, 1);
-            this.scene.translate(direction * this.bigWingsLength, 0, 0);
-            this.bigWings[i].display();
+            this.scene.translate(direction * this.bigWingLength, 0, 0);
+            this.bigWing.display();
             this.scene.popMatrix();
         }
         for (let i = 0; i < 2; i++) {
@@ -308,8 +304,8 @@ export class MyBee extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(direction * 0.4, 0.4, -1.2);
             this.scene.rotate(direction * (Math.PI / 7 + this.wingAngle), 0, 0, 1);
-            this.scene.translate(direction * this.smallWingsLength, 0, 0);
-            this.smallWings[i].display();
+            this.scene.translate(direction * this.smallWingLength, 0, 0);
+            this.smallWing.display();
             this.scene.popMatrix();
         }
 
@@ -318,24 +314,24 @@ export class MyBee extends CGFobject {
 
     enableNormalViz() {
         this.head.enableNormalViz();
-        this.eyes.forEach((eye) => eye.enableNormalViz());
-        this.antennas.forEach((antenna) => antenna.enableNormalViz());
+        this.eye.enableNormalViz();
+        this.antenna.enableNormalViz();
         this.thorax.enableNormalViz();
         this.abdomen.enableNormalViz();
-        this.bigWings.forEach((bigWing) => bigWing.enableNormalViz());
-        this.smallWings.forEach((smallWing) => smallWing.enableNormalViz());
-        this.legs.forEach((leg) => leg.enableNormalViz());
+        this.bigWing.enableNormalViz();
+        this.smallWing.enableNormalViz();
+        this.leg.enableNormalViz();
     }
 
     disableNormalViz() {
         this.head.disableNormalViz();
-        this.eyes.forEach((eye) => eye.disableNormalViz());
-        this.antennas.forEach((antenna) => antenna.disableNormalViz());
+        this.eye.disableNormalViz();
+        this.antenna.disableNormalViz();
         this.thorax.disableNormalViz();
         this.abdomen.disableNormalViz();
-        this.bigWings.forEach((bigWing) => bigWing.disableNormalViz());
-        this.smallWings.forEach((smallWing) => smallWing.disableNormalViz());
-        this.legs.forEach((leg) => leg.disableNormalViz());
+        this.bigWing.disableNormalViz();
+        this.smallWing.disableNormalViz();
+        this.leg.disableNormalViz();
     }
 
     createMaterial(colour, texturePath) {

@@ -10,8 +10,7 @@ export class MyAntenna extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-        this.lowerSphere = new MySphere(this.scene, 64, 32, false, 1);
-        this.upperSphere = new MySphere(this.scene, 64, 32, false, 1);
+        this.sphere = new MySphere(this.scene, 64, 32, false, 1);
 	}
 
     display() {
@@ -20,26 +19,24 @@ export class MyAntenna extends CGFobject {
 
         this.scene.pushMatrix();
         this.scene.scale(0.11, 1, 0.11);
-        this.lowerSphere.display();
+        this.sphere.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.translate(0, 1.45, 0.8);
         this.scene.rotate(Math.PI / 3, 1, 0, 0);
         this.scene.scale(0.11, 1, 0.11);
-        this.upperSphere.display();
+        this.sphere.display();
         this.scene.popMatrix();
 
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.lowerSphere.enableNormalViz();
-        this.upperSphere.enableNormalViz();
+        this.sphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.lowerSphere.disableNormalViz();
-        this.upperSphere.disableNormalViz();
+        this.sphere.disableNormalViz();
     }
 }

@@ -13,8 +13,7 @@ export class MyLeg extends CGFobject {
 
         this.length = length;
 
-        this.lowerSphere = new MySphere(this.scene, 64, 32, false, 1);
-        this.upperSphere = new MySphere(this.scene, 64, 32, false, 1);
+        this.sphere = new MySphere(this.scene, 64, 32, false, 1);
 	}
 
     display() {
@@ -22,23 +21,21 @@ export class MyLeg extends CGFobject {
         this.scene.translate(0.09, 0.03, 0);
         this.scene.rotate(Math.PI/7, 0, 0, 1);
         this.scene.scale(0.03, this.length/2, 0.03);
-        this.lowerSphere.display();
+        this.sphere.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
         this.scene.translate(0, 0.4, 0);
         this.scene.scale(0.03, this.length/2, 0.03);
-        this.upperSphere.display();
+        this.sphere.display();
         this.scene.popMatrix();
     }
 
     enableNormalViz() {
-        this.lowerSphere.enableNormalViz();
-        this.upperSphere.enableNormalViz();
+        this.sphere.enableNormalViz();
     }
 
     disableNormalViz() {
-        this.lowerSphere.disableNormalViz();
-        this.upperSphere.disableNormalViz();
+        this.sphere.disableNormalViz();
     }
 }

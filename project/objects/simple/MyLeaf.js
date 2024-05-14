@@ -17,8 +17,7 @@ export class MyLeaf extends CGFobject {
         this.triangleHeight = 1;
 
         this.cylinder = new MyCylinder(this.scene, this.radius, this.cylinderHeight, true);
-        this.triangle1 = new MyTriangle(this.scene, this.width, this.triangleHeight);
-        this.triangle2 = new MyTriangle(this.scene, this.width, this.triangleHeight);
+        this.triangle = new MyTriangle(this.scene, this.width, this.triangleHeight);
 	}
 
     display() {
@@ -35,7 +34,7 @@ export class MyLeaf extends CGFobject {
         this.scene.rotate(-Math.PI/4, 0, 0, 1);
         this.scene.translate(-this.width/2, 0, 0);
         this.scene.rotate(Math.PI/5, 1, 0, 0);
-        this.triangle1.display();
+        this.triangle.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
@@ -43,7 +42,7 @@ export class MyLeaf extends CGFobject {
         this.scene.rotate(-Math.PI/4, 0, 0, 1);
         this.scene.translate(-this.width/2, this.triangleHeight, 0);
         this.scene.rotate(Math.PI, 1, 0, 0);
-        this.triangle2.display();
+        this.triangle.display();
         this.scene.popMatrix();
 
         this.scene.popMatrix();
@@ -51,13 +50,11 @@ export class MyLeaf extends CGFobject {
 
     enableNormalViz() {
         this.cylinder.enableNormalViz();
-        this.triangle1.enableNormalViz();
-        this.triangle2.enableNormalViz();
+        this.triangle.enableNormalViz();
     }
 
     disableNormalViz() {
         this.cylinder.disableNormalViz();
-        this.triangle1.disableNormalViz();
-        this.triangle2.disableNormalViz();
+        this.triangle.disableNormalViz();
     }
 }
