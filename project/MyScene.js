@@ -58,7 +58,7 @@ export class MyScene extends CGFscene {
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 		this.bee = new MyBee(this);
 		this.hive = new MyHive(this, this.hiveRadius, this.hiveHeight);
-		this.hivePyramid = new MyRockSet(this, true, this.pyramidLevels, 3);
+		this.hivePyramid = new MyRockSet(this, true, this.pyramidLevels, 2);
 
 		this.hiveX = -20;
 		this.hiveY = this.pyramidLevels * 2;
