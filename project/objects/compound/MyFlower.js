@@ -9,7 +9,7 @@ import { MyPollen } from '../simple/MyPollen.js';
  * MyFlower
  * @constructor
  * @param scene - Reference to MyScene object
- * @param flowerRadius - External radius of the flower
+ * @param radius - External radius of the flower
  * @param petalsNumber - Number of petals
  * @param petalsColour - Colour of the petals
  * @param receptacleRadius - Radius of the flower's heart circle
@@ -22,7 +22,7 @@ import { MyPollen } from '../simple/MyPollen.js';
  * @param maxUnionAngle - Maximum angle of union between the petals and the receptacle
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, flowerRadius, petalsNumber, petalsColour, receptacleRadius, receptacleColour, stemRadius, stemNumber, stemColour, leafColour, minUnionAngle, maxUnionAngle) {
+    constructor(scene, radius, petalsNumber, petalsColour, receptacleRadius, receptacleColour, stemRadius, stemNumber, stemColour, leafColour, minUnionAngle, maxUnionAngle) {
         super(scene);
 
         this.petalsNumber = petalsNumber;
@@ -47,7 +47,7 @@ export class MyFlower extends CGFobject {
 
         this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
         
-        this.petalLength = flowerRadius - receptacleRadius;
+        this.petalLength = radius - receptacleRadius;
         const petalAngle = this.generateRandom(Math.PI/12, Math.PI/8);
         this.petals = [];
         for (let i = 0; i < petalsNumber; i++) {
@@ -70,9 +70,16 @@ export class MyFlower extends CGFobject {
         this.receptacleMaterial = this.createMaterial(receptacleColour, 'images/receptacle.jpg');
     }
 
+    getReceptacleRadius() {
+        return this.receptacleRadius;
+    }
+
     removePollen() {
-        this.hasPollen = false;
-        return this.pollen;
+        if (this.hasPollen) {
+            this.hasPollen = false;
+            return this.pollen;
+        }
+        return null;
     }
 
     display() {

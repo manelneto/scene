@@ -48,6 +48,13 @@ export class MyBee extends CGFobject {
         this.vy = 5;
         this.vz = 0;
 
+        this.x0 = this.x;
+        this.y0 = this.y;
+        this.z0 = this.z;
+        this.v0x = this.vx;
+        this.v0y = this.vy;
+        this.v0z = this.vz;
+
         this.time = 0;
 
         this.states = Object.freeze({
@@ -61,9 +68,7 @@ export class MyBee extends CGFobject {
         this.flower = null;
         this.pollen = null;
         
-        this.previousX = this.x;
         this.previousY = this.y;
-        this.previousZ = this.z;
         this.targetX = null;
         this.targetY = null;
         this.targetZ = null;
@@ -74,17 +79,20 @@ export class MyBee extends CGFobject {
         this.time = t;
         this.wingAngle = (Math.PI / 4) * Math.sin(8 * Math.PI * t);
 
+        if (this.state == this.states.FLOWER) {
+            return;
+        }
+
+        this.x += this.vx * deltaT;
+        this.z += this.vz * deltaT;
+
         switch (this.state) {
             case this.states.NORMAL:
-                this.x += this.vx * deltaT;
                 this.y = this.previousY + Math.sin(2 * Math.PI * t);
-                this.z += this.vz * deltaT;
                 break;
 
             case this.states.DESCEND:
-                this.x += this.vx * deltaT;
                 this.y -= this.vy * deltaT;
-                this.z += this.vz * deltaT;
                 
                 this.flower = this.scene.garden.getFlower(this.x, this.y - this.legsLength, this.z);
                 if (this.flower) {
@@ -98,27 +106,21 @@ export class MyBee extends CGFobject {
             case this.states.ASCEND:
                 if (this.flower) {
                     this.pollen = this.flower.removePollen();
+                    this.flower = null;
                 }
 
-                this.x += this.vx * deltaT;
                 this.y += this.vy * deltaT;
-                this.z += this.vz * deltaT;
 
                 if (this.y >= this.previousY) {
                     this.state = this.states.NORMAL;
                     this.time = 0;
-                    this.scene.resetTime(); // TODO: check if needed
+                    this.scene.resetTime();
                 }
 
                 break;
 
-            case this.states.FLOWER:
-                break;
-
             case this.states.HIVE:
-                this.x += this.vx * deltaT;
                 this.y += this.vy * deltaT;
-                this.z += this.vz * deltaT;
 
                 if (Math.abs(this.targetX - this.x) < 0.5 && Math.abs(this.targetY - this.y) < 0.5 && Math.abs(this.targetZ - this.z) < 0.5) {
                     this.pollen = null;
@@ -128,11 +130,11 @@ export class MyBee extends CGFobject {
                     this.orientation += Math.PI;
                 }
 
-                if (this.x <= this.previousX && this.y <= this.previousY && this.z <= this.previousZ) {
+                if (this.y <= this.previousY) {
                     this.state = this.states.NORMAL;
-                    this.vx = 0;
-                    this.vy = 0;
-                    this.vz = 0;
+                    this.vx = this.v0x;
+                    this.vy = this.v0y;
+                    this.vz = this.v0z;
                 }
 
                 break;
@@ -170,12 +172,14 @@ export class MyBee extends CGFobject {
     }
 
     reset() {
-        this.x = 0;
-        this.y = 3;
-        this.z = 0;
+        this.wingAngle = 0;
+        this.x = this.x0;
+        this.y = this.y0;
+        this.z = this.z0;
         this.orientation = 0;
-        this.vx = 0;
-        this.vz = 0;
+        this.vx = this.v0x;
+        this.vy = this.v0y;
+        this.vz = this.v0z;
         this.time = 0;
         this.scene.resetTime();
     }
@@ -196,6 +200,7 @@ export class MyBee extends CGFobject {
     deliver(targetX, targetY, targetZ) {
         if (this.state == this.states.NORMAL && this.pollen) {
             this.state = this.states.HIVE;
+            this.previousY = this.y;
 
             this.targetX = targetX;
             this.targetY = targetY;
@@ -261,7 +266,6 @@ export class MyBee extends CGFobject {
         if (this.pollen) {
             this.scene.pushMatrix();
             this.scene.translate(0, -0.6, -1.1);
-            //this.scene.rotate(Math.PI + Math.PI/3, 1, 0, 0); TODO: comentado para falarmos
             this.pollen.display();
             this.scene.popMatrix();
         }

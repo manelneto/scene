@@ -11,17 +11,17 @@ export class MyGarden extends CGFobject {
 
         this.offset = 10;
 
-        let flower, flowerRadius, petalsNumber, stemRadius, stemNumber, minUnionAngle, maxUnionAngle;
+        let flowerRadius, petalsNumber, receptacleRadius, stemRadius, stemNumber, minUnionAngle, maxUnionAngle, flower;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
                 flowerRadius = this.generateRandom(3, 7) / 2;
                 petalsNumber = Math.floor(this.generateRandom(6, 9));
-                this.receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 4);
-                stemRadius = this.generateRandom(0.1, this.receptacleRadius / 4);
+                receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 4);
+                stemRadius = this.generateRandom(0.1, receptacleRadius / 4);
                 stemNumber = Math.floor(this.generateRandom(2, 4));
                 minUnionAngle = Math.PI/16;
                 maxUnionAngle = Math.PI/12;
-                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], this.receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.35, 0.65, 0.1], minUnionAngle, maxUnionAngle);
+                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.35, 0.65, 0.1], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
                 this.flowersCoords.push([col * (flower.x + this.offset), flower.y, row * this.offset]);
             }
@@ -29,13 +29,14 @@ export class MyGarden extends CGFobject {
     }
 
     getFlower(x, y, z) {
-        let flowerX, flowerY, flowerZ, flowerCoords;
+        let flower, flowerCoords, flowerX, flowerY, flowerZ;
         for (let i = 0; i < this.flowers.length; i++) {
+            flower = this.flowers[i];
             flowerCoords = this.flowersCoords[i];
             flowerX = flowerCoords[0];
             flowerY = flowerCoords[1];
             flowerZ = flowerCoords[2];
-            if (Math.abs(flowerX - x) <= this.receptacleRadius && y - flowerY <= 0.5 && y - flowerY >= 0 && Math.abs(flowerZ - z) <= this.receptacleRadius) {
+            if (Math.abs(flowerX - x) <= flower.getReceptacleRadius() && y - flowerY <= 0.5 && y - flowerY >= 0 && Math.abs(flowerZ - z) <= flower.getReceptacleRadius()) {
                 return this.flowers[i];
             }
         }
