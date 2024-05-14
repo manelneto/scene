@@ -64,7 +64,7 @@ export class MyScene extends CGFscene {
 		this.hiveY = this.pyramidLevels * 2;
 		this.hiveZ = -20;
 
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.hive];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.hive, this.hivePyramid];
 
 		this.enableTextures(true);
 

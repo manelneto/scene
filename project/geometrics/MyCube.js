@@ -43,4 +43,12 @@ export class MyCube extends CGFobject {
         this.quad.display();
         this.scene.popMatrix();
     }
+
+    enableNormalViz() {
+        this.quad.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        this.quad.disableNormalViz();
+    }
 }

@@ -59,6 +59,18 @@ export class MyHive extends CGFobject {
 		this.scene.popMatrix();
     }
 
+    enableNormalViz() {
+        this.trunk.enableNormalViz();
+        this.cover.enableNormalViz();
+        this.entrance.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        this.trunk.disableNormalViz();
+        this.cover.disableNormalViz();
+        this.entrance.disableNormalViz();
+    }
+
 	createMaterial(colour, texturePath) {
         let r = colour[0];
         let g = colour[1];
