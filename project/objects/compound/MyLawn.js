@@ -36,7 +36,7 @@ export class MyLawn extends CGFobject {
             for (let j = 0; j < this.columns; j++) {
                 let grassIndex = (i * this.columns + j) % this.grassNumber;
                 this.grassList[grassIndex].display();
-                this.scene.translate(this.grassWidthList[grassIndex] + 1, 0, 0);
+                this.scene.translate(this.grassWidthList[grassIndex] + 1.5, 0, 0);
             }
 
             this.scene.popMatrix();

@@ -207,7 +207,7 @@ export class MyScene extends CGFscene {
 			this.setActiveShader(this.shader);
 			this.texture.bind();
 			this.pushMatrix();
-			this.translate(-6, 0, -5);
+			this.translate(-10, 0, -5);
 			this.scale(0.25, 0.2, 0.3);
 			this.lawn.display();
 			this.popMatrix();
