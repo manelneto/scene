@@ -1,6 +1,13 @@
 import { CGFobject } from '../../../lib/CGF.js';
 import { MyFlower } from '../compound/MyFlower.js';
 
+/**
+ * MyGarden
+ * @constructor
+ * @param scene - Reference to MyScene object
+ * @param rows - Number of rows with flowers
+ * @param columns - Number of columns with flowers
+ */
 export class MyGarden extends CGFobject {
     constructor(scene, rows, columns) {
         super(scene);
@@ -9,9 +16,11 @@ export class MyGarden extends CGFobject {
         this.flowers = [];
         this.flowersCoords = [];
 
-        this.offset = 10;
+        this.offset = 10;   // offset between consecutive rows/columns
 
-        let flowerRadius, petalsNumber, receptacleRadius, stemRadius, stemNumber, minUnionAngle, maxUnionAngle, flower;
+        const minUnionAngle = Math.PI/16;
+        const maxUnionAngle = Math.PI/12;
+        let flowerRadius, petalsNumber, receptacleRadius, stemRadius, stemNumber, flower;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
                 flowerRadius = this.generateRandom(3, 7) / 2;
@@ -19,8 +28,6 @@ export class MyGarden extends CGFobject {
                 receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 4);
                 stemRadius = this.generateRandom(0.1, receptacleRadius / 4);
                 stemNumber = Math.floor(this.generateRandom(2, 4));
-                minUnionAngle = Math.PI/16;
-                maxUnionAngle = Math.PI/12;
                 flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.35, 0.65, 0.1], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
                 this.flowersCoords.push([col * (flower.x + this.offset), flower.y, row * this.offset]);
@@ -28,6 +35,13 @@ export class MyGarden extends CGFobject {
         }
     }
 
+    /**
+     * Returns the flower at a given position, or null it there is not any flower at that position.
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     * @returns a Flower object or null
+     */
     getFlower(x, y, z) {
         let flower, flowerCoords, flowerX, flowerY, flowerZ;
         for (let i = 0; i < this.flowers.length; i++) {
