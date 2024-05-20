@@ -1,4 +1,5 @@
-import { CGFobject, CGFtexture, CGFappearance } from '../../lib/CGF.js';
+import { CGFobject } from '../../lib/CGF.js';
+import { MyUtils } from '../MyUtils.js';
 
 /**
  * MyPlane
@@ -9,14 +10,7 @@ export class MyPlane extends CGFobject {
 	constructor(scene) {
 		super(scene);
 
-		const texture = new CGFtexture(this.scene, 'images/grass.jpeg'); // TODO: BETTER TEXTURE
-        this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.5, 1, 0, 1.0);
-        this.material.setDiffuse(0.5, 1, 0, 1.0);
-        this.material.setEmission(0, 0, 0, 0);
-        this.material.setShininess(10.0);
-        this.material.setSpecular(0.5, 1, 0, 1.0);
-        this.material.setTexture(texture);
+		this.material = MyUtils.createMaterial(scene, [0.5, 1, 0, 1.0], false, 'images/grass.jpeg');
 
 		this.initBuffers();
 	}

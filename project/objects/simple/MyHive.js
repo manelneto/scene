@@ -2,6 +2,7 @@ import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
 import { MyCircle } from '../../geometrics/MyCircle.js';
 import { MyCylinder } from '../../geometrics/MyCylinder.js';
 import { MyCube } from '../../geometrics/MyCube.js';
+import { MyUtils } from '../../MyUtils.js';
 
 /**
  * MyHive
@@ -21,8 +22,8 @@ export class MyHive extends CGFobject {
 		this.cover = new MyCircle(scene, 64, this.radius);
 		this.entrance = new MyCube(scene);
 
-		this.trunkMaterial = this.createMaterial([0.76, 0.6, 0.42, 1.0], 'images/trunk.png');
-		this.woodMaterial = this.createMaterial([0.64, 0.47, 0.47, 1.0], 'images/wood.png');
+		this.trunkMaterial = MyUtils.createMaterial(scene, [0.76, 0.6, 0.42, 1.0], true, 'images/trunk.png');
+		this.woodMaterial = MyUtils.createMaterial(scene, [0.64, 0.47, 0.47, 1.0], true, 'images/wood.png');
 	}
 
 	display() {
@@ -69,21 +70,5 @@ export class MyHive extends CGFobject {
         this.trunk.disableNormalViz();
         this.cover.disableNormalViz();
         this.entrance.disableNormalViz();
-    }
-
-	createMaterial(colour, texturePath) {
-        let r = colour[0];
-        let g = colour[1];
-        let b = colour[2];
-        let alpha = colour[3];
-        let texture = new CGFtexture(this.scene, texturePath);
-        let material = new CGFappearance(this.scene);
-        material.setAmbient(r, g, b, alpha);
-        material.setDiffuse(r, g, b, alpha);
-        material.setSpecular(r, g, b, alpha);
-        material.setEmission(r, g, b, alpha);
-        material.setTexture(texture);
-        material.setTextureWrap('REPEAT', 'REPEAT');
-        return material;
     }
 }

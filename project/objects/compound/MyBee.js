@@ -1,4 +1,4 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 import { MyHead } from '../simple/MyHead.js';
 import { MyEye } from '../simple/MyEye.js';
 import { MyAntenna } from '../simple/MyAntenna.js';
@@ -6,6 +6,7 @@ import { MyThorax } from '../simple/MyThorax.js';
 import { MyAbdomen } from '../simple/MyAbdomen.js';
 import { MyWing } from '../simple/MyWing.js';
 import { MyLeg } from '../simple/MyLeg.js';
+import { MyUtils } from '../../MyUtils.js';
 
 /**
  * MyBee
@@ -29,11 +30,11 @@ export class MyBee extends CGFobject {
         this.smallWing = new MyWing(this.scene, this.smallWingLength);
         this.leg = new MyLeg(this.scene, this.legLength);
 
-        this.abdomenMaterial = this.createMaterial([1, 1, 0, 1.0], 'images/abdomen.png');
-        this.headThoraxMaterial = this.createMaterial([1, 1, 1, 1.0], 'images/head-thorax.png');
-        this.antennaLegMaterial = this.createMaterial([0.1, 0.1, 0.1, 1.0], 'images/antenna-leg.png');
-        this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
-        this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
+        this.abdomenMaterial = MyUtils.createMaterial(this.scene, [1, 1, 0, 1.0], true, 'images/abdomen.png');
+        this.headThoraxMaterial = MyUtils.createMaterial(this.scene, [1, 1, 1, 1.0], true, 'images/head-thorax.png');
+        this.antennaLegMaterial = MyUtils.createMaterial(this.scene, [0.1, 0.1, 0.1, 1.0], true, 'images/antenna-leg.png');
+        this.eyeMaterial = MyUtils.createMaterial(this.scene, [0.8, 0.8, 0.8, 1.0], true, 'images/eye.png');
+        this.wingMaterial = MyUtils.createMaterial(this.scene, [1, 1, 1, 0.2], true, 'images/wing.png');
 
         this.states = Object.freeze({
             NORMAL: Symbol("normal"),
@@ -369,22 +370,5 @@ export class MyBee extends CGFobject {
         this.bigWing.disableNormalViz();
         this.smallWing.disableNormalViz();
         this.leg.disableNormalViz();
-    }
-
-    createMaterial(colour, texturePath) {
-        // TODO: esta função não deve estar copiada em todo o lado, talvez acrescentar um utils ou encontrar uma maneira melhor?
-        const r = colour[0];
-        const g = colour[1];
-        const b = colour[2];
-        const alpha = colour[3];
-        const texture = new CGFtexture(this.scene, texturePath);
-        const material = new CGFappearance(this.scene);
-        material.setAmbient(r, g, b, alpha);
-        material.setDiffuse(r, g, b, alpha);
-        material.setSpecular(r, g, b, alpha);
-        material.setEmission(r, g, b, alpha);
-        material.setTexture(texture);
-        material.setTextureWrap('REPEAT', 'REPEAT');
-        return material;
     }
 }

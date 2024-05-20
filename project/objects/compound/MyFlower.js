@@ -4,6 +4,7 @@ import { MyLeaf } from '../simple/MyLeaf.js';
 import { MyReceptacle } from '../simple/MyReceptacle.js';
 import { MyPetal } from '../simple/MyPetal.js';
 import { MyPollen } from '../simple/MyPollen.js';
+import { MyUtils } from '../../MyUtils.js';
 
 /**
  * MyFlower
@@ -60,14 +61,14 @@ export class MyFlower extends CGFobject {
         this.hasPollen = true;
 
         if (Math.random() < 0.5) {
-            this.petalMaterial = this.createMaterial(petalsColour, 'images/petal.png');
+            this.petalMaterial = MyUtils.createMaterial(this.scene, petalsColour, false, 'images/petal.png');
         } else {
-            this.petalMaterial = this.createMaterial(petalsColour, 'images/petal.gif');
+            this.petalMaterial = MyUtils.createMaterial(this.scene, petalsColour, false, 'images/petal.gif');
         }
 
-        this.stemMaterial = this.createMaterial(stemColour, 'images/stem.jpg');
-        this.leafMaterial = this.createMaterial(leafColour, 'images/leaf.jpg');
-        this.receptacleMaterial = this.createMaterial(receptacleColour, 'images/receptacle.jpg');
+        this.stemMaterial = MyUtils.createMaterial(this.scene, stemColour, false, 'images/stem.jpg');
+        this.leafMaterial = MyUtils.createMaterial(this.scene, leafColour, false, 'images/leaf.jpg');
+        this.receptacleMaterial = MyUtils.createMaterial(this.scene, receptacleColour, false, 'images/receptacle.jpg');
     }
 
     getReceptacleRadius() {
@@ -161,20 +162,6 @@ export class MyFlower extends CGFobject {
         this.petals.forEach((petal) => petal.disableNormalViz());
         this.receptacle.disableNormalViz();
         this.stems.forEach((stem) => stem.disableNormalViz());
-    }
-
-    createMaterial(colour, texturePath) {
-        const r = colour[0];
-        const g = colour[1];
-        const b = colour[2];
-        const texture = new CGFtexture(this.scene, texturePath);
-        const material = new CGFappearance(this.scene);
-        material.setAmbient(r, g, b, 1.0);
-        material.setDiffuse(r, g, b, 1.0);
-        material.setSpecular(r, g, b, 1.0);
-        material.setTexture(texture);
-        material.setTextureWrap('REPEAT', 'REPEAT');
-        return material;
     }
 
     generateRandom(min, max) {

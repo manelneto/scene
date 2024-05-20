@@ -28,7 +28,7 @@ export class MyGarden extends CGFobject {
                 receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 4);
                 stemRadius = this.generateRandom(0.1, receptacleRadius / 4);
                 stemNumber = Math.floor(this.generateRandom(2, 4));
-                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9], receptacleRadius, [1, 0.9, 0.2], stemRadius, stemNumber, [0.45, 0.75, 0.2], [0.35, 0.65, 0.1], minUnionAngle, maxUnionAngle);
+                flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9, 1.0], receptacleRadius, [1, 0.9, 0.2, 1.0], stemRadius, stemNumber, [0.45, 0.75, 0.2, 1.0], [0.35, 0.65, 0.1, 1.0], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
                 this.flowersCoords.push([col * (flower.x + this.offset), flower.y, row * this.offset]);
             }
