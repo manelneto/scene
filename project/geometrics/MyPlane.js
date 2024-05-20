@@ -32,6 +32,7 @@ export class MyPlane extends CGFobject {
         this.material.setShininess(10.0);
         this.material.setSpecular(0.87, 0.94, 0.36, 1.0);
         this.material.setTexture(texture);
+		this.material.setTextureWrap('REPEAT', 'REPEAT');
 
 		this.initBuffers();
 	}
