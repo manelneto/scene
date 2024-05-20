@@ -1,4 +1,5 @@
 import { CGFobject } from '../../../lib/CGF.js';
+import { MyUtils } from '../../MyUtils.js';
 import { MyGrass } from '../simple/MyGrass.js';
 
 /**
@@ -21,9 +22,9 @@ export class MyLawn extends CGFobject {
         this.grassWidthList = []
         let width, height;
         for (let i = 0; i < this.grassNumber; i++) {
-            width = Math.floor(this.generateRandom(1, 3));
+            width = Math.floor(MyUtils.generateRandom(1, 3));
             this.grassWidthList.push(width);
-            height = Math.floor(this.generateRandom(6, 10));
+            height = Math.floor(MyUtils.generateRandom(10, 15));
             this.grassList.push(new MyGrass(this.scene, width, height));
         }
     }
@@ -35,7 +36,7 @@ export class MyLawn extends CGFobject {
             for (let j = 0; j < this.columns; j++) {
                 let grassIndex = (i * this.columns + j) % this.grassNumber;
                 this.grassList[grassIndex].display();
-                this.scene.translate(this.grassWidthList[grassIndex], 0, 0);
+                this.scene.translate(this.grassWidthList[grassIndex] + 1, 0, 0);
             }
 
             this.scene.popMatrix();
@@ -43,7 +44,11 @@ export class MyLawn extends CGFobject {
         }
     }
 
-    generateRandom(min, max) {
-        return Math.random() * (max - min) + min;
+    enableNormalViz() {
+        this.grassList.forEach((grass) => grass.enableNormalViz());
+    }
+
+    disableNormalViz() {
+        this.grassList.forEach((grass) => grass.disableNormalViz());
     }
 }

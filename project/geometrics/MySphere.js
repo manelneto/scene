@@ -18,9 +18,7 @@ export class MySphere extends CGFobject {
 		this.radius = radius;
         this.initBuffers();
     }
-    
-    // TODO: triângulos nos polos
-        
+            
     initBuffers() {
         this.vertices = [];
         this.indices = [];

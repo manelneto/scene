@@ -47,6 +47,9 @@ export class MyInterface extends CGFinterface {
 
         const f6 = this.gui.addFolder('Grass');
         f6.add(this.scene, 'displayLawn').name('Display Lawn');
+        f6.add(this.scene, 'lawnRows', 0, 100, 1).name('Lawn Rows').onChange(this.scene.updateLawn.bind(this.scene));
+        f6.add(this.scene, 'lawnCols', 0, 100, 1).name('Lawn Columns').onChange(this.scene.updateLawn.bind(this.scene));
+        f6.add(this.scene, 'grassNumber', 1, 10, 1).name('Grass Number').onChange(this.scene.updateLawn.bind(this.scene));
 
         this.initKeys();
 

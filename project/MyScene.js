@@ -5,7 +5,7 @@ import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
 import { MyBee } from './objects/compound/MyBee.js';
 import { MyHive } from './objects/simple/MyHive.js';
-import { MyGrass } from './objects/simple/MyGrass.js';
+import { MyLawn } from './objects/compound/MyLawn.js';
 
 /**
  * MyScene
@@ -49,6 +49,9 @@ export class MyScene extends CGFscene {
 		this.scaleFactor = 1;
 		this.hiveRadius = 3;
 		this.hiveHeight = 9;
+		this.lawnRows = 50;
+		this.lawnCols = 50;
+		this.grassNumber = 5;
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
@@ -61,13 +64,13 @@ export class MyScene extends CGFscene {
 		this.bee = new MyBee(this);
 		this.hive = new MyHive(this, this.hiveRadius, this.hiveHeight);
 		this.hivePyramid = new MyRockSet(this, true, this.pyramidLevels, 2);
-		this.grass = new MyGrass(this, 1, 8);
+		this.lawn = new MyLawn(this, this.lawnRows, this.lawnCols, this.grassNumber);
 
 		this.hiveX = -20;
 		this.hiveY = this.pyramidLevels * 2;
 		this.hiveZ = -20;
 
-		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.hive, this.hivePyramid];
+		this.objects = [this.panorama, this.pyramid, this.rockSet, this.garden, this.bee, this.hive, this.hivePyramid, this.lawn];
 
 		this.enableTextures(true);
 
@@ -77,7 +80,9 @@ export class MyScene extends CGFscene {
 		this.setUpdatePeriod(10);
 		this.time = Date.now();
 
+        this.texture = new CGFtexture(this, './images/grass.png');
 		this.shader = new CGFshader(this.gl, './shaders/grass.vert', './shaders/grass.frag');
+		this.shader.setUniformsValues({ uSampler: 1 });
 	}
 
 	update(t) {
@@ -129,6 +134,10 @@ export class MyScene extends CGFscene {
 		this.garden = new MyGarden(this, this.gardenRows, this.gardenCols);
 	}
 
+	updateLawn() {
+		this.lawn = new MyLawn(this, this.lawnRows, this.lawnCols, this.grassNumber);
+	}
+
 	display() {
 		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 		this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -176,15 +185,11 @@ export class MyScene extends CGFscene {
 		}
 
 		if (this.displayGarden) {
-			this.pushMatrix();
 			this.garden.display();
-			this.popMatrix();
 		}
 
 		if (this.displayBee) {
-			this.pushMatrix();
 			this.bee.display();
-			this.popMatrix();
 		}
 
 		if (this.displayHive) {
@@ -200,8 +205,11 @@ export class MyScene extends CGFscene {
 
 		if (this.displayLawn) {
 			this.setActiveShader(this.shader);
+			this.texture.bind();
 			this.pushMatrix();
-			this.grass.display();
+			this.translate(-6, 0, -5);
+			this.scale(0.25, 0.2, 0.3);
+			this.lawn.display();
 			this.popMatrix();
 			this.setActiveShader(this.defaultShader);
 		}

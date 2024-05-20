@@ -14,30 +14,28 @@ export class MyGrass extends CGFobject {
         this.width = width;
         this.height = height;
         this.initBuffers();
-
-        /*
-        this.texture = new CGFtexture(this.scene, "./images/grass.avif");
-        this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.22, 0.47, 0.11, 1.0);
-        this.material.setDiffuse(0.22, 0.47, 0.11, 1.0);
-        this.material.setSpecular(0.22, 0.47, 0.11, 1.0);
-        this.material.setTexture(this.texture);
-        this.material.setTextureWrap('REPEAT', 'REPEAT');*/
     }
 
     initBuffers() {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
-        //this.texCoords = [];
+        this.texCoords = [];
 
         const m = this.height / this.width;
+        let u, v;
         for (let i = -1; i <= 1; i += 2) {
             for (let x = -this.width; x <= 0; x++) {
                 this.vertices.push(x, m * x + this.height, 0);
                 this.vertices.push(-x, m * x + this.height, 0);
+
                 this.normals.push(0, 0, i);
                 this.normals.push(0, 0, i);
+
+                u = (x + this.width) / (2 * this.width);
+                v = (m * x + this.height) / this.height;
+                this.texCoords.push(u, v);
+                this.texCoords.push(1 - u, v);
             }
         }
 
