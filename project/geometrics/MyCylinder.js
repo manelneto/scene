@@ -18,8 +18,7 @@ export class MyCylinder extends CGFobject {
 		this.covers = covers;
 
 		if (this.covers) {
-			this.bottom = new MyCircle(scene, this.slices, this.radius);
-			this.top = new MyCircle(scene, this.slices, this.radius);
+			this.cover = new MyCircle(scene, this.slices, this.radius);
 		}
 
 		this.initBuffers();
@@ -68,10 +67,10 @@ export class MyCylinder extends CGFobject {
 		super.display();
 		
 		if (this.covers) {
-			this.bottom.display();
+			this.cover.display();
 			this.scene.pushMatrix();
 			this.scene.translate(0, this.height, 0);
-			this.top.display();
+			this.cover.display();
 			this.scene.popMatrix();
 		}
 	}

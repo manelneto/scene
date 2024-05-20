@@ -50,7 +50,7 @@ export class MyScene extends CGFscene {
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
-		this.plane = new MyPlane(this, 30);
+		this.plane = new MyPlane(this);
 
 		this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'));
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels, 0);

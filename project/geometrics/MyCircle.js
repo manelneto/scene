@@ -31,7 +31,7 @@ export class MyCircle extends CGFobject {
             0.5, 0.5
         ];
     
-        let angleStep = (2 * Math.PI) / this.slices;
+        const angleStep = (2 * Math.PI) / this.slices;
         let angle, x, z, u, v;
         for (let i = 0; i < this.slices; i++) {
             angle = i * angleStep;
