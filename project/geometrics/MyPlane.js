@@ -24,13 +24,13 @@ export class MyPlane extends CGFobject {
 		this.q = (this.maxS - this.minS) / this.nrDivs;
 		this.w = (this.maxT - this.minT) / this.nrDivs;
 
-		const texture = new CGFtexture(this.scene, 'images/grass.jpeg')
+		const texture = new CGFtexture(this.scene, 'images/plane.png')
         this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.5, 1, 0, 1.0);
-        this.material.setDiffuse(0.5, 1, 0, 1.0);
+        this.material.setAmbient(1, 1, 1, 1.0);
+        this.material.setDiffuse(0.44, 0.47, 0.18, 1.0);
         this.material.setEmission(0, 0, 0, 0);
         this.material.setShininess(10.0);
-        this.material.setSpecular(0.5, 1, 0, 1.0);
+        this.material.setSpecular(0.87, 0.94, 0.36, 1.0);
         this.material.setTexture(texture);
 
 		this.initBuffers();
