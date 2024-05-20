@@ -50,7 +50,7 @@ export class MyScene extends CGFscene {
 
 		// Initialize scene objects
 		this.axis = new CGFaxis(this);
-		this.plane = new MyPlane(this);
+		this.plane = new MyPlane(this, 30, 0, 10, 0, 10);
 
 		this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'));
 		this.pyramid = new MyRockSet(this, true, this.pyramidLevels, 0);
@@ -140,7 +140,7 @@ export class MyScene extends CGFscene {
 
 		if (this.displayPlane) {
 			this.pushMatrix();
-			this.scale(100, 100, 100);
+			this.scale(400, 400, 400);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.plane.display();
 			this.popMatrix();
@@ -161,7 +161,6 @@ export class MyScene extends CGFscene {
 		if (this.displayRocks) {
 			this.pushMatrix();
 			this.translate(20, 2, -20);
-			this.scale(2, 2, 2);
 			this.rockSet.display();
 			this.popMatrix();
 		}
