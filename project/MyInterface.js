@@ -45,6 +45,9 @@ export class MyInterface extends CGFinterface {
         f5.add(this.scene, 'displayPollen').name('Display Pollen');
         f5.add(this.scene, 'displayHive').name('Display Hive');
 
+        const f6 = this.gui.addFolder('Grass');
+        f6.add(this.scene, 'displayLawn').name('Display Lawn');
+
         this.initKeys();
 
         return true;

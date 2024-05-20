@@ -1,10 +1,11 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFtexture } from '../lib/CGF.js';
+import { CGFscene, CGFcamera, CGFaxis, CGFtexture, CGFshader } from '../lib/CGF.js';
 import { MyPlane } from './geometrics/MyPlane.js'
 import { MyPanorama } from './objects/simple/MyPanorama.js';
 import { MyRockSet } from './objects/collection/MyRockSet.js';
 import { MyGarden } from './objects/collection/MyGarden.js';
 import { MyBee } from './objects/compound/MyBee.js';
 import { MyHive } from './objects/simple/MyHive.js';
+import { MyGrass } from './objects/simple/MyGrass.js';
 
 /**
  * MyScene
@@ -39,6 +40,7 @@ export class MyScene extends CGFscene {
 		this.moveBee = true;
 		this.displayPollen = true;
 		this.displayHive = true;
+		this.displayLawn = true;
 		this.pyramidLevels = 4;
 		this.nRocks = 6;
 		this.gardenRows = 4;
@@ -59,6 +61,7 @@ export class MyScene extends CGFscene {
 		this.bee = new MyBee(this);
 		this.hive = new MyHive(this, this.hiveRadius, this.hiveHeight);
 		this.hivePyramid = new MyRockSet(this, true, this.pyramidLevels, 2);
+		this.grass = new MyGrass(this, 1, 8);
 
 		this.hiveX = -20;
 		this.hiveY = this.pyramidLevels * 2;
@@ -73,13 +76,19 @@ export class MyScene extends CGFscene {
 
 		this.setUpdatePeriod(10);
 		this.time = Date.now();
+
+		this.shader = new CGFshader(this.gl, './shaders/grass.vert', './shaders/grass.frag');
 	}
 
-	update(currTime) {
+	update(t) {
 		if (this.moveBee) {
-			const t = (currTime - this.time) / 1000;
-			this.bee.update(t);
+			const time = (t - this.time) / 1000;
+			this.bee.update(time);
 			this.checkKeys();
+		}
+
+		if (this.shader) {
+			this.shader.setUniformsValues({ timeFactor: t / 1000 % 100 });
 		}
 	}
 
@@ -187,6 +196,14 @@ export class MyScene extends CGFscene {
 			this.popMatrix();
 			this.hivePyramid.display();
 			this.popMatrix();
+		}
+
+		if (this.displayLawn) {
+			this.setActiveShader(this.shader);
+			this.pushMatrix();
+			this.grass.display();
+			this.popMatrix();
+			this.setActiveShader(this.defaultShader);
 		}
 	}
 
