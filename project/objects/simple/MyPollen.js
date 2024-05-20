@@ -1,4 +1,5 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
+import { MyUtils } from '../../MyUtils.js';
 
 /**
  * MyPollen
@@ -17,14 +18,7 @@ export class MyPollen extends CGFobject {
         this.y2 = y2;
         this.angle = angle;
 
-        const texture = new CGFtexture(this.scene, 'images/pollen.png');
-        this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(1.0, 0.65, 0, 1.0);
-        this.material.setDiffuse(1.0, 0.65, 0, 1.0);
-        this.material.setEmission(0, 0, 0, 0);
-        this.material.setShininess(10.0);
-        this.material.setSpecular(1.0, 0.65, 0, 1.0);
-        this.material.setTexture(texture);
+        this.material = MyUtils.createMaterial(scene, [1.0, 0.65, 0, 1.0], false, 'images/pollen.png');
 
         this.initBuffers();
     }

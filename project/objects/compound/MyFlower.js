@@ -1,4 +1,4 @@
-import { CGFappearance, CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 import { MyStem } from '../simple/MyStem.js';
 import { MyLeaf } from '../simple/MyLeaf.js';
 import { MyReceptacle } from '../simple/MyReceptacle.js';
@@ -28,7 +28,7 @@ export class MyFlower extends CGFobject {
 
         this.petalsNumber = petalsNumber;
         this.receptacleRadius = receptacleRadius;
-        this.unionAngle = this.generateRandom(minUnionAngle, maxUnionAngle);
+        this.unionAngle = MyUtils.generateRandom(minUnionAngle, maxUnionAngle);
 
         let stemAngle, stemHeight;
         this.stems = [];
@@ -37,8 +37,8 @@ export class MyFlower extends CGFobject {
         this.x = 0;
         this.y = 0;
         for (let i = 0; i < stemNumber; i++) {
-            stemAngle = this.generateRandom(-Math.PI/16, Math.PI/16);
-            stemHeight = Math.floor(this.generateRandom(1, 4));
+            stemAngle = MyUtils.generateRandom(-Math.PI/16, Math.PI/16);
+            stemHeight = Math.floor(MyUtils.generateRandom(1, 4));
             this.stems.push(new MyStem(this.scene, stemRadius, stemHeight));
             this.stemAngles.push(stemAngle);
             this.stemHeights.push(stemHeight);
@@ -49,7 +49,7 @@ export class MyFlower extends CGFobject {
         this.receptacle = new MyReceptacle(this.scene, receptacleRadius);
         
         this.petalLength = radius - receptacleRadius;
-        const petalAngle = this.generateRandom(Math.PI/12, Math.PI/8);
+        const petalAngle = MyUtils.generateRandom(Math.PI/12, Math.PI/8);
         this.petals = [];
         for (let i = 0; i < petalsNumber; i++) {
             this.petals.push(new MyPetal(this.scene, this.petalLength, petalAngle));
@@ -57,7 +57,7 @@ export class MyFlower extends CGFobject {
 
         this.leaf = new MyLeaf(this.scene);
 
-        this.pollen = new MyPollen(this.scene, 1, 2, this.generateRandom(-Math.PI/8, Math.PI/8));
+        this.pollen = new MyPollen(this.scene, 1, 2, MyUtils.generateRandom(-Math.PI/8, Math.PI/8));
         this.hasPollen = true;
 
         if (Math.random() < 0.5) {
@@ -162,9 +162,5 @@ export class MyFlower extends CGFobject {
         this.petals.forEach((petal) => petal.disableNormalViz());
         this.receptacle.disableNormalViz();
         this.stems.forEach((stem) => stem.disableNormalViz());
-    }
-
-    generateRandom(min, max) {
-        return Math.random() * (max - min) + min;
     }
 }

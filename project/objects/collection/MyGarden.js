@@ -1,4 +1,5 @@
 import { CGFobject } from '../../../lib/CGF.js';
+import { MyUtils } from '../../MyUtils.js';
 import { MyFlower } from '../compound/MyFlower.js';
 
 /**
@@ -23,11 +24,11 @@ export class MyGarden extends CGFobject {
         let flowerRadius, petalsNumber, receptacleRadius, stemRadius, stemNumber, flower;
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
-                flowerRadius = this.generateRandom(3, 7) / 2;
-                petalsNumber = Math.floor(this.generateRandom(6, 9));
-                receptacleRadius = this.generateRandom(flowerRadius / 6, flowerRadius / 4);
-                stemRadius = this.generateRandom(0.1, receptacleRadius / 4);
-                stemNumber = Math.floor(this.generateRandom(2, 4));
+                flowerRadius = MyUtils.generateRandom(3, 7) / 2;
+                petalsNumber = Math.floor(MyUtils.generateRandom(6, 9));
+                receptacleRadius = MyUtils.generateRandom(flowerRadius / 6, flowerRadius / 4);
+                stemRadius = MyUtils.generateRandom(0.1, receptacleRadius / 4);
+                stemNumber = Math.floor(MyUtils.generateRandom(2, 4));
                 flower = new MyFlower(scene, flowerRadius, petalsNumber, [0.9, 0.9, 0.9, 1.0], receptacleRadius, [1, 0.9, 0.2, 1.0], stemRadius, stemNumber, [0.45, 0.75, 0.2, 1.0], [0.35, 0.65, 0.1, 1.0], minUnionAngle, maxUnionAngle);
                 this.flowers.push(flower);
                 this.flowersCoords.push([col * (flower.x + this.offset), flower.y, row * this.offset]);
@@ -77,9 +78,5 @@ export class MyGarden extends CGFobject {
 
     disableNormalViz() {
         this.flowers.forEach((flower) => flower.disableNormalViz());
-    }
-
-    generateRandom(min, max) {
-        return Math.random() * (max - min) + min;
     }
 }
