@@ -35,31 +35,37 @@ export class MyBee extends CGFobject {
         this.eyeMaterial = this.createMaterial([0.8, 0.8, 0.8, 1.0], 'images/eye.png');
         this.wingMaterial = this.createMaterial([1, 1, 1, 0.2], 'images/wing.png');
 
-        this.wingAngle = 0;
-        this.x = 0;
-        this.y = 10;
-        this.z = 0;
-        this.orientation = 0; // angle around the YY axis, from Z to X (counter-clockwise)
-        this.vx = 0;
-        this.vy = 5;
-        this.vz = 0;
-
-        this.x0 = this.x;
-        this.y0 = this.y;
-        this.z0 = this.z;
-        this.v0x = this.vx;
-        this.v0y = this.vy;
-        this.v0z = this.vz;
-
-        this.time = 0;
-
         this.states = Object.freeze({
             NORMAL: Symbol("normal"),
             DESCEND: Symbol("descend"),
             ASCEND: Symbol("ascend"),
             FLOWER: Symbol("flower"),
-            HIVE: Symbol("hive")
+            TOHIVE: Symbol("tohive"),
+            FROMHIVE: Symbol("fromhive")
         });
+        
+        this.x0 = 0;;
+        this.y0 = 10;
+        this.z0 = 0;
+        this.v0x = 0;
+        this.v0y = 5;
+        this.v0z = 0;
+
+        this.initMovement();
+	}
+
+    initMovement() {
+        this.wingAngle = 0;
+        this.x = this.x0;
+        this.y = this.y0;
+        this.z = this.z0;
+        this.orientation = 0; // angle around the YY axis, from Z to X (counter-clockwise)
+        this.vx = this.v0x;
+        this.vy = this.v0y;
+        this.vz = this.v0z;
+
+        this.time = 0;
+
         this.state = this.states.NORMAL;
         this.flower = null;
         this.pollen = null;
@@ -70,12 +76,30 @@ export class MyBee extends CGFobject {
         this.targetX = null;
         this.targetY = null;
         this.targetZ = null;
-
-        this.targetRadius = null;
-	}
+        
+        this.ay = 0;
+        this.flowerY = 0;
+        this.descendTime = 0;
+        this.ascendTime = 0;
+        this.toHiveTime = 0;
+        this.fromHiveTime = 0;
+    }
 
     isNear(x, y, z, tolerance) {
         return Math.abs(x - this.x) < tolerance && Math.abs(y - this.y) < tolerance && Math.abs(z - this.z) < tolerance
+    }
+
+    calculateParabolaTrajectory(deltaX, deltaY, deltaZ, goBack) {
+        this.orientation = Math.atan2(deltaZ, deltaX);
+        
+        this.vx = deltaX / 4;
+        this.vy = goBack ? -deltaY * 4 : deltaY * 4;
+        this.vz = deltaZ / 4;
+        
+        const horizontalDistance = Math.sqrt(deltaX ** 2 + deltaZ ** 2);
+        const time = horizontalDistance / Math.sqrt(this.vx ** 2 + this.vz ** 2);
+
+        this.ay = 2 * (deltaY - this.vy * time) / time ** 2;
     }
 
     update(t) {
@@ -96,46 +120,70 @@ export class MyBee extends CGFobject {
                 break;
 
             case this.states.DESCEND:
-                this.y -= this.vy * deltaT;
+                this.descendTime += deltaT;
+
+                this.y = this.previousY + this.vy * this.descendTime - 5 * this.descendTime ** 2;
+                this.flowerY = this.y - this.legLength * this.scene.scaleFactor;
+                this.flower = this.scene.garden.getFlower(this.x, this.flowerY, this.z);
                 
-                this.flower = this.scene.garden.getFlower(this.x, this.y - this.legLength * this.scene.scaleFactor, this.z);
                 if (this.flower) {
                     this.state = this.states.FLOWER;
-                } else if (this.y - this.legLength * this.scene.scaleFactor <= 0) {
+                    this.descendTime = 0;
+                } else if (this.flowerY <= 0) {
                     this.state = this.states.ASCEND;
+                    this.descendTime = 0;
                 }
 
                 break;
 
             case this.states.ASCEND:
+                this.ascendTime += deltaT;
+
                 if (this.flower && !this.pollen) { // TODO: esperar por resposta da prof
                     this.pollen = this.flower.removePollen();
                     this.flower = null;
                 }
 
-                this.y += this.vy * deltaT;
+                this.y = this.flowerY + 3 * this.vy * this.ascendTime - 5 * this.ascendTime ** 2;
 
                 if (this.y >= this.previousY) {
                     this.state = this.states.NORMAL;
+                    this.ascendTime = 0;
                     this.time = 0;
                     this.scene.resetTime();
                 }
 
                 break;
 
-            case this.states.HIVE:
-                this.y += this.vy * deltaT;
+            case this.states.TOHIVE:
+                this.toHiveTime += deltaT;
 
-                if (this.isNear(this.targetX, this.targetY, this.targetZ, this.targetRadius)) {
+                this.y = this.previousY + this.vy * this.toHiveTime + 0.5 * this.ay * this.toHiveTime ** 2;
+
+                if (this.isNear(this.targetX, this.targetY, this.targetZ, 0.5 * this.scene.scaleFactor)) {
+                    this.state = this.states.FROMHIVE;
+                    this.toHiveTime = 0;
+
                     this.pollen = null;
-                    this.vx = -this.vx;
-                    this.vy = -this.vy;
-                    this.vz = -this.vz;
-                    this.orientation += Math.PI;
+
+                    const deltaX = this.previousX - this.x;
+                    const deltaY = this.previousY - this.y;
+                    const deltaZ = this.previousZ - this.z;
+
+                    this.calculateParabolaTrajectory(deltaX, deltaY, deltaZ, true);
                 }
 
-                if (this.pollen == null && this.isNear(this.previousX, this.previousY, this.previousZ, 0.5 * this.scene.scaleFactor)) {
+                break;
+            
+            case this.states.FROMHIVE:
+                this.fromHiveTime += deltaT;
+
+                this.y = this.targetY + this.vy * this.fromHiveTime + 0.5 * this.ay * this.fromHiveTime ** 2;
+
+                if (this.isNear(this.previousX, this.previousY, this.previousZ, 0.5 * this.scene.scaleFactor)) {
                     this.state = this.states.NORMAL;
+                    this.fromHiveTime = 0;
+
                     this.vx = this.v0x;
                     this.vy = this.v0y;
                     this.vz = this.v0z;
@@ -176,15 +224,7 @@ export class MyBee extends CGFobject {
     }
 
     reset() {
-        this.wingAngle = 0;
-        this.x = this.x0;
-        this.y = this.y0;
-        this.z = this.z0;
-        this.orientation = 0;
-        this.vx = this.v0x;
-        this.vy = this.v0y;
-        this.vz = this.v0z;
-        this.time = 0;
+        this.initMovement();
         this.scene.resetTime();
     }
 
@@ -201,9 +241,9 @@ export class MyBee extends CGFobject {
         }
     }
 
-    deliver(targetX, targetY, targetZ, targetRadius) {
+    deliver(targetX, targetY, targetZ) {
         if (this.state == this.states.NORMAL && this.pollen) {
-            this.state = this.states.HIVE;
+            this.state = this.states.TOHIVE;
             
             this.previousX = this.x;
             this.previousY = this.y;
@@ -212,15 +252,12 @@ export class MyBee extends CGFobject {
             this.targetX = targetX;
             this.targetY = targetY;
             this.targetZ = targetZ;
-            this.targetRadius = targetRadius;
 
-            const opposite = this.targetX - this.x;
-            const adjacent = this.targetZ - this.z;
+            const deltaX = this.targetX - this.x;
+            const deltaY = this.targetY - this.y;
+            const deltaZ = this.targetZ - this.z;
 
-            this.vx = opposite / 5;
-            this.vy = (targetY - this.y) / 5;
-            this.vz = adjacent / 5;
-            this.orientation = Math.PI + Math.atan(opposite / adjacent);
+            this.calculateParabolaTrajectory(deltaX, deltaY, deltaZ, false);
         }
     }
 

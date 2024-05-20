@@ -75,9 +75,9 @@ export class MyScene extends CGFscene {
 		this.time = Date.now();
 	}
 
-	update() {
+	update(currTime) {
 		if (this.moveBee) {
-			const t = (Date.now() - this.time) / 1000;
+			const t = (currTime - this.time) / 1000;
 			this.bee.update(t);
 			this.checkKeys();
 		}
@@ -221,7 +221,7 @@ export class MyScene extends CGFscene {
 		}
 
 		if (this.gui.isKeyPressed("KeyO")) {
-			this.bee.deliver(this.hiveX, this.hiveY + this.hiveHeight/2, this.hiveZ, this.hiveRadius);
+			this.bee.deliver(this.hiveX + this.hiveRadius, this.hiveY + this.hiveHeight/2, this.hiveZ + this.hiveRadius);
 		}
 	}
 
