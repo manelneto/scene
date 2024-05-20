@@ -1,5 +1,26 @@
 # Projeto de Computação Gráfica
 
+**Turma:** 2
+
+**Grupo:** 2
+
+**Membros:**
+- Manuel Ramos Leite Carvalho Neto - up202108744
+- Matilde Isabel da Silva Simões - up202108782
+
+**Observações:**
+- Todos os objetos são parametrizáveis através da interface
+- Movimento da Abelha:
+    - W para acelerar
+    - S para travar
+    - A para rodar para a esquerda
+    - D para rodar para a direita
+    - R para fazer *reset*
+    - F para descer
+    - P para subir
+    - O para levar o pólen à colmeia e voltar
+- O desenvolvimento adicional implementado foi a trajetória em parábola da abelha
+
 ## 1. *Sky-Sphere*
 
 ![Sky-Sphere 1](/project/screenshots/project-t02g02-1-1.png)
