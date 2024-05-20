@@ -50,7 +50,7 @@ export class MyPollen extends CGFobject {
                     this.vertices.push(x, y, z);
                 }
 
-				this.normals.push(x, y, z); // TODO: a direção das normais está errada - é preciso corrigir
+				this.normals.push(x, y, z);
 
                 u = 1 - (slice / this.slices);
 				v = 1/2 - (stack / (2 * this.stacks));

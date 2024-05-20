@@ -138,6 +138,7 @@ export class MyScene extends CGFscene {
 		else
 			this.objects.forEach((object) => object.disableNormalViz());
 
+		// Draw plane
 		if (this.displayPlane) {
 			this.pushMatrix();
 			this.scale(400, 400, 400);
@@ -153,21 +154,20 @@ export class MyScene extends CGFscene {
 
 		if (this.displayPyramid) {
 			this.pushMatrix();
-			this.translate(-35, 2 * this.pyramidLevels, 35);
+			this.translate(5, 2 * this.pyramidLevels, -45);
 			this.pyramid.display();
 			this.popMatrix();
 		}
 
 		if (this.displayRocks) {
 			this.pushMatrix();
-			this.translate(20, 2, -20);
+			this.translate(10, 2, -25);
 			this.rockSet.display();
 			this.popMatrix();
 		}
 
 		if (this.displayGarden) {
 			this.pushMatrix();
-			//this.translate(-30, 0, 10); TODO: falar sobre isto
 			this.garden.display();
 			this.popMatrix();
 		}

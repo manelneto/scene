@@ -1,5 +1,8 @@
 import { CGFappearance, CGFtexture } from '../lib/CGF.js';
 
+/**
+ * MyUtils
+ */
 export class MyUtils {
     /**
      * Creates a material with a given colour and a given texture.
