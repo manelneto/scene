@@ -44,10 +44,13 @@ export class MyBee extends CGFobject {
             TOHIVE: Symbol("tohive"),
             FROMHIVE: Symbol("fromhive")
         });
-        
-        this.x0 = 0;;
+
+        // initial coordinates
+        this.x0 = 0;
         this.y0 = 10;
         this.z0 = 0;
+
+        // initial velocity (along each axis)
         this.v0x = 0;
         this.v0y = 5;
         this.v0z = 0;
@@ -55,12 +58,20 @@ export class MyBee extends CGFobject {
         this.initMovement();
 	}
 
+    /**
+     * Initializes the parameters to the movement of the Bee.
+     */
     initMovement() {
-        this.wingAngle = 0;
+        this.wingAngle = 0; // angle of the wings
+        
+        // coordinates
         this.x = this.x0;
         this.y = this.y0;
         this.z = this.z0;
+
         this.orientation = 0; // angle around the YY axis, from Z to X (counter-clockwise)
+        
+        // velocity (along each axis)
         this.vx = this.v0x;
         this.vy = this.v0y;
         this.vz = this.v0z;
@@ -71,30 +82,51 @@ export class MyBee extends CGFobject {
         this.flower = null;
         this.pollen = null;
         
+        // coordinates of the Bee in the previous state
         this.previousX = this.x;
         this.previousY = this.y;
         this.previousZ = this.z;
-        this.targetX = null;
-        this.targetY = null;
-        this.targetZ = null;
+
+        // hive coordinates
+        this.hiveX = null;
+        this.hiveY = null;
+        this.hiveZ = null;
         
-        this.ay = 0;
-        this.flowerY = 0;
+        this.ay = 0; // acceleration along the YY axis
+
+        this.flowerY = 0; // Y coordinate of the flower where the Bee is placed
+
+        // time elapsed while the Bee is in each state
         this.descendTime = 0;
         this.ascendTime = 0;
         this.toHiveTime = 0;
         this.fromHiveTime = 0;
     }
 
+    /**
+     * Returns true if the Bee is near a given position, false otherwise.
+     * @param x - X coordinate
+     * @param y - Y coordinate
+     * @param z - Z coordinate
+     * @param tolerance - Tolerance to determine if the Bee is considered near a given position
+     * @returns True if the Bee is near the given position, false otherwise
+     */
     isNear(x, y, z, tolerance) {
         return Math.abs(x - this.x) < tolerance && Math.abs(y - this.y) < tolerance && Math.abs(z - this.z) < tolerance
     }
 
-    calculateParabolaTrajectory(deltaX, deltaY, deltaZ, goBack) {
+    /**
+     * Calculates the parabola-shaped trajectory to perform a given movement and sets the movement parameters accordingly.
+     * @param deltaX - Offset along the XX axis
+     * @param deltaY - Offset along the YY axis
+     * @param deltaZ - Offset along the ZZ axis
+     * @param fromHive - True if the movement is from the hive, false if it is to the hive
+     */
+    calculateParabolaTrajectory(deltaX, deltaY, deltaZ, fromHive) {
         this.orientation = Math.atan2(deltaZ, deltaX);
         
         this.vx = deltaX / 4;
-        this.vy = goBack ? -deltaY * 4 : deltaY * 4;
+        this.vy = fromHive ? -deltaY * 4 : deltaY * 4;
         this.vz = deltaZ / 4;
         
         const horizontalDistance = Math.sqrt(deltaX ** 2 + deltaZ ** 2);
@@ -103,6 +135,10 @@ export class MyBee extends CGFobject {
         this.ay = 2 * (deltaY - this.vy * time) / time ** 2;
     }
 
+    /**
+     * Updates the Bee movement parameters periodically.
+     * @param t - Time elapsed since the start of the scene
+     */
     update(t) {
         const deltaT = t - this.time;
         this.time = t;
@@ -117,20 +153,23 @@ export class MyBee extends CGFobject {
 
         switch (this.state) {
             case this.states.NORMAL:
-                this.y = this.previousY + Math.sin(2 * Math.PI * t);
+                this.y = this.previousY + Math.sin(2 * Math.PI * t); // oscilate periodically
+
                 break;
 
             case this.states.DESCEND:
                 this.descendTime += deltaT;
 
-                this.y = this.previousY + this.vy * this.descendTime - 5 * this.descendTime ** 2;
+                this.y = this.previousY + this.vy * this.descendTime - 5 * this.descendTime ** 2; // parabola-shaped trajectory
                 this.flowerY = this.y - this.legLength * this.scene.scaleFactor;
                 this.flower = this.scene.garden.getFlower(this.x, this.flowerY, this.z);
                 
                 if (this.flower) {
+                    // collision with a flower
                     this.state = this.states.FLOWER;
                     this.descendTime = 0;
                 } else if (this.flowerY <= 0) {
+                    // collision with the ground (no flower)
                     this.state = this.states.ASCEND;
                     this.descendTime = 0;
                 }
@@ -140,12 +179,12 @@ export class MyBee extends CGFobject {
             case this.states.ASCEND:
                 this.ascendTime += deltaT;
 
-                if (this.flower && !this.pollen) { // TODO: esperar por resposta da prof
+                if (this.flower && !this.pollen) {
                     this.pollen = this.flower.removePollen();
                     this.flower = null;
                 }
 
-                this.y = this.flowerY + 3 * this.vy * this.ascendTime - 5 * this.ascendTime ** 2;
+                this.y = this.flowerY + 3 * this.vy * this.ascendTime - 5 * this.ascendTime ** 2; // parabola-shaped trajectory
 
                 if (this.y >= this.previousY) {
                     this.state = this.states.NORMAL;
@@ -159,9 +198,10 @@ export class MyBee extends CGFobject {
             case this.states.TOHIVE:
                 this.toHiveTime += deltaT;
 
-                this.y = this.previousY + this.vy * this.toHiveTime + 0.5 * this.ay * this.toHiveTime ** 2;
+                this.y = this.previousY + this.vy * this.toHiveTime + 0.5 * this.ay * this.toHiveTime ** 2; // parabola-shaped trajectory
 
-                if (this.isNear(this.targetX, this.targetY, this.targetZ, 0.5 * this.scene.scaleFactor)) {
+                if (this.isNear(this.hiveX, this.hiveY, this.hiveZ, 0.5 * this.scene.scaleFactor)) {
+                    // collision with the hive
                     this.state = this.states.FROMHIVE;
                     this.toHiveTime = 0;
 
@@ -179,7 +219,7 @@ export class MyBee extends CGFobject {
             case this.states.FROMHIVE:
                 this.fromHiveTime += deltaT;
 
-                this.y = this.targetY + this.vy * this.fromHiveTime + 0.5 * this.ay * this.fromHiveTime ** 2;
+                this.y = this.hiveY + this.vy * this.fromHiveTime + 0.5 * this.ay * this.fromHiveTime ** 2; // parabola-shaped trajectory
 
                 if (this.isNear(this.previousX, this.previousY, this.previousZ, 0.5 * this.scene.scaleFactor)) {
                     this.state = this.states.NORMAL;
@@ -194,6 +234,11 @@ export class MyBee extends CGFobject {
         }
     }
 
+    /**
+     * Turns the Bee.
+     * Directly affects its orientation and updates its velocity (only in direction, maintaining the norm).
+     * @param deltaO - Orientation angle increment
+     */
     turn(deltaO) {
         if (this.state == this.states.NORMAL) {
             this.orientation += deltaO;
@@ -203,12 +248,18 @@ export class MyBee extends CGFobject {
         }
     }
 
+    /**
+     * Accelerates the Bee.
+     * Directly affects the norm of its velocity, but mantains the direction.
+     * @param deltaV - Velocity (norm) increment
+     */
     accelerate(deltaV) {
         if (this.state == this.states.NORMAL) {        
             if (deltaV > 0) {
                 this.vx += deltaV * Math.sin(this.orientation);
                 this.vz += deltaV * Math.cos(this.orientation);
             } else {
+                // slows down until the velocity is zero, does not go backwards
                 if (this.vx > 0) {
                     this.vx = Math.max(0, this.vx + deltaV * Math.sin(this.orientation));
                 } else if (this.vx < 0) {
@@ -224,17 +275,27 @@ export class MyBee extends CGFobject {
         }
     }
 
+    /**
+     * Reset the Bee's position and speed.
+     * The Bee is placed in its initial position, with zero rotation and speed.
+     */
     reset() {
         this.initMovement();
         this.scene.resetTime();
     }
 
+    /**
+     * Starts the ascending movement of the Bee.
+     */
     ascend() {
         if (this.state == this.states.FLOWER) {
             this.state = this.states.ASCEND;
         }
     }
 
+    /**
+     * Starts the descending movement of the Bee.
+     */
     descend() {
         if (this.state == this.states.NORMAL) {
             this.state = this.states.DESCEND;
@@ -242,7 +303,13 @@ export class MyBee extends CGFobject {
         }
     }
 
-    deliver(targetX, targetY, targetZ) {
+    /**
+     * Starts the movement of the Bee to the hive, to deliver the pollen.
+     * @param hiveX - Hive X coordinate
+     * @param hiveY - Hive Y coordinate
+     * @param hiveZ - Hive Z coordinate
+     */
+    deliver(hiveX, hiveY, hiveZ) {
         if (this.state == this.states.NORMAL && this.pollen) {
             this.state = this.states.TOHIVE;
             
@@ -250,13 +317,13 @@ export class MyBee extends CGFobject {
             this.previousY = this.y;
             this.previousZ = this.z;
 
-            this.targetX = targetX;
-            this.targetY = targetY;
-            this.targetZ = targetZ;
+            this.hiveX = hiveX;
+            this.hiveY = hiveY;
+            this.hiveZ = hiveZ;
 
-            const deltaX = this.targetX - this.x;
-            const deltaY = this.targetY - this.y;
-            const deltaZ = this.targetZ - this.z;
+            const deltaX = this.hiveX - this.x;
+            const deltaY = this.hiveY - this.y;
+            const deltaZ = this.hiveZ - this.z;
 
             this.calculateParabolaTrajectory(deltaX, deltaY, deltaZ, false);
         }

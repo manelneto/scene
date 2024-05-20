@@ -60,6 +60,7 @@ export class MyFlower extends CGFobject {
         this.pollen = new MyPollen(this.scene, 1, 2, MyUtils.generateRandom(-Math.PI/8, Math.PI/8));
         this.hasPollen = true;
 
+        // 50/50 chance of choosing one material for the petals or another
         if (Math.random() < 0.5) {
             this.petalMaterial = MyUtils.createMaterial(this.scene, petalsColour, false, 'images/petal.png');
         } else {
@@ -71,10 +72,17 @@ export class MyFlower extends CGFobject {
         this.receptacleMaterial = MyUtils.createMaterial(this.scene, receptacleColour, false, 'images/receptacle.jpg');
     }
 
+    /**
+     * @returns The receptacle radius of this Flower
+     */
     getReceptacleRadius() {
         return this.receptacleRadius;
     }
 
+    /**
+     * Removes the pollen of this Flower.
+     * @returns The pollen removed, or null if this Flower did not have any pollen.
+     */
     removePollen() {
         if (this.hasPollen) {
             this.hasPollen = false;
@@ -122,8 +130,6 @@ export class MyFlower extends CGFobject {
         this.scene.scale(1, 1, 0.5);
         this.receptacle.display();
         this.scene.popMatrix();
-
-        // TODO: o que é o 0.2 que aparece em todo o lado?
         
         if (this.hasPollen) {
             this.scene.pushMatrix();

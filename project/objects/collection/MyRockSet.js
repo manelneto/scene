@@ -65,9 +65,9 @@ export class MyRockSet extends CGFobject {
 
     /**
      * Displays a square of rocks
-     * @param n number of rocks on each side of the square
-     * @param rock rock to display on the square
-     * @param random random offset to scale the rock on each dimension
+     * @param n - Number of rocks on each side of the square
+     * @param rock - Rock to display on the square
+     * @param random - Random offset to scale the rock on each dimension
      */
     displaySquare(n, rock, random) {
         for (let i = -n; i < n; i += 2) {
@@ -80,9 +80,9 @@ export class MyRockSet extends CGFobject {
 
     /**
      * Displays a line of rocks
-     * @param n number of rocks on the line
-     * @param rock rock to display on the line
-     * @param random random offset to scale the rock on each dimension
+     * @param n - Number of rocks on the line
+     * @param rock - Rock to display on the line
+     * @param random - Random offset to scale the rock on each dimension
      */
     displayLine(n, rock, random) {
         for (let i = -n; i < n; i += 2) {

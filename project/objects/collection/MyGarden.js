@@ -38,9 +38,9 @@ export class MyGarden extends CGFobject {
 
     /**
      * Returns the flower at a given position, or null it there is not any flower at that position.
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
+     * @param x - X coordinate
+     * @param y - Y coordinate
+     * @param z - Z coordinate
      * @returns a Flower object or null
      */
     getFlower(x, y, z) {
