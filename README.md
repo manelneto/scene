@@ -15,4 +15,4 @@ Este projeto foi desenvolvido no âmbito da Unidade Curricular **Computação Gr
   - [tp3](tp3/README.md)
   - [tp4](tp4/README.md)
   - [tp5](tp5/README.md)
-  - [Project](proj/README.md)
+  - [project](project/README.md)
